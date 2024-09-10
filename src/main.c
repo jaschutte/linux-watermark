@@ -14,6 +14,10 @@
 #include <stdio.h>
 #include <string.h>
 
+extern uint8_t _binary_watermark_png_start[];
+extern uint8_t _binary_watermark_png_end[];
+extern uint8_t _binary_watermark_png_size[];
+
 struct wl_globals {
     struct wl_display* display;
     struct wl_registry* registry;
@@ -88,7 +92,17 @@ void draw_frame(uint32_t width, uint32_t height) {
 
     uint32_t img_width, img_height;
     uint8_t* image;
-    lodepng_decode32_file(&image, &img_width, &img_height, "watermark.png");
+    lodepng_decode32(
+        &image, 
+        &img_width, &img_height, 
+        _binary_watermark_png_start, 
+        _binary_watermark_png_end - _binary_watermark_png_start
+    );
+
+    if (img_width != width || img_height != height) {
+        printf("Image does not overlap with surface size, giving up");
+        return;
+    }
 
     // The buffer size matches the image size
     memcpy(app_state.framebuffer.data, image, total_buffer_size);
