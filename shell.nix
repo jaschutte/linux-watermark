@@ -1,12 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 pkgs.mkShell {
-    packages = with pkgs; [
-        gcc
-        clang
-        wayland
-        wayland-scanner
-
-        (writeShellScriptBin "run" ''
+    packages = with pkgs; let 
+        run-script = (writeShellScriptBin "run" ''
             EXEC=main
             OUT=build
             IN=src
@@ -26,9 +21,27 @@ pkgs.mkShell {
                 < ${wayland-protocols}/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml \
                 > $PROTOCOLS/xdg-shell-protocol.h
 
-            ${gcc}/bin/gcc "$IN/main.c" "$PROTOCOLS/xdg-shell-protocol.c" -lwayland-client -L"$PROTOCOLS" -o "$OUT/$EXEC"
+            wayland-scanner 'private-code' \
+                < ${wlr-protocols}/share/wlr-protocols/unstable/wlr-layer-shell-unstable-v1.xml \
+                > $PROTOCOLS/wlr-layer-shell-unstable.c
+
+            wayland-scanner 'client-header' \
+                < ${wlr-protocols}/share/wlr-protocols/unstable/wlr-layer-shell-unstable-v1.xml \
+                > $PROTOCOLS/wlr-layer-shell-unstable.h
+
+            ${gcc}/bin/gcc "$IN/main.c" "$PROTOCOLS/xdg-shell-protocol.c" "$PROTOCOLS/wlr-layer-shell-unstable.c" -lwayland-client -I"$PROTOCOLS" -o "$OUT/$EXEC"
 
             ./$OUT/$EXEC
+        '');
+    in [
+        gcc
+        clang
+        wayland
+        wayland-scanner
+
+        (writeShellScriptBin "cmp-fix" ''
+            ${bear}/bin/bear -- ${run-script}/bin/run
         '')
+        run-script
     ];
 }

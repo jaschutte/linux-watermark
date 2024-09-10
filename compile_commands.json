@@ -1,0 +1,41 @@
+[
+  {
+    "arguments": [
+      "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
+      "-c",
+      "-Iprotocols",
+      "-o",
+      "build/main",
+      "src/main.c"
+    ],
+    "directory": "/home/jaschutte/Programming/C/raw-wayland-window",
+    "file": "/home/jaschutte/Programming/C/raw-wayland-window/src/main.c",
+    "output": "/home/jaschutte/Programming/C/raw-wayland-window/build/main"
+  },
+  {
+    "arguments": [
+      "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
+      "-c",
+      "-Iprotocols",
+      "-o",
+      "build/main",
+      "protocols/xdg-shell-protocol.c"
+    ],
+    "directory": "/home/jaschutte/Programming/C/raw-wayland-window",
+    "file": "/home/jaschutte/Programming/C/raw-wayland-window/protocols/xdg-shell-protocol.c",
+    "output": "/home/jaschutte/Programming/C/raw-wayland-window/build/main"
+  },
+  {
+    "arguments": [
+      "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
+      "-c",
+      "-Iprotocols",
+      "-o",
+      "build/main",
+      "protocols/wlr-layer-shell-unstable.c"
+    ],
+    "directory": "/home/jaschutte/Programming/C/raw-wayland-window",
+    "file": "/home/jaschutte/Programming/C/raw-wayland-window/protocols/wlr-layer-shell-unstable.c",
+    "output": "/home/jaschutte/Programming/C/raw-wayland-window/build/main"
+  }
+]

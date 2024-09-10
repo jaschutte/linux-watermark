@@ -1,7 +1,9 @@
 
 #include <wayland-client-protocol.h>
 #include <wayland-client-core.h>
+
 #include "xdg-shell-protocol.h"
+#include "wlr-layer-shell-unstable.h"
 
 #include <sys/mman.h>
 #include <fcntl.h>
