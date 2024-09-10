@@ -5,6 +5,8 @@
 #include "xdg-shell-protocol.h"
 #include "wlr-layer-shell-unstable.h"
 
+#include "lodepng/lodepng.h"
+
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -19,9 +21,8 @@ struct wl_globals {
     struct wl_shm* shm;
 
     struct wl_surface* surface;
-    struct xdg_wm_base* xdg_wm_base;
-    struct xdg_surface* xdg_surface;
-    struct xdg_toplevel* xdg_toplevel;
+    struct zwlr_layer_surface_v1* zwlr_surface;
+    struct zwlr_layer_shell_v1* zwlr_shell;
 
     struct {
         int shm_fd;
@@ -51,13 +52,11 @@ int get_shm_fd(size_t size) {
     return fd;
 }
 
-void draw_frame() {
-    const uint32_t w = 1920;
-    const uint32_t h = 1080;
+void draw_frame(uint32_t width, uint32_t height) {
     const uint32_t bytes_per_pixel = 4;
-    const uint32_t stride = w * bytes_per_pixel;
+    const uint32_t stride = width * bytes_per_pixel;
     const uint32_t num_of_frames = 2;
-    const uint32_t total_buffer_size = h * stride * num_of_frames;
+    const uint32_t total_buffer_size = height * stride * num_of_frames;
 
     int fd = get_shm_fd(total_buffer_size);
     if (fd < 0) {
@@ -81,68 +80,50 @@ void draw_frame() {
     app_state.framebuffer.buffer = wl_shm_pool_create_buffer(
         app_state.framebuffer.pool,
         0,
-        w,
-        h,
+        width,
+        height,
         stride,
         WL_SHM_FORMAT_ARGB8888
     );
 
-    // Set everything to white
-    for (uint32_t x = 0; x < w; x++) {
-        for (uint32_t y = 0; y < h; y++) {
-            uint8_t* pixel_addr = app_state.framebuffer.data + y * stride + x * bytes_per_pixel;
-            uint8_t* b = pixel_addr + 0;
-            uint8_t* g = pixel_addr + 1;
-            uint8_t* r = pixel_addr + 2;
-            uint8_t* a = pixel_addr + 3;
-            *a = 255;
-            *r = 0;
-            *g = 0;
-            *b = 0;
-            if (x < 200) {
-                *r = 255;
-            } else if (x < 400) {
-                *g = 255;
-            } else if (x < 600) {
-                *b = 255;
-            } else if (x < 800) {
-                *a = 0;
-            }
-        }
-    }
-    /*memset(app_state.framebuffer.data, 255, total_buffer_size);*/
+    uint32_t img_width, img_height;
+    uint8_t* image;
+    lodepng_decode32_file(&image, &img_width, &img_height, "watermark.png");
+
+    // The buffer size matches the image size
+    memcpy(app_state.framebuffer.data, image, total_buffer_size);
 }
 
-static void xdg_configure_surface(void* data, struct xdg_surface* xdg_surface, uint32_t serial) {
-    xdg_surface_ack_configure(xdg_surface, serial);
+static void configure_surface(void* data, struct zwlr_layer_surface_v1* zwlr_surface, uint32_t serial, uint32_t width, uint32_t height) {
+    // ACK
+    zwlr_layer_surface_v1_ack_configure(zwlr_surface, serial);
 
-    draw_frame();
+    // Draw our frame
+    draw_frame(width, height);
 
     // Attach surface to everything
     wl_surface_attach(app_state.surface, app_state.framebuffer.buffer, 0, 0);
-    wl_surface_damage(app_state.surface, 0, 0, 1920, 1080);
+    wl_surface_damage(app_state.surface, 0, 0, width, height);
     wl_surface_commit(app_state.surface);
+
 }
 
-const struct xdg_surface_listener xdg_surface_listener = {
-    .configure = xdg_configure_surface
-};
-
-static void xdg_wm_base_ping(void* data, struct xdg_wm_base* xdg_wm_base, uint32_t serial) {
-    xdg_wm_base_pong(xdg_wm_base, serial);
+static void close_surface(void* data, struct zwlr_layer_surface_v1* zwlr_surface) {
+    // Who cares about cleaning up memory?
+    // Not me
 }
 
-const struct xdg_wm_base_listener xdg_wm_base_listener = {
-    .ping = xdg_wm_base_ping
+struct zwlr_layer_surface_v1_listener zwlr_surface_listener = {
+    .configure = configure_surface,
+    .closed = close_surface
 };
 
 static void registry_on_global(void* data, struct wl_registry* registry, uint32_t name, const char* interface, uint32_t version) {
     if (strcmp(interface, wl_compositor_interface.name) == 0) {
         app_state.compositor = wl_registry_bind(app_state.registry, name, &wl_compositor_interface, version);
     }
-    if (strcmp(interface, xdg_wm_base_interface.name) == 0) {
-        app_state.xdg_wm_base = wl_registry_bind(app_state.registry, name, &xdg_wm_base_interface, version);
-        xdg_wm_base_add_listener(app_state.xdg_wm_base, &xdg_wm_base_listener, NULL);
+    if (strcmp(interface, zwlr_layer_shell_v1_interface.name) == 0) {
+        app_state.zwlr_shell = wl_registry_bind(app_state.registry, name, &zwlr_layer_shell_v1_interface, version);
     }
     if (strcmp(interface, wl_shm_interface.name) == 0) {
         app_state.shm = wl_registry_bind(app_state.registry, name, &wl_shm_interface, version);
@@ -178,10 +159,13 @@ int main() {
     wl_display_roundtrip(app_state.display);
 
     app_state.surface = wl_compositor_create_surface(app_state.compositor);
-    app_state.xdg_surface = xdg_wm_base_get_xdg_surface(app_state.xdg_wm_base, app_state.surface);
-    xdg_surface_add_listener(app_state.xdg_surface, &xdg_surface_listener, NULL);
-    app_state.xdg_toplevel = xdg_surface_get_toplevel(app_state.xdg_surface);
-    xdg_toplevel_set_title(app_state.xdg_toplevel, "Yoo this works?!");
+    app_state.zwlr_surface = zwlr_layer_shell_v1_get_layer_surface(app_state.zwlr_shell, app_state.surface, NULL, ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY, "buy-linux");
+    zwlr_layer_surface_v1_add_listener(app_state.zwlr_surface, &zwlr_surface_listener, NULL);
+
+    zwlr_layer_surface_v1_set_size(app_state.zwlr_surface, 500, 100);
+    zwlr_layer_surface_v1_set_anchor(app_state.zwlr_surface, ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT | ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM);
+    zwlr_layer_surface_v1_set_margin(app_state.zwlr_surface, 0, 32, 32, 0);
+
     wl_surface_commit(app_state.surface);
 
     while (wl_display_dispatch(app_state.display)) {};

@@ -5,6 +5,7 @@ pkgs.mkShell {
             EXEC=main
             OUT=build
             IN=src
+            DEPS=extern
             PROTOCOLS=protocols
 
             rm -rf "$OUT"
@@ -29,7 +30,7 @@ pkgs.mkShell {
                 < ${wlr-protocols}/share/wlr-protocols/unstable/wlr-layer-shell-unstable-v1.xml \
                 > $PROTOCOLS/wlr-layer-shell-unstable.h
 
-            ${gcc}/bin/gcc "$IN/main.c" "$PROTOCOLS/xdg-shell-protocol.c" "$PROTOCOLS/wlr-layer-shell-unstable.c" -lwayland-client -I"$PROTOCOLS" -o "$OUT/$EXEC"
+            ${gcc}/bin/gcc "$IN"/* "$PROTOCOLS"/* $(find "$DEPS" -name '*.c') -lwayland-client -I"$PROTOCOLS" -I"$DEPS" -o "$OUT/$EXEC"
 
             ./$OUT/$EXEC
         '');

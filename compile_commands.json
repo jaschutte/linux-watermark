@@ -4,6 +4,7 @@
       "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
       "-c",
       "-Iprotocols",
+      "-Iextern",
       "-o",
       "build/main",
       "src/main.c"
@@ -17,6 +18,35 @@
       "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
       "-c",
       "-Iprotocols",
+      "-Iextern",
+      "-o",
+      "build/main",
+      "protocols/wlr-layer-shell-unstable.c"
+    ],
+    "directory": "/home/jaschutte/Programming/C/raw-wayland-window",
+    "file": "/home/jaschutte/Programming/C/raw-wayland-window/protocols/wlr-layer-shell-unstable.c",
+    "output": "/home/jaschutte/Programming/C/raw-wayland-window/build/main"
+  },
+  {
+    "arguments": [
+      "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
+      "-c",
+      "-Iprotocols",
+      "-Iextern",
+      "-o",
+      "build/main",
+      "protocols/wlr-layer-shell-unstable.h"
+    ],
+    "directory": "/home/jaschutte/Programming/C/raw-wayland-window",
+    "file": "/home/jaschutte/Programming/C/raw-wayland-window/protocols/wlr-layer-shell-unstable.h",
+    "output": "/home/jaschutte/Programming/C/raw-wayland-window/build/main"
+  },
+  {
+    "arguments": [
+      "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
+      "-c",
+      "-Iprotocols",
+      "-Iextern",
       "-o",
       "build/main",
       "protocols/xdg-shell-protocol.c"
@@ -30,12 +60,27 @@
       "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
       "-c",
       "-Iprotocols",
+      "-Iextern",
       "-o",
       "build/main",
-      "protocols/wlr-layer-shell-unstable.c"
+      "protocols/xdg-shell-protocol.h"
     ],
     "directory": "/home/jaschutte/Programming/C/raw-wayland-window",
-    "file": "/home/jaschutte/Programming/C/raw-wayland-window/protocols/wlr-layer-shell-unstable.c",
+    "file": "/home/jaschutte/Programming/C/raw-wayland-window/protocols/xdg-shell-protocol.h",
+    "output": "/home/jaschutte/Programming/C/raw-wayland-window/build/main"
+  },
+  {
+    "arguments": [
+      "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
+      "-c",
+      "-Iprotocols",
+      "-Iextern",
+      "-o",
+      "build/main",
+      "extern/cbmp/cbmp.h"
+    ],
+    "directory": "/home/jaschutte/Programming/C/raw-wayland-window",
+    "file": "/home/jaschutte/Programming/C/raw-wayland-window/extern/cbmp/cbmp.h",
     "output": "/home/jaschutte/Programming/C/raw-wayland-window/build/main"
   }
 ]
