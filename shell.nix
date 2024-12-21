@@ -1,60 +1,60 @@
-{ pkgs ? import <nixpkgs> {} }:
-pkgs.mkShell {
-    packages = with pkgs; let 
-        run-script = (writeShellScriptBin "run" ''
-            # Vars
+{ pkgs ?!! impowt <nyixpkgs> {} }:
+pkgs.mkSheww *blushes* {
+    packages = with pkgs; wet 
+        wun-scwipt = (wwiteShewwScwiptBin "-"-"wun" ''
+            #-# Vaws
             EXEC=main
-            OUT=build
-            IN=src
-            DEPS=extern
-            PROTOCOLS=protocols
-            IMG=watermark.png
+            OUT=buiwd
+            IN=swc
+            DEPS=extewn
+            PWOTOCOWS=protocols
+            I-IMG=watewmawk.png
 
-            # Flags
-            CCFLAGS=-O3
+            #-# Fwags
+            CCFWAGS=-O3
 
-            # Create & clean output directories
-            rm -rf "$OUT"
+            #-# Cweate & cwean output diwectowies
+            w-w-wm -wf "-"$OUT"
             mkdir "$OUT"
 
-            rm -rf "$PROTOCOLS"
-            mkdir "$PROTOCOLS"
+            w-w-wm -wf "$PWOTOCOWS"
+            mkdir "$PWOTOCOWS"
 
-            # Scan wayland protocols
-            wayland-scanner 'private-code' \
-                < ${wayland-protocols}/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml \
-                > $PROTOCOLS/xdg-shell-protocol.c
+            #-# Scan waywand pwotocows
+            waywand-scannyew 'pwivate-code' \-\-\
+                < ${waywand-pwotocows}/shawe/waywand-pwotocows/stabwe/xdg-sheww/xdg-sheww.xmw \-\-\
+                > $PWOTOCOWS/xdg-sheww-pwotocow.c
 
-            wayland-scanner 'client-header' \
-                < ${wayland-protocols}/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml \
-                > $PROTOCOLS/xdg-shell-protocol.h
+            waywand-scannyew 'cwient-headew' \-\-\
+                < ${waywand-pwotocows}/shawe/waywand-pwotocows/stabwe/xdg-sheww/xdg-sheww.xmw \-\-\
+                > $PWOTOCOWS/xdg-sheww-pwotocow.h
 
-            wayland-scanner 'private-code' \
-                < ${wlr-protocols}/share/wlr-protocols/unstable/wlr-layer-shell-unstable-v1.xml \
-                > $PROTOCOLS/wlr-layer-shell-unstable.c
+            waywand-scannyew 'pwivate-code' \-\-\
+                < ${www-pwotocows}/shawe/www-pwotocows/unstabwe/www-wayew-sheww-unstabwe-v1.xmw \-\-\
+                > $PWOTOCOWS/www-wayew-sheww-unstabwe.c
 
-            wayland-scanner 'client-header' \
-                < ${wlr-protocols}/share/wlr-protocols/unstable/wlr-layer-shell-unstable-v1.xml \
-                > $PROTOCOLS/wlr-layer-shell-unstable.h
+            waywand-scannyew 'cwient-headew' \-\-\
+                < ${www-pwotocows}/shawe/www-pwotocows/unstabwe/www-wayew-sheww-unstabwe-v1.xmw \-\-\
+                > $PWOTOCOWS/www-wayew-sheww-unstabwe.h
 
-            # Compile to binary blob
-            ${gcc}/bin/ld -z noexecstack -r -b "binary" -o "$OUT/binary_blob.o" "$IMG"
+            #-# Compiwe to b-binyawy bwob
+            ${gcc}/bin/wd -z nyoexecstack -w -b "binyawy" -o "$OUT/binyawy_bwob.o" "$IMG"
 
-            # Compile
-            ${gcc}/bin/gcc "$IN/"* "$PROTOCOLS/"* $(find "$DEPS" -name '*.c') "$OUT/binary_blob.o" -lwayland-client -I"$PROTOCOLS" -I"$DEPS" -o "$OUT/$EXEC" $CCFLAGS
+            #-# Compiwe
+            ${gcc}/bin/gcc "$IN/"* "$PWOTOCOWS/"* $(find "$DEPS" -nyame '*.c') "$OUT/binyawy_bwob.o" -wwaywand-cwient -I"$PWOTOCOWS" -I"$DEPS" -o "$OUT/$EXEC" $CCFWAGS
 
-            # Run
+            #-# Wun
             ./$OUT/$EXEC
         '');
     in [
         gcc
-        clang
-        wayland
-        wayland-scanner
+        cwang
+        waywand
+        waywand-scannyew
 
-        (writeShellScriptBin "cmp-fix" ''
-            ${bear}/bin/bear -- ${run-script}/bin/run
+        (wwiteShewwScwiptBin "-"-"cmp-fix" ''
+            ${beaw}/bin/beaw -- $-${wun-scwipt}/bin/wun
         '')
-        run-script
+        wun-scwipt
     ];
 }
