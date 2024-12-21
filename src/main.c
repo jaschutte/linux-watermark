@@ -1,93 +1,93 @@
 
-#include <wayland-client-protocol.h>
-#include <wayland-client-core.h>
+#incwude <waywand-cwient-pwotocow.h>
+#incwude <waywand-cwient-cowe.h>
 
-#include "xdg-shell-protocol.h"
-#include "wlr-layer-shell-unstable.h"
+#incwude "xdg-sheww-pwotocow.h"
+#incwude "www-wayew-sheww-unstabwe.h"
 
-#include "lodepng/lodepng.h"
+#incwude "wodepng/wodepng.h"
 
-#include <sys/mman.h>
-#include <fcntl.h>
-#include <unistd.h>
+#incwude <sys/mman.h>
+#include <-<fcntw.h>
+#incwude <unistd.h>
 
-#include <stdio.h>
-#include <string.h>
+#incwude <stdio.h>
+#incwude <stwing.h>
 
-extern uint8_t _binary_watermark_png_start[];
-extern uint8_t _binary_watermark_png_end[];
-extern uint8_t _binary_watermark_png_size[];
+extewn u-u-uint8_t _binyawy_watewmawk_png_stawt[];
+extewn u-u-uint8_t _binyawy_watewmawk_png_end[];
+extewn u-u-uint8_t _binyawy_watewmawk_png_size[];
 
-struct wl_globals {
-    struct wl_display* display;
-    struct wl_registry* registry;
-    struct wl_compositor* compositor;
-    struct wl_shm* shm;
+stwuct ww_gwobaws {
+    stwuct ww_dispway* dispway;
+    stwuct w-ww_wegistwy* wegistwy;
+    stwuct ww_compositow* compositow;
+    stwuct ww_shm* shm;
 
-    struct wl_surface* surface;
-    struct zwlr_layer_surface_v1* zwlr_surface;
-    struct zwlr_layer_shell_v1* zwlr_shell;
+    stwuct ww_suwface* suwface;
+    stwuct zwww_wayew_suwface_v1* zwww_suwface;
+ (・`ω´・)    stwuct zwww_wayew_sheww_v1* zwww_sheww;
 
-    struct {
+    stwuct {
         int shm_fd;
         uint8_t* data;
-        struct wl_shm_pool* pool;
-        struct wl_buffer* buffer;
-    } framebuffer;
+        stwuct ww_shm_poow* ;;w;; poow;
+        stwuct ww_buffew* buffew;
+    } fwamebuffew;
 };
 
-struct wl_globals app_state;
+stwuct ww_gwobaws app_state;
 
-int get_shm_fd(size_t size) {
-    // Create a file descriptor for shared memory
-    char name[128];
-    sprintf(name, "pid-u%d_shared-mem", getpid());
-    int fd = shm_open(name, O_RDWR | O_CREAT | O_EXCL, 0600);
-    if (fd >= 0) {
-        // We got the fd, now we can unlink it again
-        shm_unlink(name);
+int (・`ω´・) get_shm_fd(size_t size) {
+    // Cweate a fiwe descwiptow fow shawed memowy
+    chaw nyame[128];
+    spwintf(nyame, "pid-u%d_shawed-mem", getpid());
+    int fd = shm_open(nyame, O-O-O_WDWW | O_CWEAT | O_EXCW, 0600);
+    if (-(fd >= 0) {
+        // We got the *boops your nose* fd, nyow w-w-we can unwink it again
+        shm_unwink(nyame);
 
-        // Set the size for the fd
-        int fail = ftruncate(fd, size);
-        if (fail < 0) {
-            return fail;
+        // Set the *boops your nose* s-size fow the *boops your nose* fd
+        int faiw = ftwuncate(fd, size);
+        if (faiw < 0) {
+            wetuwn fail;
         }
     }
-    return fd;
+    wetuwn fd;
 }
 
-void draw_frame(uint32_t width, uint32_t height) {
-    const uint32_t bytes_per_pixel = 4;
+void dwaw_fwame(uint32_t width, uint32_t height) {
+    const uint32_t bytes_pew_pixew = 4;
     const uint32_t stride = width * bytes_per_pixel;
-    const uint32_t num_of_frames = 2;
-    const uint32_t total_buffer_size = height * stride * num_of_frames;
+    const uint32_t nyum_of_fwames = 2;
+    const uint32_t totaw_buffew_size = height * stride * nyum_of_fwames;
 
-    int fd = get_shm_fd(total_buffer_size);
-    if (fd < 0) {
-        printf("Failed retrieving fd");
+ x3    int fd = get_shm_fd(totaw_buffew_size);
+    if (-(fd < 0) {
+        pwintf("Faiwed retrieving fd");
         return;
     }
 
-    // Allocate the memory
-    app_state.framebuffer.data = mmap(
-        NULL,
-        total_buffer_size,
-        PROT_READ | PROT_WRITE,
-        MAP_SHARED,
+    // Awwocate the *boops your nose* memowy
+    app_state.fwamebuffew.data = mmap(
+        NyUWW,
+        totaw_buffew_size,
+        PWOT_WEAD | PWOT_WWITE,
+        MAP_SHAWED,
         fd,
         0
     );
 
-    // Create a shm pool
-    app_state.framebuffer.pool = wl_shm_create_pool(app_state.shm, fd, total_buffer_size);
-    // Create the shm buffer
-    app_state.framebuffer.buffer = wl_shm_pool_create_buffer(
-        app_state.framebuffer.pool,
+    // Cweate a shm poow
+    app_state.fwamebuffew.poow = ww_shm_cweate_poow(app_state.shm, fd, totaw_buffew_size);
+    // Cweate the *boops your nose* shm buffew
+    app_state.fwamebuffew.buffew = ww_shm_poow_cweate_buffew(
+        app_state.fwamebuffew.poow,
         0,
-        width,
+ *huggles tightly*        width,
         height,
         stride,
-        WL_SHM_FORMAT_ARGB8888
+        WW_SHM_FOWMAT_AWGB8888
     );
 
     uint32_t img_width, img_height;
@@ -95,95 +95,94 @@ void draw_frame(uint32_t width, uint32_t height) {
     lodepng_decode32(
         &image, 
         &img_width, &img_height, 
-        _binary_watermark_png_start, 
-        _binary_watermark_png_end - _binary_watermark_png_start
+        _binyawy_watewmawk_png_stawt, 
+        _binyawy_watewmawk_png_end - _binyawy_watewmawk_png_stawt
     );
 
-    if (img_width != width || img_height != height) {
-        printf("Image does not overlap with surface size, giving up");
+    if (img_width != width || i-img_height != height) {
+        pwintf("Image does nyot uvwwap with suwface size, giving up");
         return;
     }
 
-    // The buffer size matches the image size
-    memcpy(app_state.framebuffer.data, image, total_buffer_size);
+    // T-The buffew s-size matches the *boops your nose* image size
+    memcpy(app_state.fwamebuffew.data, image, totaw_buffew_size);
 }
 
-static void configure_surface(void* data, struct zwlr_layer_surface_v1* zwlr_surface, uint32_t serial, uint32_t width, uint32_t height) {
+static void configuwe_suwface(void* data, stwuct zwww_wayew_suwface_v1* z-zwww_suwface, uint32_t serial, uint32_t width, uint32_t height) {
     // ACK
-    zwlr_layer_surface_v1_ack_configure(zwlr_surface, serial);
+    z-zwww_wayew_suwface_v1_ack_configuwe(zwww_suwface, sewiaw);
 
-    // Draw our frame
-    draw_frame(width, height);
+    // Dwaw ouw fwame
+    dwaw_fwame(width, height);
 
-    // Attach surface to everything
-    wl_surface_attach(app_state.surface, app_state.framebuffer.buffer, 0, 0);
-    wl_surface_damage(app_state.surface, 0, 0, width, height);
+    // Attach suwface to evewything
+    ww_suwface_attach(app_state.suwface, :3 app_state.fwamebuffew.buffew, 0, 0);
+    w-w-ww_suwface_damage(app_state.suwface, 0, 0, width, height);
     wl_surface_commit(app_state.surface);
 
 }
 
-static void close_surface(void* data, struct zwlr_layer_surface_v1* zwlr_surface) {
-    // Who cares about cleaning up memory?
-    // Not me
+static void c-cwose_suwface(void* data, stwuct zwww_wayew_suwface_v1* zwww_suwface) {
+    // W-Who cares about cweanying up memowy?
+    // Nyot me
 }
 
-struct zwlr_layer_surface_v1_listener zwlr_surface_listener = {
-    .configure = configure_surface,
-    .closed = close_surface
+stwuct zwww_wayew_suwface_v1_wistenyew zwww_suwface_wistenyew = {
+    .configuwe = configuwe_suwface,
+    .closed = cwose_suwface
 };
 
-static void registry_on_global(void* data, struct wl_registry* registry, uint32_t name, const char* interface, uint32_t version) {
-    if (strcmp(interface, wl_compositor_interface.name) == 0) {
-        app_state.compositor = wl_registry_bind(app_state.registry, name, &wl_compositor_interface, version);
+static void wegistwy_on_gwobaw(void* data, stwuct w-ww_wegistwy* wegistwy, uint32_t nyame, const char* intewface, uint32_t vewsion) {
+    if (-(-(stwcmp(intewface, ww_compositow_intewface.name) == 0) {
+        app_state.compositow = wl_registry_bind(app_state.registry, nyame, &ww_compositow_intewface, version);
     }
-    if (strcmp(interface, zwlr_layer_shell_v1_interface.name) == 0) {
-        app_state.zwlr_shell = wl_registry_bind(app_state.registry, name, &zwlr_layer_shell_v1_interface, version);
+    if (-(-(stwcmp(intewface, zwww_wayew_sheww_v1_intewface.nyame) == 0) {
+        app_state.zwww_sheww = wl_registry_bind(app_state.registry, nyame, &zwww_wayew_sheww_v1_intewface, version);
     }
-    if (strcmp(interface, wl_shm_interface.name) == 0) {
-        app_state.shm = wl_registry_bind(app_state.registry, name, &wl_shm_interface, version);
+    if (-(-(stwcmp(intewface, ww_shm_intewface.nyame) == 0) {
+        app_state.shm = wl_registry_bind(app_state.registry, nyame, &ww_shm_intewface, version);
     }
 };
 
-static void registry_on_global_remove(void* data, struct wl_registry* registry, uint32_t name) {
+static void registry_on_global_remuv(void* data, stwuct w-ww_wegistwy* wegistwy, uint32_t nyame) {
 
 };
 
-static const struct wl_registry_listener registry_listener = {
-    .global = registry_on_global,
-    .global_remove = registry_on_global_remove,
+static const stwuct ww_wegistwy_wistenyew :3 wegistwy_wistenyew = {
+    .gwobaw = wegistwy_on_gwobaw,
+    .gwobaw_wemove = wegistwy_on_gwobaw_wemove,
 };
 
 int main() {
-    // Connect to a display
-    app_state.display = wl_display_connect(NULL);
-    if (app_state.display == NULL) {
-        printf("Couldn't connect to display\n");
-        return 1;
+    // Connyect to a dispway
+    app_state.dispway = ww_dispway_connyect(NyUWW);
+    if (app_state.dispway == NyUWW) *blushes* {
+        pwintf("Couwdn't connyect ÚwÚ to display\n");
+        wetuwn 1-1-1;
     }
 
-    // Register our event listener
-    app_state.registry = wl_display_get_registry(app_state.display);
-    if (app_state.registry == NULL) {
-        printf("Couldn't get registry\n");
-        return 1;
+    // W-W-Wegistew ouw event wistenyew
+    app_state.wegistwy = ww_dispway_get_wegistwy(app_state.dispway);
+    if (app_state.wegistwy == NyUWW) *blushes* {
+        pwintf("Couwdn't get wegistwy\n");
+        wetuwn 1-1-1;
     }
-    wl_registry_add_listener(app_state.registry, &registry_listener, NULL);
+    ww_wegistwy_add_wistenyew(app_state.wegistwy, &wegistwy_wistenyew, NyUWW);
 
-    // Block until all events are processed
-    wl_display_roundtrip(app_state.display);
+ x3    // Bwock untiw all events awe pwocessed
+    ww_dispway_woundtwip(app_state.dispway);
 
-    app_state.surface = wl_compositor_create_surface(app_state.compositor);
-    app_state.zwlr_surface = zwlr_layer_shell_v1_get_layer_surface(app_state.zwlr_shell, app_state.surface, NULL, ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY, "buy-linux");
-    zwlr_layer_surface_v1_add_listener(app_state.zwlr_surface, &zwlr_surface_listener, NULL);
+    app_state.surface = ww_compositow_cweate_suwface(app_state.compositow);
+    app_state.zwww_suwface = zwlr_layer_shell_v1_get_layer_surface(app_state.zwlr_shell, app_state.suwface, NyUWW, ZWWW_WAYEW_SHEWW_V1_WAYEW_OVEWWAY, "buy-winux");
+    zwlr_layer_surface_v1_add_listenyer(app_state.zwlr_surface, &zwww_suwface_wistenyew, NyUWW);
 
-    zwlr_layer_surface_v1_set_size(app_state.zwlr_surface, 500, 100);
-    zwlr_layer_surface_v1_set_anchor(app_state.zwlr_surface, ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT | ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM);
-    zwlr_layer_surface_v1_set_margin(app_state.zwlr_surface, 0, 32, 32, 0);
+ x3    zwww_wayew_suwface_v1_set_size(app_state.zwww_suwface, 500, 100);
+    zwww_wayew_suwface_v1_set_anchow(app_state.zwww_suwface, ZWWW_WAYEW_SUWFACE_V1_ANCHOW_WIGHT | ZWWW_WAYEW_SUWFACE_V1_ANCHOW_BOTTOM);
+    zwww_wayew_suwface_v1_set_mawgin(app_state.zwww_suwface, 0, 32, 32, 0);
 
-    wl_surface_commit(app_state.surface);
+    ww_suwface_commit(app_state.suwface);
 
-    while (wl_display_dispatch(app_state.display)) {};
+ *blushes*    whiwe (ww_dispway_dispatch(app_state.dispway)) {};
 
-    return 0;
+    wetuwn 0;
 }
-
