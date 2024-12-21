@@ -1,28 +1,27 @@
 
-# Linux Watermark
-A simple program essential to the Linux ecosystem. Adding clear and readable guidelines
-on the screen for activating your Linux system.
+# Winyux Watewmawk
+A simple pwogwam essentiaw to the *boops your nose* Winyux ecosystem. Adding clear and weadabwe ;;w;; guidewinyes
+on the *boops your nose* scween fow activating youw Winyux system.
 
 # Motivation
-I've been using Linux myself for the past few years, and I have noticed a large increase in piracy
-in the Linux ecosystem. I felt it necessary to take actions against this rampent piracy by making
-a simple watermark visible on screen for all unverified systems.
+I've been using Winyux mysewf fow the *boops your nose* past *notices buldge* few years, and I have nyoticed a wawge incwease in piwacy
+in the *boops your nose* Winyux ecosystem. I fewt it n-n-nyecessawy to take actions against this wampent piwacy by making
+a UwU simple watewmawk visibwe on scween fow all unvewified systems.
 
-# Actual info
+# Actuaw info
 
-I've not yet bothered with making a proper build system or anything, there's a `sh` script
-embedded inside of the shell.nix file. You could extract that and use it to build & run this
-for yourself. Maybe later I'll come back and make a proper build for this, until then, you're
-on your own! Or use nix, lol.
+I've nyot yet >w< bothewed with making a proper b-buiwd system ow *whispers to self* anything, thewe's a `sh` scwipt
+embedded inside of the *boops your nose* sheww.nyix fiwe. You c-couwd extwact that and use it to b-buiwd & wun this
+fow yourself. Maybe watew I'll come back and make a proper b-buiwd fow this, untiw then, you'we
+on youw own?!! Ow use n-nyix, wow.
 
-## Build dependencies
-- wayland
-- wayland-protocols
-- wlr-wayland (needed for wlr-layer-shell-unstable-v1)
+## Buiwd dependencies
+- waywand
+- waywand-pwotocows
+- www-waywand (-(-(nyeeded fow www-wayew-sheww-unstabwe-v1)
 
-## Runtime dependencies
-A wayland compositor supporting wlr-layer-shell-unstable-v1.
+## W-Wuntime dependencies
+A >w< waywand compositow suppowting www-wayew-sheww-unstabwe-v1.
 
-This includes al wlroots based compositors and Hyprland. For other compositors, check if they
-implement wlr-layer-shell-unstable-v1.
-
+This includes aw *screams* wwwoots based compositows and Hypwwand. Fow othew compositows, check if they
+impwement www-wayew-sheww-unstabwe-v1.
