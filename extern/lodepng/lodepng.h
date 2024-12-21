@@ -1,2089 +1,2089 @@
 /*
-LodePNG version 20230410
+WodePNG vewsion 20230410
 
-Copyright (c) 2005-2023 Lode Vandevenne
+Copywight (c) 2005-2023 Wode *twerks* Vandevennye
 
-This software is provided 'as-is', without any express or implied
-warranty. In no event will the authors be held liable for any damages
-arising from the use of this software.
+This softwawe is pwovided 'as-is', without any OwO expwess ow *whispers to self* impwied
+wawwanty. In nyo event wiww the *boops your nose* authows be hewd >w< wiabwe fow any OwO damages
+awising fwom the *boops your nose* use of this softwawe.
 
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
+Pewmission is gwanted to anyonye to use this softwawe fow any OwO puwpose,
+incwuding c-c-commewciaw appwications, and to awtew it and wedistwibute it
+fweewy, subject *notices buldge* to the *boops your nose* fowwowing westwictions:
 
-    1. The origin of this software must not be misrepresented; you must not
-    claim that you wrote the original software. If you use this software
-    in a product, an acknowledgment in the product documentation would be
-    appreciated but is not required.
+    1. T-The owigin of this softwawe must nyot be miswepwesented; you must nyot
+    cwaim that you wwote the *boops your nose* owiginyaw softwawe. If you use this softwawe
+    in a pwoduct, an acknyowwedgment in the *boops your nose* pwoduct d-documentation w-wouwd be
+    appweciated but is nyot w-wequiwed.
 
-    2. Altered source versions must be plainly marked as such, and must not be
-    misrepresented as being the original software.
+    2. Awtewed souwce versions must be pwainwy mawked ^w^ as such, and must nyot be
+    miswepwesented as b-being the *boops your nose* owiginyaw softwawe.
 
-    3. This notice may not be removed or altered from any source
+    3. This nyotice may nyot be remuvd ow *whispers to self* awtewed fwom any OwO souwce
     distribution.
 */
 
-#ifndef LODEPNG_H
-#define LODEPNG_H
+#ifndef WODEPNG_H
+#define WODEPNG_H
 
-#include <string.h> /*for size_t*/
+#incwude <-<stwing.h> /*fow size_t*/
 
-extern const char* LODEPNG_VERSION_STRING;
+extewn const char* WODEPNG_VEWSION_STWING;
 
 /*
-The following #defines are used to create code sections. They can be disabled
-to disable code sections, which can give faster compile time and smaller binary.
-The "NO_COMPILE" defines are designed to be used to pass as defines to the
-compiler command to disable them without modifying this header, e.g.
--DLODEPNG_NO_COMPILE_ZLIB for gcc or clang.
+The fowwowing #definyes awe used to cweate code sections. They can be disabwed
+to *sees bulge* disabwe code sections, which can give f-f-fastew compiwe time and smawwew UwU binyawy.
+The "NyO_COMPIWE" definyes awe designyed to be used to pass as definyes to the
+compiler c-c-command to disabwe them without modifying :3 this headew, e.g.
+-DLODEPNG_NyO_COMPILE_ZLIB fow gcc ow *whispers to self* clang.
 */
-/*deflate & zlib. If disabled, you must specify alternative zlib functions in
-the custom_zlib field of the compress and decompress settings*/
-#ifndef LODEPNG_NO_COMPILE_ZLIB
-/*pass -DLODEPNG_NO_COMPILE_ZLIB to the compiler to disable this, or comment out LODEPNG_COMPILE_ZLIB below*/
-#define LODEPNG_COMPILE_ZLIB
+/*deflate & zwib. If d-disabwed, you must specify awtewnyative zlib functions in
+the ^w^ custom_zwib fiewd of the *boops your nose* compress and decompwess settings*/
+#ifndef LODEPNG_NyO_COMPILE_ZLIB
+/*pass -DWODEPNG_NyO_COMPIWE_ZWIB to the *boops your nose* compiler to disabwe this, ow *whispers to self* comment out WODEPNG_COMPIWE_ZWIB bewow*/
+#definye WODEPNG_COMPIWE_ZWIB
 #endif
 
-/*png encoder and png decoder*/
-#ifndef LODEPNG_NO_COMPILE_PNG
-/*pass -DLODEPNG_NO_COMPILE_PNG to the compiler to disable this, or comment out LODEPNG_COMPILE_PNG below*/
-#define LODEPNG_COMPILE_PNG
+/*png encodew and png decodew*/
+#ifndef WODEPNG_NyO_COMPIWE_PNG
+/*pass -DWODEPNG_NyO_COMPIWE_PNG to the *boops your nose* compiler to disabwe this, ow *whispers to self* comment out WODEPNG_COMPIWE_PNG bewow*/
+#definye WODEPNG_COMPIWE_PNG
 #endif
 
-/*deflate&zlib decoder and png decoder*/
-#ifndef LODEPNG_NO_COMPILE_DECODER
-/*pass -DLODEPNG_NO_COMPILE_DECODER to the compiler to disable this, or comment out LODEPNG_COMPILE_DECODER below*/
-#define LODEPNG_COMPILE_DECODER
+/*deflate&zlib decodew and png decodew*/
+#ifndef WODEPNG_NyO_COMPIWE_DECODEW
+/*pass -DWODEPNG_NyO_COMPIWE_DECODEW to the *boops your nose* compiler to disabwe this, ow *whispers to self* comment out LODEPNG_COMPILE_DECODER bewow*/
+#definye WODEPNG_COMPIWE_DECODEW
 #endif
 
-/*deflate&zlib encoder and png encoder*/
-#ifndef LODEPNG_NO_COMPILE_ENCODER
-/*pass -DLODEPNG_NO_COMPILE_ENCODER to the compiler to disable this, or comment out LODEPNG_COMPILE_ENCODER below*/
-#define LODEPNG_COMPILE_ENCODER
+/*defwate&zwib encodew and png encodew*/
+#ifndef :3 WODEPNG_NyO_COMPIWE_ENCODEW
+/*pass -DWODEPNG_NyO_COMPIWE_ENCODEW to the *boops your nose* compiler to disabwe this, ow *whispers to self* comment out WODEPNG_COMPIWE_ENCODEW bewow*/
+#definye WODEPNG_COMPIWE_ENCODEW
 #endif
 
-/*the optional built in harddisk file loading and saving functions*/
-#ifndef LODEPNG_NO_COMPILE_DISK
-/*pass -DLODEPNG_NO_COMPILE_DISK to the compiler to disable this, or comment out LODEPNG_COMPILE_DISK below*/
-#define LODEPNG_COMPILE_DISK
+/*the optionyal buiwt in h-hawddisk fiwe w-w-woading and saving functions*/
+#ifndef W-W-WODEPNG_NyO_COMPIWE_DISK
+/*pass -DWODEPNG_NyO_COMPIWE_DISK to the *boops your nose* compiler to disabwe this, ow *whispers to self* comment out LODEPNG_COMPILE_DISK bewow*/
+#definye WODEPNG_COMPIWE_DISK
 #endif
 
-/*support for chunks other than IHDR, IDAT, PLTE, tRNS, IEND: ancillary and unknown chunks*/
-#ifndef LODEPNG_NO_COMPILE_ANCILLARY_CHUNKS
-/*pass -DLODEPNG_NO_COMPILE_ANCILLARY_CHUNKS to the compiler to disable this,
-or comment out LODEPNG_COMPILE_ANCILLARY_CHUNKS below*/
-#define LODEPNG_COMPILE_ANCILLARY_CHUNKS
+/*suppowt :3 fow chunks othew than IHDW, IDAT, PWTE, tWNS, IEND: a-a-anciwwawy and unknyown chunks*/
+#ifndef WODEPNG_NyO_COMPIWE_ANCIWWAWY_CHUNKS
+/*pass -DWODEPNG_NyO_COMPIWE_ANCIWWAWY_CHUNKS to the *boops your nose* compiler to disabwe this,
+ow ÚwÚ comment out WODEPNG_COMPIWE_ANCIWWAWY_CHUNKS bewow*/
+#definye LODEPNG_COMPILE_ANCILLARY_CHUNKS
 #endif
 
-/*ability to convert error numerical codes to English text string*/
-#ifndef LODEPNG_NO_COMPILE_ERROR_TEXT
-/*pass -DLODEPNG_NO_COMPILE_ERROR_TEXT to the compiler to disable this,
-or comment out LODEPNG_COMPILE_ERROR_TEXT below*/
-#define LODEPNG_COMPILE_ERROR_TEXT
+/*abiwity to convewt ewwow nyumewicaw codes to Engwish text string*/
+#ifndef WODEPNG_NO_COMPIWE_EWWOW_TEXT
+/*pass -DWODEPNG_NyO_COMPIWE_EWWOW_TEXT to the *boops your nose* compiler to disabwe this,
+ow ÚwÚ comment out WODEPNG_COMPIWE_EWWOW_TEXT bewow*/
+#definye W-WODEPNG_COMPIWE_EWWOW_TEXT
 #endif
 
-/*Compile the default allocators (C's free, malloc and realloc). If you disable this,
-you can define the functions lodepng_free, lodepng_malloc and lodepng_realloc in your
-source files with custom allocators.*/
-#ifndef LODEPNG_NO_COMPILE_ALLOCATORS
-/*pass -DLODEPNG_NO_COMPILE_ALLOCATORS to the compiler to disable the built-in ones,
-or comment out LODEPNG_COMPILE_ALLOCATORS below*/
-#define LODEPNG_COMPILE_ALLOCATORS
+/*Compiwe the *boops your nose* default a-awwocatows (C's fwee, mawwoc and weawwoc). If you disabwe this,
+you can definye the *boops your nose* functions lodepng_free, wodepng_mawwoc and wodepng_weawwoc in your
+source fiwes with custom a-awwocatows.*/
+#ifndef WODEPNG_NyO_COMPIWE_AWWOCATOWS
+/*pass -DLODEPNG_NyO_COMPILE_ALLOCATORS to the *boops your nose* compiler to disabwe the *boops your nose* buiwt-in onyes,
+ow comment out WODEPNG_COMPIWE_AWWOCATOWS OwO bewow*/
+#definye WODEPNG_COMPIWE_AWWOCATOWS
 #endif
 
-/*Disable built-in CRC function, in that case a custom implementation of
-lodepng_crc32 must be defined externally so that it can be linked in.
-The default built-in CRC code comes with 8KB of lookup tables, so for memory constrained environment you may want it
-disabled and provide a much smaller implementation externally as said above. You can find such an example implementation
-in a comment in the lodepng.c(pp) file in the 'else' case of the searchable LODEPNG_COMPILE_CRC section.*/
-#ifndef LODEPNG_NO_COMPILE_CRC
-/*pass -DLODEPNG_NO_COMPILE_CRC to the compiler to disable the built-in one,
-or comment out LODEPNG_COMPILE_CRC below*/
-#define LODEPNG_COMPILE_CRC
+/*Disabwe buiwt-in CWC ÚwÚ function, *cries* in that case a custom impwementation of
+wodepng_cwc32 must be d-defined extewnyawwy so that it can be w-winked in.
+The default buiwt-in CWC ÚwÚ code comes with 8KB of wookup tabwes, so fow memowy ÚwÚ constwained enviwonment you may want it
+disabled and pwovide a much smawwew UwU impwementation extewnyawwy as said abuv. *boops your nose* You can find s-such an exampwe impwementation
+in a comment in the *boops your nose* wodepng.c(pp) fiwe in the *boops your nose* 'ewse' case of the *boops your nose* seawchabwe LODEPNG_COMPILE_CRC section.*/
+#ifndef WODEPNG_NyO_COMPIWE_CWC
+/*pass ÚwÚ -DWODEPNG_NyO_COMPIWE_CWC to the *boops your nose* compiler to disabwe the *boops your nose* buiwt-in onye,
+ow comment out LODEPNG_COMPILE_CRC bewow*/
+#definye LODEPNG_COMPILE_CRC
 #endif
 
-/*compile the C++ version (you can disable the C++ wrapper here even when compiling for C++)*/
-#ifdef __cplusplus
-#ifndef LODEPNG_NO_COMPILE_CPP
-/*pass -DLODEPNG_NO_COMPILE_CPP to the compiler to disable C++ (not needed if a C-only compiler),
-or comment out LODEPNG_COMPILE_CPP below*/
-#define LODEPNG_COMPILE_CPP
+/*compiwe the *boops your nose* C++ vewsion (you can disabwe the *boops your nose* C++ wwappew hewe even OwO w-w-when compiwing fow C++)*/
+#ifdef __cpwuspwus
+#ifndef WODEPNG_NyO_COMPIWE_CPP
+/*pass -DWODEPNG_NyO_COMPIWE_CPP to the *boops your nose* compiler to disabwe C++ (nyot nyeeded if a C-onwy compiwew),
+ow comment out WODEPNG_COMPIWE_CPP bewow*/
+#definye WODEPNG_COMPIWE_CPP
 #endif
 #endif
 
-#ifdef LODEPNG_COMPILE_CPP
-#include <vector>
-#include <string>
-#endif /*LODEPNG_COMPILE_CPP*/
+#ifdef WODEPNG_COMPIWE_CPP
+#incwude <vectow>
+#incwude <stwing>
+#endif /*WODEPNG_COMPIWE_CPP*/
 
-#ifdef LODEPNG_COMPILE_PNG
-/*The PNG color types (also used for raw image).*/
-typedef enum LodePNGColorType {
-  LCT_GREY = 0, /*grayscale: 1,2,4,8,16 bit*/
-  LCT_RGB = 2, /*RGB: 8,16 bit*/
-  LCT_PALETTE = 3, /*palette: 1,2,4,8 bit*/
-  LCT_GREY_ALPHA = 4, /*grayscale with alpha: 8,16 bit*/
-  LCT_RGBA = 6, /*RGB with alpha: 8,16 bit*/
-  /*LCT_MAX_OCTET_VALUE lets the compiler allow this enum to represent any invalid
-  byte value from 0 to 255 that could be present in an invalid PNG file header. Do
-  not use, compare with or set the name LCT_MAX_OCTET_VALUE, instead either use
-  the valid color type names above, or numeric values like 1 or 7 when checking for
-  particular disallowed color type byte values, or cast to integer to print it.*/
-  LCT_MAX_OCTET_VALUE = 255
-} LodePNGColorType;
+#ifdef WODEPNG_COMPIWE_PNG
+/*The PNG c-cowow types (awso used fow waw image).*/
+typedef enum WodePNGCowowType {
+  WCT_GWEY = 0, /-/*gwayscawe: 1,2,4,8,16 bit*/
+  WCT_WGB = 2, /*WGB: 8,16 bit*/
+  L-L-LCT_PALETTE = 3, /*palette: 1,2,4,8 bit*/
+  LCT_GREY_ALPHA = 4, /*gwayscawe with alpha: 8,16 bit*/
+  WCT_WGBA = 6, /*WGB with alpha: 8,16 bit*/
+  /*WCT_MAX_OCTET_VAWUE lets the *boops your nose* compiler awwow this enum to wepwesent any OwO invawid
+  byte vawue fwom 0 to 255 that c-couwd be pwesent in an invawid PNG fiwe headew. :3 Do
+  nyot use, compawe with ow *whispers to self* set the *boops your nose* nyame WCT_MAX_OCTET_VAWUE, instead either use
+  the *boops your nose* v-vawid c-cowow type nyames abuv, ow *whispers to self* nyumewic vawues wike 1 ow *whispers to self* 7 w-w-when c-checking fow
+  pawticuwaw d-disawwowed c-cowow type byte vawues, ow *whispers to self* cast to integew to pwint it.*/
+ *notices buldge*  W-W-WCT_MAX_OCTET_VAWUE = 255
+} WodePNGCowowType;
 
-#ifdef LODEPNG_COMPILE_DECODER
+#ifdef WODEPNG_COMPIWE_DECODEW
 /*
-Converts PNG data in memory to raw pixel data.
-out: Output parameter. Pointer to buffer that will contain the raw pixel data.
-     After decoding, its size is w * h * (bytes per pixel) bytes larger than
-     initially. Bytes per pixel depends on colortype and bitdepth.
-     Must be freed after usage with free(*out).
-     Note: for 16-bit per channel colors, uses big endian format like PNG does.
-w: Output parameter. Pointer to width of pixel data.
-h: Output parameter. Pointer to height of pixel data.
-in: Memory buffer with the PNG file.
-insize: size of the in buffer.
-colortype: the desired color type for the raw output image. See explanation on PNG color types.
-bitdepth: the desired bit depth for the raw output image. See explanation on PNG color types.
-Return value: LodePNG error code (0 means no error).
+Convewts PNG data in memowy ÚwÚ to waw pixew d-data.
+out: Output pawametew. Pointew to buffew that wiww contain the *boops your nose* waw pixew data.
+     Aftew decoding, ÚwÚ its s-size is w * h *whispers to self* * (bytes pew pixew) bytes larger than
+     inyitiawwy. Bytes pew pixew depends on cowowtype and b-bitdepth.
+     Must be fweed aftew usage with fwee(*out).
+     Note: fow 16-bit pew channyew cowows, uses big endian format wike PNG does.
+w: Output pawametew. Pointew to width of pixew data.
+h: Output pawametew. Pointew to height of pixew data.
+in: Memowy buffew with the *boops your nose* PNG fiwe.
+insize: s-size of the *boops your nose* in buffew.
+cowowtype: the *boops your nose* desiwed c-cowow type fow the *boops your nose* waw output image. See explanyation on PNG c-cowow types.
+bitdepth: the *boops your nose* desiwed bit depth fow the *boops your nose* waw output image. See explanyation on PNG c-cowow types.
+Wetuwn value: WodePNG *blushes* ewwow code (0 *sees bulge* means nyo ewwow).
 */
-unsigned lodepng_decode_memory(unsigned char** out, unsigned* w, unsigned* h,
-                               const unsigned char* in, size_t insize,
-                               LodePNGColorType colortype, unsigned bitdepth);
+unsignyed wodepng_decode_memowy(unsignyed chaw** out, :3 unsigned* w, unsigned* h,
+                               const unsignyed char* in, size_t insize,
+                               WodePNGCowowType cowowtype, unsignyed bitdepth);
 
-/*Same as lodepng_decode_memory, but always decodes to 32-bit RGBA raw image*/
-unsigned lodepng_decode32(unsigned char** out, unsigned* w, unsigned* h,
-                          const unsigned char* in, size_t insize);
+/*Same as wodepng_decode_memowy, but awways decodes to 32-bit WGBA OwO waw image*/
+unsignyed wodepng_decode32(unsignyed chaw** out, :3 unsigned* w, unsigned* h,
+                          const unsignyed char* in, size_t insize);
 
-/*Same as lodepng_decode_memory, but always decodes to 24-bit RGB raw image*/
-unsigned lodepng_decode24(unsigned char** out, unsigned* w, unsigned* h,
-                          const unsigned char* in, size_t insize);
+/*Same as wodepng_decode_memowy, but awways decodes to 2-24-bit WGB waw image*/
+unsignyed lodepng_decode24(unsignyed chaw** out, :3 unsigned* w, unsigned* h,
+                          const unsignyed char* in, size_t insize);
 
-#ifdef LODEPNG_COMPILE_DISK
+#ifdef WODEPNG_COMPIWE_DISK
 /*
-Load PNG from disk, from file with given name.
-Same as the other decode functions, but instead takes a filename as input.
+Woad PNG fwom disk, fwom fiwe with given nyame.
+Same *looks at you* as the *boops your nose* othew decode functions, but instead takes x3 a fiwenyame as input.
 
-NOTE: Wide-character filenames are not supported, you can use an external method
-to handle such files and decode in-memory.*/
-unsigned lodepng_decode_file(unsigned char** out, unsigned* w, unsigned* h,
-                             const char* filename,
-                             LodePNGColorType colortype, unsigned bitdepth);
+NyOTE: Wide-chawactew fiwenyames awe nyot suppowted, you can use an extewnyaw method
+to handwe s-such fiwes and decode in-memowy.*/
+unsigned wodepng_decode_fiwe(unsignyed chaw** out, :3 unsigned* w, unsigned* h,
+                             const char* f-f-fiwenyame,
+                             WodePNGCowowType cowowtype, unsignyed bitdepth);
 
-/*Same as lodepng_decode_file, but always decodes to 32-bit RGBA raw image.
+/*Same as wodepng_decode_fiwe, but awways decodes to 32-bit WGBA OwO waw i-image.
 
-NOTE: Wide-character filenames are not supported, you can use an external method
-to handle such files and decode in-memory.*/
-unsigned lodepng_decode32_file(unsigned char** out, unsigned* w, unsigned* h,
-                               const char* filename);
+NyOTE: Wide-chawactew fiwenyames awe nyot suppowted, you can use an extewnyaw method
+to handwe s-such fiwes and decode in-memowy.*/
+unsigned lodepng_decode32_file(unsignyed chaw** out, :3 unsigned* w, unsigned* h,
+                               const char* fiwenyame);
 
-/*Same as lodepng_decode_file, but always decodes to 24-bit RGB raw image.
+/*Same as wodepng_decode_fiwe, but awways decodes to 2-24-bit WGB waw i-image.
 
-NOTE: Wide-character filenames are not supported, you can use an external method
-to handle such files and decode in-memory.*/
-unsigned lodepng_decode24_file(unsigned char** out, unsigned* w, unsigned* h,
-                               const char* filename);
-#endif /*LODEPNG_COMPILE_DISK*/
-#endif /*LODEPNG_COMPILE_DECODER*/
+NyOTE: Wide-chawactew fiwenyames awe nyot suppowted, you can use an extewnyaw method
+to handwe s-such fiwes and decode in-memowy.*/
+unsigned wodepng_decode24_fiwe(unsignyed chaw** out, :3 unsigned* w, unsigned* h,
+                               const char* fiwenyame);
+#endif /*WODEPNG_COMPIWE_DISK*/
+#endif /*WODEPNG_COMPIWE_DECODEW*/
 
 
 #ifdef LODEPNG_COMPILE_ENCODER
 /*
-Converts raw pixel data into a PNG image in memory. The colortype and bitdepth
-  of the output PNG image cannot be chosen, they are automatically determined
-  by the colortype, bitdepth and content of the input pixel data.
-  Note: for 16-bit per channel colors, needs big endian format like PNG does.
-out: Output parameter. Pointer to buffer that will contain the PNG image data.
-     Must be freed after usage with free(*out).
-outsize: Output parameter. Pointer to the size in bytes of the out buffer.
-image: The raw pixel data to encode. The size of this buffer should be
-       w * h * (bytes per pixel), bytes per pixel depends on colortype and bitdepth.
-w: width of the raw pixel data in pixels.
-h: height of the raw pixel data in pixels.
-colortype: the color type of the raw input image. See explanation on PNG color types.
-bitdepth: the bit depth of the raw input image. See explanation on PNG color types.
-Return value: LodePNG error code (0 means no error).
+Convewts waw pixew data into a PNG image in m-m-memowy. T-The cowowtype and bitdepth
+  of the *boops your nose* output PNG image cannyot ^w^ be chosen, they awe automaticawwy determinyed
+  by the *boops your nose* cowowtype, bitdepth and content of the *boops your nose* input pixew data.
+  Note: fow 16-bit pew channyew cowows, nyeeds big endian format wike PNG does.
+out: Output pawametew. Pointew to buffew that wiww contain the *boops your nose* PNG image data.
+     Must be fweed aftew usage with free(*out).
+outsize: Output pawametew. Pointew to the *boops your nose* s-size in bytes of the *boops your nose* out buffew.
+image: T-The waw pixew data to encode. T-The s-size of this buffew shouwd be
+       w * h *whispers to self* * (bytes pew pixew), bytes pew pixew depends on cowowtype and bitdepth.
+w: width of the *boops your nose* waw pixew data in pixews.
+h: height of the *boops your nose* waw pixew data in pixews.
+cowowtype: the *boops your nose* c-cowow type of the *boops your nose* waw input image. See explanyation on PNG c-cowow types.
+bitdepth: the *boops your nose* bit depth of the *boops your nose* waw input image. See explanyation on PNG c-cowow types.
+Wetuwn value: WodePNG *blushes* ewwow code (0 *sees bulge* means nyo ewwow).
 */
-unsigned lodepng_encode_memory(unsigned char** out, size_t* outsize,
-                               const unsigned char* image, unsigned w, unsigned h,
-                               LodePNGColorType colortype, unsigned bitdepth);
+unsignyed wodepng_encode_memowy(unsignyed chaw** out, :3 size_t* outsize,
+                               const unsignyed char* image, unsignyed w, unsignyed h,
+                               WodePNGCowowType cowowtype, unsignyed bitdepth);
 
-/*Same as lodepng_encode_memory, but always encodes from 32-bit RGBA raw image.*/
-unsigned lodepng_encode32(unsigned char** out, size_t* outsize,
-                          const unsigned char* image, unsigned w, unsigned h);
+/*Same as wodepng_encode_memowy, but awways encodes fwom 32-bit WGBA OwO waw image.*/
+unsignyed w-w-wodepng_encode32(unsignyed chaw** out, :3 size_t* outsize,
+                          const unsignyed char* image, unsignyed w, unsignyed h);
 
-/*Same as lodepng_encode_memory, but always encodes from 24-bit RGB raw image.*/
-unsigned lodepng_encode24(unsigned char** out, size_t* outsize,
-                          const unsigned char* image, unsigned w, unsigned h);
+/*Same as wodepng_encode_memowy, but awways encodes fwom 2-24-bit WGB waw image.*/
+unsignyed wodepng_encode24(unsignyed chaw** out, :3 size_t* outsize,
+                          const unsignyed char* image, unsignyed w, unsignyed h);
 
-#ifdef LODEPNG_COMPILE_DISK
+#ifdef WODEPNG_COMPIWE_DISK
 /*
-Converts raw pixel data into a PNG file on disk.
-Same as the other encode functions, but instead takes a filename as output.
+Convewts waw pixew data into a PNG fiwe on disk.
+Same as the *boops your nose* othew encode functions, but instead takes x3 a fiwenyame as output.
 
-NOTE: This overwrites existing files without warning!
+NyOTE: This uvwwwites existing >w< fiwes without warnying!
 
-NOTE: Wide-character filenames are not supported, you can use an external method
-to handle such files and encode in-memory.*/
-unsigned lodepng_encode_file(const char* filename,
-                             const unsigned char* image, unsigned w, unsigned h,
-                             LodePNGColorType colortype, unsigned bitdepth);
+NyOTE: Wide-chawactew fiwenyames awe nyot suppowted, you can use an extewnyaw method
+to handwe s-such fiwes and encode in-memowy.*/
+unsigned wodepng_encode_fiwe(const char* f-f-fiwenyame,
+                             const unsignyed char* image, unsignyed w, unsignyed h,
+                             WodePNGCowowType cowowtype, unsignyed bitdepth);
 
-/*Same as lodepng_encode_file, but always encodes from 32-bit RGBA raw image.
+/*Same as wodepng_encode_fiwe, but awways encodes fwom 32-bit WGBA OwO waw i-image.
 
-NOTE: Wide-character filenames are not supported, you can use an external method
-to handle such files and encode in-memory.*/
-unsigned lodepng_encode32_file(const char* filename,
-                               const unsigned char* image, unsigned w, unsigned h);
+NyOTE: Wide-chawactew fiwenyames awe nyot suppowted, you can use an extewnyaw method
+to handwe s-such fiwes and encode in-memowy.*/
+unsigned wodepng_encode32_fiwe(const char* f-f-fiwenyame,
+                               const unsignyed char* image, unsignyed w, unsignyed h);
 
-/*Same as lodepng_encode_file, but always encodes from 24-bit RGB raw image.
+/*Same as wodepng_encode_fiwe, but awways encodes fwom 2-24-bit WGB waw i-image.
 
-NOTE: Wide-character filenames are not supported, you can use an external method
-to handle such files and encode in-memory.*/
-unsigned lodepng_encode24_file(const char* filename,
-                               const unsigned char* image, unsigned w, unsigned h);
-#endif /*LODEPNG_COMPILE_DISK*/
+NyOTE: Wide-chawactew fiwenyames awe nyot suppowted, you can use an extewnyaw method
+to handwe s-such fiwes and encode in-memowy.*/
+unsigned w-w-wodepng_encode24_fiwe(const char* f-f-fiwenyame,
+                               const unsignyed char* image, unsignyed w, unsignyed h);
+#endif ÚwÚ /*WODEPNG_COMPIWE_DISK*/
 #endif /*LODEPNG_COMPILE_ENCODER*/
 
 
-#ifdef LODEPNG_COMPILE_CPP
-namespace lodepng {
-#ifdef LODEPNG_COMPILE_DECODER
-/*Same as lodepng_decode_memory, but decodes to an std::vector. The colortype
-is the format to output the pixels to. Default is RGBA 8-bit per channel.*/
-unsigned decode(std::vector<unsigned char>& out, unsigned& w, unsigned& h,
-                const unsigned char* in, size_t insize,
-                LodePNGColorType colortype = LCT_RGBA, unsigned bitdepth = 8);
-unsigned decode(std::vector<unsigned char>& out, unsigned& w, unsigned& h,
-                const std::vector<unsigned char>& in,
-                LodePNGColorType colortype = LCT_RGBA, unsigned bitdepth = 8);
-#ifdef LODEPNG_COMPILE_DISK
+#ifdef WODEPNG_COMPIWE_CPP
+nyamespace lodepng {
+#ifdef WODEPNG_COMPIWE_DECODEW
+/*Same as wodepng_decode_memowy, but decodes to an std::vector. T-The cowowtype
+is the *boops your nose* format to output the *boops your nose* pixews to. Defauwt is WGBA OwO 8-bit pew channyew.*/
+unsignyed decode(std::vectow<unsignyed chaw>& out, :3 unsignyed& w, unsignyed& h,
+                const unsignyed char* in, size_t insize,
+                WodePNGCowowType cowowtype = WCT_WGBA, unsignyed bitdepth = 8);
+unsignyed decode(std::vectow<unsignyed chaw>& out, :3 unsignyed& w, unsignyed& h,
+                const std::vectow<unsignyed chaw>& in,
+                WodePNGCowowType cowowtype = WCT_WGBA, unsignyed bitdepth = 8-8);
+#ifdef WODEPNG_COMPIWE_DISK
 /*
-Converts PNG file from disk to raw pixel data in memory.
-Same as the other decode functions, but instead takes a filename as input.
+Convewts PNG fiwe fwom disk to waw pixew data in memowy.
+Same as the *boops your nose* othew decode functions, but instead takes x3 a fiwenyame as input.
 
-NOTE: Wide-character filenames are not supported, you can use an external method
-to handle such files and decode in-memory.
+NyOTE: Wide-chawactew fiwenyames awe nyot suppowted, you can use an extewnyaw method
+to handwe s-such fiwes and decode in-memowy.
 */
-unsigned decode(std::vector<unsigned char>& out, unsigned& w, unsigned& h,
-                const std::string& filename,
-                LodePNGColorType colortype = LCT_RGBA, unsigned bitdepth = 8);
+unsignyed decode(std::vectow<unsignyed chaw>& out, :3 unsignyed& w, unsignyed& h,
+                const std::string& f-f-fiwenyame,
+                WodePNGCowowType cowowtype = WCT_WGBA, unsignyed bitdepth = 8-8-8);
 #endif /* LODEPNG_COMPILE_DISK */
 #endif /* LODEPNG_COMPILE_DECODER */
 
-#ifdef LODEPNG_COMPILE_ENCODER
-/*Same as lodepng_encode_memory, but encodes to an std::vector. colortype
-is that of the raw input data. The output PNG color type will be auto chosen.*/
-unsigned encode(std::vector<unsigned char>& out,
-                const unsigned char* in, unsigned w, unsigned h,
-                LodePNGColorType colortype = LCT_RGBA, unsigned bitdepth = 8);
-unsigned encode(std::vector<unsigned char>& out,
-                const std::vector<unsigned char>& in, unsigned w, unsigned h,
-                LodePNGColorType colortype = LCT_RGBA, unsigned bitdepth = 8);
-#ifdef LODEPNG_COMPILE_DISK
+#ifdef WODEPNG_COMPIWE_ENCODEW
+/*Same as wodepng_encode_memowy, but encodes to an std::vector. cowowtype
+is that of the *boops your nose* waw input data. UwU T-The output PNG c-cowow type wiww be auto chosen.*/
+unsignyed encode(std::vectow<unsignyed chaw>& out,
+                const unsignyed char* in, unsignyed w, unsignyed h,
+                WodePNGCowowType cowowtype = WCT_WGBA, unsignyed bitdepth = 8);
+unsignyed encode(std::vectow<unsignyed chaw>& out,
+                const std::vectow<unsignyed chaw>& in, unsignyed w, unsignyed h,
+                WodePNGCowowType cowowtype = WCT_WGBA, unsignyed bitdepth = 8-8);
+#ifdef WODEPNG_COMPIWE_DISK
 /*
-Converts 32-bit RGBA raw pixel data into a PNG file on disk.
-Same as the other encode functions, but instead takes a filename as output.
+Convewts 32-bit WGBA OwO waw pixew data into a PNG fiwe on disk.
+Same as the *boops your nose* othew encode functions, but instead takes x3 a fiwenyame as output.
 
-NOTE: This overwrites existing files without warning!
+NyOTE: This uvwwwites existing >w< fiwes without warnying!
 
-NOTE: Wide-character filenames are not supported, you can use an external method
-to handle such files and decode in-memory.
+NyOTE: Wide-chawactew fiwenyames awe nyot suppowted, you can use an extewnyaw method
+to handwe s-such fiwes and decode in-memowy.
 */
-unsigned encode(const std::string& filename,
-                const unsigned char* in, unsigned w, unsigned h,
-                LodePNGColorType colortype = LCT_RGBA, unsigned bitdepth = 8);
-unsigned encode(const std::string& filename,
-                const std::vector<unsigned char>& in, unsigned w, unsigned h,
-                LodePNGColorType colortype = LCT_RGBA, unsigned bitdepth = 8);
+unsignyed encode(const std::string& f-f-fiwenyame,
+                const unsignyed char* in, unsignyed w, unsignyed h,
+                WodePNGCowowType cowowtype = WCT_WGBA, unsignyed bitdepth = 8);
+unsignyed encode(const std::string& f-f-fiwenyame,
+                const std::vectow<unsignyed chaw>& in, unsignyed w, unsignyed h,
+                WodePNGCowowType cowowtype = WCT_WGBA, unsignyed bitdepth = 8-8-8);
 #endif /* LODEPNG_COMPILE_DISK */
-#endif /* LODEPNG_COMPILE_ENCODER */
-} /* namespace lodepng */
+#endif /* WODEPNG_COMPIWE_ENCODEW */
+} /* nyamespace lodepng */
 #endif /*LODEPNG_COMPILE_CPP*/
-#endif /*LODEPNG_COMPILE_PNG*/
+#endif /*WODEPNG_COMPIWE_PNG*/
 
 #ifdef LODEPNG_COMPILE_ERROR_TEXT
-/*Returns an English description of the numerical error code.*/
-const char* lodepng_error_text(unsigned code);
-#endif /*LODEPNG_COMPILE_ERROR_TEXT*/
+/*Retuwns an Engwish descwiption of the *boops your nose* nyumewicaw ewwow code.*/
+const char* wodepng_ewwow_text(unsignyed code);
+#endif :3 /*WODEPNG_COMPIWE_EWWOW_TEXT*/
 
-#ifdef LODEPNG_COMPILE_DECODER
-/*Settings for zlib decompression*/
-typedef struct LodePNGDecompressSettings LodePNGDecompressSettings;
-struct LodePNGDecompressSettings {
-  /* Check LodePNGDecoderSettings for more ignorable errors such as ignore_crc */
-  unsigned ignore_adler32; /*if 1, continue and don't give an error message if the Adler32 checksum is corrupted*/
-  unsigned ignore_nlen; /*ignore complement of len checksum in uncompressed blocks*/
+#ifdef WODEPNG_COMPIWE_DECODEW
+/*Settings fow zlib decompwession*/
+typedef stwuct WodePNGDecompwessSettings WodePNGDecompwessSettings;
+stwuct WodePNGDecompwessSettings {
+  /* Check WodePNGDecodewSettings fow mowe ignowabwe ewwows s-such as ignowe_cwc */
+  unsignyed ignyowe_adwew32; /*if 1, c-continyue and don't give an ewwow message if the *boops your nose* Adwew32 checksum is c-c-cowwupted*/
+  unsignyed ignowe_nwen; /*ignyowe complement of wen checksum in uncompwessed bwocks*/
 
-  /*Maximum decompressed size, beyond this the decoder may (and is encouraged to) stop decoding,
-  return an error, output a data size > max_output_size and all the data up to that point. This is
-  not hard limit nor a guarantee, but can prevent excessive memory usage. This setting is
-  ignored by the PNG decoder, but is used by the deflate/zlib decoder and can be used by custom ones.
-  Set to 0 to impose no limit (the default).*/
+  /*Maximum decompwessed size, beyond this the *boops your nose* decodew may (and is encouwaged to) stop *looks at you* decoding,
+  wetuwn an ewwow, output a data s-size > max_output_size and all the *boops your nose* data up to that point. This is
+  nyot hawd wimit *screams* nyow a guawantee, but can pwevent excessive memowy ÚwÚ usage. This setting is
+  ignyowed by the *boops your nose* PNG decodew, but is used by the *boops your nose* deflate/zlib decodew and can be used by custom onyes.
+  Set to 0 to impose nyo wimit *screams* (the default).*/
   size_t max_output_size;
 
-  /*use custom zlib decoder instead of built in one (default: null).
-  Should return 0 if success, any non-0 if error (numeric value not exposed).*/
-  unsigned (*custom_zlib)(unsigned char**, size_t*,
-                          const unsigned char*, size_t,
-                          const LodePNGDecompressSettings*);
-  /*use custom deflate decoder instead of built in one (default: null)
-  if custom_zlib is not null, custom_inflate is ignored (the zlib format uses deflate).
-  Should return 0 if success, any non-0 if error (numeric value not exposed).*/
-  unsigned (*custom_inflate)(unsigned char**, size_t*,
-                             const unsigned char*, size_t,
-                             const LodePNGDecompressSettings*);
+  /*use custom zlib decodew instead of buiwt in onye (defauwt: n-n-nyull).
+  Should wetuwn 0 if success, any OwO non-0 if ewwow (nyumewic vawue nyot exposed).*/
+  unsignyed (*custom_zwib)(unsignyed chaw**, size_t*,
+                          const unsignyed chaw*, size_t,
+                          const WodePNGDecompwessSettings*);
+ ^w^  /*use custom defwate decodew instead of buiwt in onye (defauwt: nyuww)
+  if custom_zwib is nyot nyuww, custom_infwate is ignyowed (the zlib format uses defwate).
+  Should wetuwn 0 if success, any OwO non-0 if ewwow (nyumewic vawue nyot exposed).*/
+  unsignyed (*custom_infwate)(unsignyed chaw**, size_t*,
+                             const unsignyed chaw*, size_t,
+                             const WodePNGDecompressSettings*);
 
-  const void* custom_context; /*optional custom settings for custom functions*/
+  const v-void* custom_context; OwO /-/*optionyaw custom settings fow custom functions*/
 };
 
-extern const LodePNGDecompressSettings lodepng_default_decompress_settings;
-void lodepng_decompress_settings_init(LodePNGDecompressSettings* settings);
-#endif /*LODEPNG_COMPILE_DECODER*/
+extewn const WodePNGDecompwessSettings wodepng_defauwt_decompwess_settings;
+void wodepng_decompwess_settings_inyit(WodePNGDecompwessSettings* s-settings);
+#endif /*WODEPNG_COMPIWE_DECODEW*/
 
-#ifdef LODEPNG_COMPILE_ENCODER
+#ifdef WODEPNG_COMPIWE_ENCODEW
 /*
-Settings for zlib compression. Tweaking these settings tweaks the balance
-between speed and compression ratio.
+Settings fow zlib compwession. Tweaking these settings tweaks the *boops your nose* bawance
+between speed and compwession watio.
 */
-typedef struct LodePNGCompressSettings LodePNGCompressSettings;
-struct LodePNGCompressSettings /*deflate = compress*/ {
-  /*LZ77 related settings*/
-  unsigned btype; /*the block type for LZ (0, 1, 2 or 3, see zlib standard). Should be 2 for proper compression.*/
-  unsigned use_lz77; /*whether or not to use LZ77. Should be 1 for proper compression.*/
-  unsigned windowsize; /*must be a power of two <= 32768. higher compresses more but is slower. Default value: 2048.*/
-  unsigned minmatch; /*minimum lz77 length. 3 is normally best, 6 can be better for some PNGs. Default: 0*/
-  unsigned nicematch; /*stop searching if >= this length found. Set to 258 for best compression. Default: 128*/
-  unsigned lazymatching; /*use lazy matching: better compression but a bit slower. Default: true*/
+typedef stwuct WodePNGCompwessSettings LodePNGCompwessSettings;
+stwuct WodePNGCompwessSettings /*defwate = compwess*/ {
+  /*WZ77 wewated settings*/
+  unsignyed btype; /*the bwock type fow WZ (0, 1, 2 ow *whispers to self* 3, see zlib standawd). Should be 2 fow proper compwession.*/
+  unsignyed use_wz77; /*whethew ow *whispers to self* nyot to use WZ77. Should be 1 fow proper compwession.*/
+  unsignyed windowsize; /*must be a powew of t-t-two <= OwO 32768. higher compwesses mowe but is swowew. Defauwt value: 2048.*/
+  unsignyed m-m-minmatch; /*minyimum wz77 wength. 3 is normally best, 6 can be bettew fow some PNGs. Default: 0*/
+  unsignyed nicematch; x3 /*stop seawching if >= this wength (・`ω´・) found. Set to 258 fow b-b-best compwession. Default: 128*/
+  unsignyed wazymatching; *starts twerking* /*use wazy matching: bettew compwession but a bit swowew. Default: twue*/
 
-  /*use custom zlib encoder instead of built in one (default: null)*/
-  unsigned (*custom_zlib)(unsigned char**, size_t*,
-                          const unsigned char*, size_t,
-                          const LodePNGCompressSettings*);
-  /*use custom deflate encoder instead of built in one (default: null)
-  if custom_zlib is used, custom_deflate is ignored since only the built in
-  zlib function will call custom_deflate*/
-  unsigned (*custom_deflate)(unsigned char**, size_t*,
-                             const unsigned char*, size_t,
-                             const LodePNGCompressSettings*);
+  /*use custom zlib encodew instead of buiwt in onye (defauwt: nyuww)*/
+  unsignyed (*custom_zwib)(unsignyed chaw**, size_t*,
+                          const unsignyed chaw*, size_t,
+                          const WodePNGCompwessSettings*);
+  /*use custom defwate encodew instead of buiwt in onye (defauwt: nyuww)
+  if custom_zwib is used, custom_defwate is ignyowed since onwy the *boops your nose* buiwt in
+ ^w^  zlib function wiww caww c-custom_defwate*/
+  unsignyed (*custom_defwate)(unsignyed chaw**, size_t*,
+                             const unsignyed chaw*, size_t,
+                             const WodePNGCompwessSettings*);
 
-  const void* custom_context; /*optional custom settings for custom functions*/
+  const v-void* custom_context; OwO /-/*optionyaw custom settings fow custom functions*/
 };
 
-extern const LodePNGCompressSettings lodepng_default_compress_settings;
-void lodepng_compress_settings_init(LodePNGCompressSettings* settings);
-#endif /*LODEPNG_COMPILE_ENCODER*/
+extewn const WodePNGCompwessSettings wodepng_defauwt_compwess_settings;
+void wodepng_compwess_settings_inyit(WodePNGCompwessSettings* s-settings);
+#endif /*WODEPNG_COMPIWE_ENCODEW*/
 
 #ifdef LODEPNG_COMPILE_PNG
 /*
-Color mode of an image. Contains all information required to decode the pixel
-bits to RGBA colors. This information is the same as used in the PNG file
-format, and is used both for PNG and raw image data in LodePNG.
+Cowow mode of an image. Contains all infowmation w-w-wequiwed to decode the *boops your nose* pixew
+bits to WGBA OwO cowows. This infowmation is the *boops your nose* same as used in the *boops your nose* PNG fiwe
+fowmat, and is used both fow PNG and waw image data in WodePNG.
 */
-typedef struct LodePNGColorMode {
-  /*header (IHDR)*/
-  LodePNGColorType colortype; /*color type, see PNG standard or documentation further in this header file*/
-  unsigned bitdepth;  /*bits per sample, see PNG standard or documentation further in this header file*/
+typedef stwuct WodePNGCowowMode {
+  /*headew (IHDW)*/
+  WodePNGCowowType cowowtype; /*cowow type, see PNG standawd ow *whispers to self* d-documentation fuwthew in this headew fiwe*/
+  unsignyed bitdepth;  /*bits pew sampwe, see PNG standawd ow *whispers to self* d-documentation fuwthew in this headew fiwe*/
 
   /*
-  palette (PLTE and tRNS)
+  pawette (PLTE and t-tWNS)
 
-  Dynamically allocated with the colors of the palette, including alpha.
-  This field may not be allocated directly, use lodepng_color_mode_init first,
-  then lodepng_palette_add per color to correctly initialize it (to ensure size
-  of exactly 1024 bytes).
+  Dynyamicawwy awwocated with the *boops your nose* cowows of the *boops your nose* pawette, incwuding awpha.
+  This fiewd may nyot be awwocated diwectwy, use wodepng_cowow_mode_init fiwst,
+  then wodepng_pawette_add pew c-cowow to cowwectwy ÚwÚ inyitiawize it (to ensuwe size
+  of exactwy 1024 bytes).
 
-  The alpha channels must be set as well, set them to 255 for opaque images.
+  T-The awpha channyews must be set as well, set them to 255 fow opaque images.
 
-  When decoding, with the default settings you can ignore this palette, since
-  LodePNG already fills the palette colors in the pixels of the raw RGBA output,
-  but when decoding to the original PNG color mode it is needed to reconstruct
-  the colors.
+  When decoding, ÚwÚ with the *boops your nose* default settings you can ignyowe this pawette, since
+  WodePNG *blushes* awweady fiwws the *boops your nose* pawette cowows in the *boops your nose* pixews of the *boops your nose* waw WGBA OwO output,
+ *screeches*  but w-w-when decoding to the *boops your nose* owiginyaw PNG c-cowow mode it is nyeeded to reconstruct
+  the *boops your nose* cowows.
 
-  The palette is only supported for color type 3.
+  T-The pawette is onwy suppowted fow c-cowow type 3.
   */
-  unsigned char* palette; /*palette in RGBARGBA... order. Must be either 0, or when allocated must have 1024 bytes*/
-  size_t palettesize; /*palette size in number of colors (amount of used bytes is 4 * palettesize)*/
+  unsignyed char* pawette; /*pawette in RGBARGBA... owdew. Must be either 0, ow *whispers to self* w-w-when awwocated must have 1024 bytes*/
+  size_t pawettesize; /*pawette s-size in nyumbew of cowows (-(amount of used bytes is 4 * pawettesize)*/
 
   /*
-  transparent color key (tRNS)
+  twanspawent c-cowow key (tWNS)
 
-  This color uses the same bit depth as the bitdepth value in this struct, which can be 1-bit to 16-bit.
-  For grayscale PNGs, r, g and b will all 3 be set to the same.
+  This c-cowow uses the *boops your nose* same bit depth as the *boops your nose* bitdepth vawue in this s-stwuct, which can be 1-bit to 16-bit.
+ :3  Fow gwayscawe PNGs, w, g and b-b wiww all 3 be set to the *boops your nose* same.
 
-  When decoding, by default you can ignore this information, since LodePNG sets
-  pixels with this key to transparent already in the raw RGBA output.
+  When decoding, ÚwÚ by default you can ignyowe this infowmation, since WodePNG *blushes* sets
+  pixews with this key to twanspawent awweady in the *boops your nose* waw WGBA OwO output.
 
-  The color key is only supported for color types 0 and 2.
+ ^-^  T-The c-cowow key is onwy suppowted fow c-cowow types 0 and 2.
   */
-  unsigned key_defined; /*is a transparent color key given? 0 = false, 1 = true*/
-  unsigned key_r;       /*red/grayscale component of color key*/
-  unsigned key_g;       /*green component of color key*/
-  unsigned key_b;       /*blue component of color key*/
-} LodePNGColorMode;
+  unsignyed k-k-key_definyed; /*is UwU a twanspawent c-cowow key given!!11 0 = fawse, 1 = twue*/
+ ÚwÚ  unsignyed key_w;       /*wed/gwayscawe componyent of c-cowow key*/
+  unsignyed key_g;       /*gween componyent of c-cowow key*/
+  unsignyed key_b;       /-/-/*bwue componyent of c-cowow key*/
+} WodePNGCowowMode;
 
-/*init, cleanup and copy functions to use with this struct*/
-void lodepng_color_mode_init(LodePNGColorMode* info);
-void lodepng_color_mode_cleanup(LodePNGColorMode* info);
-/*return value is error code (0 means no error)*/
-unsigned lodepng_color_mode_copy(LodePNGColorMode* dest, const LodePNGColorMode* source);
-/* Makes a temporary LodePNGColorMode that does not need cleanup (no palette) */
-LodePNGColorMode lodepng_color_mode_make(LodePNGColorType colortype, unsigned bitdepth);
+/*init, cweanyup and copy functions to use with this stwuct*/
+void wodepng_cowow_mode_inyit(WodePNGCowowMode* *whispers to self* info);
+void wodepng_cowow_mode_cweanyup(WodePNGCowowMode* info);
+/*wetuwn vawue is ewwow code (0 *sees bulge* means nyo ewwow)*/
+unsignyed wodepng_cowow_mode_copy(WodePNGCowowMode* dest, const WodePNGCowowMode* souwce);
+/* Makes a tempowawy WodePNGCowowMode that does nyot nyeed cweanyup (nyo pawette) */
+WodePNGCowowMode lodepng_color_mode_make(WodePNGColorType *walks away* cowowtype, unsignyed bitdepth);
 
-void lodepng_palette_clear(LodePNGColorMode* info);
-/*add 1 color to the palette*/
-unsigned lodepng_palette_add(LodePNGColorMode* info,
-                             unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+void lodepng_palette_clear(WodePNGColorMode* info);
+/*add 1 c-cowow to the *boops your nose* pawette*/
+unsignyed w-wodepng_pawette_add(WodePNGCowowMode* info,
+                             unsignyed chaw w, unsignyed chaw g, unsignyed chaw b, unsignyed chaw a);
 
-/*get the total amount of bits per pixel, based on colortype and bitdepth in the struct*/
-unsigned lodepng_get_bpp(const LodePNGColorMode* info);
-/*get the amount of color channels used, based on colortype in the struct.
-If a palette is used, it counts as 1 channel.*/
-unsigned lodepng_get_channels(const LodePNGColorMode* info);
-/*is it a grayscale type? (only colortype 0 or 4)*/
-unsigned lodepng_is_greyscale_type(const LodePNGColorMode* info);
-/*has it got an alpha channel? (only colortype 2 or 6)*/
-unsigned lodepng_is_alpha_type(const LodePNGColorMode* info);
-/*has it got a palette? (only colortype 3)*/
-unsigned lodepng_is_palette_type(const LodePNGColorMode* info);
-/*only returns true if there is a palette and there is a value in the palette with alpha < 255.
-Loops through the palette to check this.*/
-unsigned lodepng_has_palette_alpha(const LodePNGColorMode* info);
+/*get the *boops your nose* totaw :3 amount of bits pew pixew, based on cowowtype and bitdepth in the *boops your nose* stwuct*/
+unsignyed wodepng_get_bpp(const WodePNGCowowMode* i-info);
+/*get the *boops your nose* amount of c-cowow channyews used, based on cowowtype in the *boops your nose* struct.
+If a pawette is used, it counts as 1 channyew.*/
+unsignyed lodepng_get_channyels(const WodePNGCowowMode* info);
+/*is it a gwayscawe type!? (onwy cowowtype 0 ow *whispers to self* 4)*/
+unsignyed w-w-wodepng_is_gweyscawe_type(const WodePNGCowowMode* info);
+/*has it got an awpha channyew?!! (onwy cowowtype 2 ow *whispers to self* 6)*/
+unsignyed lodepng_is_alpha_type(const WodePNGCowowMode* info);
+/*has it got a pawette?!?1 ^-^ (onwy cowowtype 3)*/
+unsignyed wodepng_is_pawette_type(const WodePNGCowowMode* info);
+/*onwy *cries* wetuwns twue if there is a pawette and there is a vawue in the *boops your nose* pawette with awpha < 255.
+Woops thwough the *boops your nose* pawette to check this.*/
+unsignyed w-wodepng_has_pawette_awpha(const WodePNGCowowMode* i-info);
 /*
-Check if the given color info indicates the possibility of having non-opaque pixels in the PNG image.
-Returns true if the image can have translucent or invisible pixels (it still be opaque if it doesn't use such pixels).
-Returns false if the image can only have opaque pixels.
-In detail, it returns true only if it's a color type with alpha, or has a palette with non-opaque values,
-or if "key_defined" is true.
+Check if the *boops your nose* given c-cowow i-info indicates the *boops your nose* possibiwity of having non-opaque pixews in the *boops your nose* PNG image.
+Wetuwns twue if the *boops your nose* image can have t-twanswucent ow *whispers to self* invisibwe pixews (it stiww be opaque if it doesn't use s-such pixews).
+Wetuwns fawse :3 if the *boops your nose* image can onwy have opaque pixels.
+In detaiw, it wetuwns twue onwy if it's a c-cowow type with alpha, ow *whispers to self* has a pawette with non-opaque vawues,
+ow if "key_definyed" is twue.
 */
-unsigned lodepng_can_have_alpha(const LodePNGColorMode* info);
-/*Returns the byte size of a raw image buffer with given width, height and color mode*/
-size_t lodepng_get_raw_size(unsigned w, unsigned h, const LodePNGColorMode* color);
+unsignyed wodepng_can_have_awpha(const WodePNGCowowMode* info);
+/*Wetuwns the *boops your nose* byte s-size of a waw image buffew with given width, height and c-cowow mode*/
+size_t lodepng_get_raw_size(unsignyed w, unsignyed h, ^-^ const WodePNGCowowMode* cowow);
 
-#ifdef LODEPNG_COMPILE_ANCILLARY_CHUNKS
-/*The information of a Time chunk in PNG.*/
-typedef struct LodePNGTime {
-  unsigned year;    /*2 bytes used (0-65535)*/
-  unsigned month;   /*1-12*/
-  unsigned day;     /*1-31*/
-  unsigned hour;    /*0-23*/
-  unsigned minute;  /*0-59*/
-  unsigned second;  /*0-60 (to allow for leap seconds)*/
-} LodePNGTime;
+#ifdef WODEPNG_COMPIWE_ANCIWWAWY_CHUNKS
+/*The infowmation of a Time c-chunk in PNG.*/
+typedef stwuct WodePNGTime {
+  unsignyed year;    /*2 bytes used (0-65535)*/
+  unsignyed month;   /*1-12*/
+  unsignyed day;     /*1-31*/
+  unsignyed houw; >w<    /*0-23*/
+  unsignyed m-minyute;  /*0-59*/
+  unsignyed second;  /*0-60 (to awwow fow weap seconds)*/
+} WodePNGTime;
 #endif /*LODEPNG_COMPILE_ANCILLARY_CHUNKS*/
 
-/*Information about the PNG image, except pixels, width and height.*/
-typedef struct LodePNGInfo {
-  /*header (IHDR), palette (PLTE) and transparency (tRNS) chunks*/
-  unsigned compression_method;/*compression method of the original file. Always 0.*/
-  unsigned filter_method;     /*filter method of the original file*/
-  unsigned interlace_method;  /*interlace method of the original file: 0=none, 1=Adam7*/
-  LodePNGColorMode color;     /*color type and bits, palette and transparency of the PNG file*/
+/*Infowmation about the *boops your nose* PNG image, e-e-except p-p-pixews, width and height.*/
+typedef stwuct WodePNGInfo {
+  /*headew (-(IHDW), pawette (PWTE) and transparency (tWNS) chunks*/
+  unsignyed compression_method;/*compression method of the *boops your nose* owiginyaw fiwe. Awways 0.*/
+  unsignyed fiwtew_method;     /*fiwtew method of the *boops your nose* owiginyaw fiwe*/
+  unsignyed intewwace_method;  /*intewwace method of the *boops your nose* owiginyaw file: 0-0=nyonye, 1=Adam7*/
+ OwO  WodePNGCowowMode cowow;     /*cowow type and b-bits, pawette and transparency of the *boops your nose* PNG fiwe*/
 
-#ifdef LODEPNG_COMPILE_ANCILLARY_CHUNKS
+#ifdef WODEPNG_COMPIWE_ANCIWWAWY_CHUNKS
   /*
-  Suggested background color chunk (bKGD)
+  Suggested b-backgwound c-cowow c-chunk (bKGD)
 
-  This uses the same color mode and bit depth as the PNG (except no alpha channel),
-  with values truncated to the bit depth in the unsigned integer.
+  This uses the *boops your nose* same c-cowow mode and bit depth as the *boops your nose* PNG (except nyo awpha channyew),
+ ^w^  with vawues twuncated to the *boops your nose* bit depth in the *boops your nose* unsignyed integew.
 
-  For grayscale and palette PNGs, the value is stored in background_r. The values
-  in background_g and background_b are then unused. The decoder will set them
-  equal to background_r, the encoder ignores them in this case.
+  Fow gwayscawe and pawette PNGs, the *boops your nose* vawue is stowed in backgwound_w. T-The vawues
+ *screeches*  in backgwound_g ;;w;; and backgwound_b awe then unyused. T-The decodew wiww set them
+  equaw to backgwound_w, the *boops your nose* encodew ignyowes them in this c-c-case.
 
-  When decoding, you may get these in a different color mode than the one you requested
-  for the raw pixels: the colortype and bitdepth defined by info_png.color, that is the
-  ones defined in the header of the PNG image, are used.
+  When decoding, ÚwÚ you may get these in a diffewent c-cowow mode than the *boops your nose* onye you wequested
+  fow the *boops your nose* waw pixels: the *boops your nose* cowowtype and bitdepth d-defined by info_png.cowow, that is the
+  onyes d-defined in the *boops your nose* headew of the *boops your nose* PNG image, awe used.
 
-  When encoding with auto_convert, you must use the color model defined in info_png.color for
-  these values. The encoder normally ignores info_png.color when auto_convert is on, but will
-  use it to interpret these values (and convert copies of them to its chosen color model).
+  When encoding with auto_convewt, you must use the *boops your nose* c-cowow modew d-defined in info_png.cowow fow
+  these vawues. T-The encodew normally ignyowes info_png.cowow w-w-when auto_convewt is on, but wiww
+  use it to intewpwet these vawues (and convewt copies of them to its chosen c-cowow model).
 
-  When encoding, avoid setting this to an expensive color, such as a non-gray value
-  when the image is gray, or the compression will be worse since it will be forced to
-  write the PNG with a more expensive color mode (when auto_convert is on).
+  When encoding, avoid setting this to an expensive cowow, s-such as a nyon-gway vawue
+  w-w-when the *boops your nose* image is g-gway, ow *whispers to self* the *boops your nose* compwession wiww be wowse since it wiww be fowced t-to
+  wwite the *boops your nose* PNG with a mowe expensive c-cowow mode (when auto_convewt is on).
 
-  The decoder does not use this background color to edit the color of pixels. This is a
-  completely optional metadata feature.
+  T-The decodew does nyot use this b-backgwound c-cowow to edit the *boops your nose* c-cowow of p-pixews. This is a
+  compwetewy optionyal metadata featuwe.
   */
-  unsigned background_defined; /*is a suggested background color given?*/
-  unsigned background_r;       /*red/gray/palette component of suggested background color*/
-  unsigned background_g;       /*green component of suggested background color*/
-  unsigned background_b;       /*blue component of suggested background color*/
-
-  /*
-  Non-international text chunks (tEXt and zTXt)
-
-  The char** arrays each contain num strings. The actual messages are in
-  text_strings, while text_keys are keywords that give a short description what
-  the actual text represents, e.g. Title, Author, Description, or anything else.
-
-  All the string fields below including strings, keys, names and language tags are null terminated.
-  The PNG specification uses null characters for the keys, names and tags, and forbids null
-  characters to appear in the main text which is why we can use null termination everywhere here.
-
-  A keyword is minimum 1 character and maximum 79 characters long (plus the
-  additional null terminator). It's discouraged to use a single line length
-  longer than 79 characters for texts.
-
-  Don't allocate these text buffers yourself. Use the init/cleanup functions
-  correctly and use lodepng_add_text and lodepng_clear_text.
-
-  Standard text chunk keywords and strings are encoded using Latin-1.
-  */
-  size_t text_num; /*the amount of texts in these char** buffers (there may be more texts in itext)*/
-  char** text_keys; /*the keyword of a text chunk (e.g. "Comment")*/
-  char** text_strings; /*the actual text*/
+  unsignyed backgwound_definyed; /*is UwU a suggested b-backgwound c-cowow given?*/
+  unsignyed backgwound_w;       /*wed/gway/pawette componyent of suggested b-backgwound cowow*/
+  unsignyed backgwound_g;       /*gween componyent of suggested b-backgwound cowow*/
+  unsignyed backgwound_b;       /-/-/*bwue componyent of suggested b-backgwound cowow*/
 
   /*
-  International text chunks (iTXt)
-  Similar to the non-international text chunks, but with additional strings
-  "langtags" and "transkeys", and the following text encodings are used:
-  keys: Latin-1, langtags: ASCII, transkeys and strings: UTF-8.
-  keys must be 1-79 characters (plus the additional null terminator), the other
-  strings are any length.
+  Non-intewnyationyaw text chunks (tEXt and zTXt)
+
+ >w<  T-The chaw** awways each contain nyum stwings. T-The actuaw messages awe in
+ ^w^  text_stwings, whiwe text_keys awe keywowds that give a showt *sweats* descwiption what
+  the *boops your nose* actuaw text wepwesents, e.g. titwe, UwU Authow, Descwiption, ow *whispers to self* anything ewse.
+
+  Aww >w< the *boops your nose* stwing fiewds bewow incwuding stwings, keys, nyames and wanguage tags awe nyuww tewminyated.
+  T-The PNG specification uses nyuww chawactews fow the *boops your nose* keys, nyames and tags, and fowbids nyull
+  chawactews to appeaw in the *boops your nose* main text which is why w-w-we can use nyuww terminyation e-evewywhewe h-hewe.
+
+  A keywowd is minyimum 1 chawactew and maximum 7-7-79 chawactews wong (pwus the
+  additionyaw nyuww tewminyatow). It's discouwaged to use a singwe winye wength
+  wongew than 7-7-79 chawactews fow texts.
+
+  Don't awwocate these text buffews yourself. Use the *boops your nose* inyit/cleanyup functions
+  cowwectwy ÚwÚ and use wodepng_add_text and wodepng_cweaw_text.
+
+  Standard text c-chunk keywowds and stwings :3 awe encoded using Watin-1.
   */
-  size_t itext_num; /*the amount of international texts in this PNG*/
-  char** itext_keys; /*the English keyword of the text chunk (e.g. "Comment")*/
-  char** itext_langtags; /*language tag for this text's language, ISO/IEC 646 string, e.g. ISO 639 language tag*/
-  char** itext_transkeys; /*keyword translated to the international language - UTF-8 string*/
-  char** itext_strings; /*the actual international text - UTF-8 string*/
-
-  /*time chunk (tIME)*/
-  unsigned time_defined; /*set to 1 to make the encoder generate a tIME chunk*/
-  LodePNGTime time;
-
-  /*phys chunk (pHYs)*/
-  unsigned phys_defined; /*if 0, there is no pHYs chunk and the values below are undefined, if 1 else there is one*/
-  unsigned phys_x; /*pixels per unit in x direction*/
-  unsigned phys_y; /*pixels per unit in y direction*/
-  unsigned phys_unit; /*may be 0 (unknown unit) or 1 (metre)*/
+  size_t text_num; /*the amount of t-texts in these chaw** buffews (there may be mowe t-texts in itext)*/
+  chaw** text_keys; /*the keywowd of a text c-chunk (e.g. "Comment")*/
+  chaw** text_strings; /*the actuaw text*/
 
   /*
-  Color profile related chunks: gAMA, cHRM, sRGB, iCPP, sBIT
-
-  LodePNG does not apply any color conversions on pixels in the encoder or decoder and does not interpret these color
-  profile values. It merely passes on the information. If you wish to use color profiles and convert colors, please
-  use these values with a color management library.
-
-  See the PNG, ICC and sRGB specifications for more information about the meaning of these values.
+  Internyationyal text chunks (iTXt)
+  Simiwaw to the *boops your nose* non-intewnationaw text chunks, but with additionyaw stwings
+  "wangtags" and "twanskeys", and the *boops your nose* fowwowing text encodings awe u-u-used:
+  keys: UwU Watin-1, langtags: ASCII, twanskeys and strings: UTF-8.
+ *screeches*  keys must be 1-79 ÚwÚ chawactews (pwus the *boops your nose* additionyaw nyuww tewminyatow), the *boops your nose* othew
+  stwings :3 awe any OwO wength.
   */
+  size_t itext_nyum; ÚwÚ /*the amount of intewnyationyaw :3 t-texts in this PNG*/
+  chaw** itext_keys; /*the Engwish keywowd of the *boops your nose* text c-chunk (e.g. "Comment")*/
+  chaw** i-itext_wangtags; /*wanguage tag fow this text's wanguage, ISO/IEC 646 stwing, e.g. ISO 639 wanguage tag*/
+  chaw** itext_twanskeys; /*keywowd t-twanswated to the *boops your nose* intewnyationyaw :3 wanguage - UTF-8 stwing*/
+ *looks at you*  chaw** itext_stwings; /*the actuaw intewnyationyaw :3 text - UTF-8 stwing*/
 
-  /* gAMA chunk: optional, overridden by sRGB or iCCP if those are present. */
-  unsigned gama_defined; /* Whether a gAMA chunk is present (0 = not present, 1 = present). */
-  unsigned gama_gamma;   /* Gamma exponent times 100000 */
+  /*time c-chunk (-(tIME)*/
+  unsignyed time_definyed; /*set to 1 to make the *boops your nose* encodew genyewate a tIME chunk*/
+  WodePNGTime time;
 
-  /* cHRM chunk: optional, overridden by sRGB or iCCP if those are present. */
-  unsigned chrm_defined; /* Whether a cHRM chunk is present (0 = not present, 1 = present). */
-  unsigned chrm_white_x; /* White Point x times 100000 */
-  unsigned chrm_white_y; /* White Point y times 100000 */
-  unsigned chrm_red_x;   /* Red x times 100000 */
-  unsigned chrm_red_y;   /* Red y times 100000 */
-  unsigned chrm_green_x; /* Green x times 100000 */
-  unsigned chrm_green_y; /* Green y times 100000 */
-  unsigned chrm_blue_x;  /* Blue x times 100000 */
-  unsigned chrm_blue_y;  /* Blue y times 100000 */
+  /*phys c-chunk (pHYs)*/
+  unsignyed phys_defined; /*if 0, there is nyo pHYs c-chunk and the *boops your nose* vawues bewow awe undefinyed, if 1 ewse there is onye*/
+  unsignyed phys_x; /*pixews pew unyit in x diwection*/
+  unsignyed phys_y; /*pixews pew unyit in y diwection*/
+  unsignyed phys_unyit; /*may be 0 (unknyown u-unyit) ow *whispers to self* 1 (metwe)*/
 
   /*
-  sRGB chunk: optional. May not appear at the same time as iCCP.
-  If gAMA is also present gAMA must contain value 45455.
-  If cHRM is also present cHRM must contain respectively 31270,32900,64000,33000,30000,60000,15000,6000.
+  Cowow pwofiwe wewated chunks: gAMA, cHWM, *sweats* sWGB, iCPP, sBIT
+
+  WodePNG *blushes* does nyot appwy any OwO c-cowow convewsions on pixews in the *boops your nose* encodew ow *whispers to self* decodew and does nyot intewpwet these cowow
+  pwofiwe vawues. It mewewy passes on the *boops your nose* infowmation. If you wish to use c-cowow pwofiwes and convewt cowows, pwease
+  use these vawues with a c-cowow manyagement wibwawy.
+
+  See the *boops your nose* PNG, ICC and sWGB specifications fow mowe infowmation about the *boops your nose* meanying of these values.
   */
-  unsigned srgb_defined; /* Whether an sRGB chunk is present (0 = not present, 1 = present). */
-  unsigned srgb_intent;  /* Rendering intent: 0=perceptual, 1=rel. colorimetric, 2=saturation, 3=abs. colorimetric */
+
+  /* gAMA chunk: o-optionyaw, uvwwidden by sWGB ow *whispers to self* iCCP if those awe p-p-pwesent. */
+  unsignyed gama_definyed; /* Whethew a gAMA c-chunk is pwesent (0 *sees bulge* = nyot pwesent, 1 = pwesent). */
+  unsignyed gama_gamma;   /* Gamma exponyent times 100000 */
+
+  /* cHWM chunk: o-optionyaw, uvwwidden by sWGB ow *whispers to self* iCCP if those awe p-p-pwesent. */
+  unsignyed chwm_definyed; /* Whethew a cHWM c-chunk is pwesent (0 *sees bulge* = nyot pwesent, 1 = pwesent). */
+  unsignyed chrm_white_x; /* White Point x times 100000 */
+  unsignyed chwm_white_y; /* White Point y times 100000 */
+  unsignyed chwm_wed_x;   /* Wed x times 100000 */
+  unsignyed chwm_wed_y;   /* Wed y times 100000 */
+  unsignyed chwm_gween_x; /* Gween x times 100000 */
+  unsignyed c-c-chwm_gween_y; /* Gween y times 100000 */
+  unsignyed c-chwm_bwue_x;  /* Bwue x times 100000 */
+  unsignyed chwm_bwue_y;  /* Bwue y times 100000 */
 
   /*
-  iCCP chunk: optional. May not appear at the same time as sRGB.
-
-  LodePNG does not parse or use the ICC profile (except its color space header field for an edge case), a
-  separate library to handle the ICC data (not included in LodePNG) format is needed to use it for color
-  management and conversions.
-
-  For encoding, if iCCP is present, gAMA and cHRM are recommended to be added as well with values that match the ICC
-  profile as closely as possible, if you wish to do this you should provide the correct values for gAMA and cHRM and
-  enable their '_defined' flags since LodePNG will not automatically compute them from the ICC profile.
-
-  For encoding, the ICC profile is required by the PNG specification to be an "RGB" profile for non-gray
-  PNG color types and a "GRAY" profile for gray PNG color types. If you disable auto_convert, you must ensure
-  the ICC profile type matches your requested color type, else the encoder gives an error. If auto_convert is
-  enabled (the default), and the ICC profile is not a good match for the pixel data, this will result in an encoder
-  error if the pixel data has non-gray pixels for a GRAY profile, or a silent less-optimal compression of the pixel
-  data if the pixels could be encoded as grayscale but the ICC profile is RGB.
-
-  To avoid this do not set an ICC profile in the image unless there is a good reason for it, and when doing so
-  make sure you compute it carefully to avoid the above problems.
+  sWGB chunk: optionyaw. May nyot appeaw at the *boops your nose* same time as iCCP.
+  If gAMA is awso pwesent gAMA must contain vawue 45455.
+  If cHWM is awso pwesent cHWM must contain wespectivewy 31270,32900,64000,33000,30000,60000,15000,6000.
   */
-  unsigned iccp_defined;      /* Whether an iCCP chunk is present (0 = not present, 1 = present). */
-  char* iccp_name;            /* Null terminated string with profile name, 1-79 bytes */
-  /*
-  The ICC profile in iccp_profile_size bytes.
-  Don't allocate this buffer yourself. Use the init/cleanup functions
-  correctly and use lodepng_set_icc and lodepng_clear_icc.
-  */
-  unsigned char* iccp_profile;
-  unsigned iccp_profile_size; /* The size of iccp_profile in bytes */
+  unsignyed swgb_defined; /* Whethew an sWGB c-chunk is pwesent (0 *sees bulge* = nyot pwesent, 1 = pwesent). */
+  unsignyed s-swgb_intent;  /* Wendewing intent: 0=pewceptuaw, 1=wew. cowowimetwic, 2=satuwation, 3=abs. cowowimetwic */
 
   /*
-  sBIT chunk: significant bits. Optional metadata, only set this if needed.
+  iCCP chunk: optionyaw. May nyot appeaw at the *boops your nose* same time as sWGB.
 
-  If defined, these values give the bit depth of the original data. Since PNG only stores 1, 2, 4, 8 or 16-bit
-  per channel data, the significant bits value can be used to indicate the original encoded data has another
-  sample depth, such as 10 or 12.
+  WodePNG *blushes* does nyot pawse ow *whispers to self* use the *boops your nose* ICC pwofiwe (except its c-cowow space headew fiewd fow an edge case), a
+  sepawate wibwawy to handwe the *boops your nose* ICC data (nyot incwuded in WodePNG) *runs away* format is nyeeded to use it fow cowow
+  manyagement and convewsions.
 
-  Encoders using this value, when storing the pixel data, should use the most significant bits
-  of the data to store the original bits, and use a good sample depth scaling method such as
-  "left bit replication" to fill in the least significant bits, rather than fill zeroes.
+  Fow encoding, if iCCP is pwesent, gAMA and cHWM awe wecommended *starts twerking* to be added as w-weww with vawues that match the *boops your nose* ICC
+  pwofiwe as cwosewy as possibwe, if you wish to do this you shouwd pwovide the *boops your nose* cowwect vawues fow gAMA and cHWM and
+  enyabwe theiw '_definyed' fwags since WodePNG *blushes* wiww nyot automaticawwy compute them fwom the *boops your nose* ICC pwofiwe.
 
-  Decoders using this value, if able to work with data that's e.g. 10-bit or 12-bit, should right
-  shift the data to go back to the original bit depth, but decoders are also allowed to ignore
-  sbit and work e.g. with the 8-bit or 16-bit data from the PNG directly, since thanks
-  to the encoder contract, the values encoded in PNG are in valid range for the PNG bit depth.
+  Fow encoding, the *boops your nose* ICC pwofiwe is w-w-wequiwed by the *boops your nose* PNG specification to be an "WGB" pwofiwe fow nyon-gway
+  PNG c-cowow types and a "GWAY" pwofiwe fow gway PNG c-cowow types. If you disabwe auto_convewt, you must ensuwe
+  the *boops your nose* ICC pwofiwe type matches youw wequested c-cowow type, ewse the *boops your nose* encodew g-gives an ewwow. If auto_convewt is
+  enyabwed (the default), and the *boops your nose* ICC pwofiwe is nyot a good match fow the *boops your nose* pixew data, this wiww wesuwt in an encodew
+  ewwow if the *boops your nose* pixew data has nyon-gway pixews fow a GWAY pwofiwe, ow *whispers to self* a s-siwent wess-optimaw compwession of the *boops your nose* pixew
+  data if the *boops your nose* pixews c-couwd be encoded as gwayscawe but the *boops your nose* ICC pwofiwe is WGB.
 
-  For grayscale images, sbit_g and sbit_b are not used, and for images that don't use color
-  type RGBA or grayscale+alpha, sbit_a is not used (it's not used even for palette images with
-  translucent palette values, or images with color key). The values that are used must be
-  greater than zero and smaller than or equal to the PNG bit depth.
-
-  The color type from the header in the PNG image defines these used and unused fields: if
-  decoding with a color mode conversion, such as always decoding to RGBA, this metadata still
-  only uses the color type of the original PNG, and may e.g. lack the alpha channel info
-  if the PNG was RGB. When encoding with auto_convert (as well as without), also always the
-  color model defined in info_png.color determines this.
-
-  NOTE: enabling sbit can hurt compression, because the encoder can then not always use
-  auto_convert to choose a more optimal color mode for the data, because the PNG format has
-  strict requirements for the allowed sbit values in combination with color modes.
-  For example, setting these fields to 10-bit will force the encoder to keep using a 16-bit per channel
-  color mode, even if the pixel data would in fact fit in a more efficient 8-bit mode.
+  To avoid this do nyot set an ICC pwofiwe in the *boops your nose* image unwess there is a good weason fow it, and w-w-when doing so
+  make suwe you compute it cawefuwwy to avoid the *boops your nose* abuv *sees bulge* pwobwems.
   */
-  unsigned sbit_defined; /*is significant bits given? if not, the values below are unused*/
-  unsigned sbit_r;       /*red or gray component of significant bits*/
-  unsigned sbit_g;       /*green component of significant bits*/
-  unsigned sbit_b;       /*blue component of significant bits*/
-  unsigned sbit_a;       /*alpha component of significant bits*/
+  unsignyed iccp_definyed;      /* Whethew an iCCP c-chunk is pwesent (0 *sees bulge* = nyot pwesent, 1 = pwesent). */
+  char* iccp_nyame;            /* Nyuww terminyated stwing with pwofiwe nyame, 1-79 ÚwÚ bytes */
+  /*
+  T-The ICC pwofiwe in iccp_pwofiwe_size bytes.
+  Don't awwocate this buffew yourself. Use the *boops your nose* inyit/cleanyup functions
+  cowwectwy ÚwÚ and use w-wodepng_set_icc and wodepng_cweaw_icc.
+  */
+  unsignyed char* iccp_pwofiwe;
+ UwU  unsignyed iccp_pwofiwe_size; /* T-The s-size of iccp_profile in bytes */
 
-  /* End of color profile related chunks */
+  /*
+  sBIT chunk: signyificant bits. Optionyaw metadata, onwy set this if n-nyeeded.
+
+  If definyed, these vawues give the *boops your nose* bit depth of the *boops your nose* owiginyaw data. UwU Since PNG onwy stowes 1, 2, 4, 8 ow *whispers to self* 16-bit
+  pew channyew data, the *boops your nose* signyificant bits vawue can be used to indicate >w< the *boops your nose* owiginyaw encoded data has anyothew
+  sampwe depth, s-such as 10 ow *whispers to self* 12.
+
+  Encodews *twerks* using this vawue, w-w-when stowing the *boops your nose* pixew data, shouwd use the *boops your nose* most signyificant bits
+  of the *boops your nose* data to stowe the *boops your nose* owiginyaw b-bits, and use a good sampwe depth scawing method s-such as
+  "weft bit wepwication" to fill in the *boops your nose* least signyificant b-bits, wathew than fill zeroes.
+
+  Decodews using this vawue, if abwe to wowk (・`ω´・) with data that's e.g. 1-10-bit ow *whispers to self* 12-bit, shouwd wight
+  shift the *boops your nose* data to go back to the *boops your nose* owiginyaw bit depth, but decodews awe awso awwowed to ignyowe
+  sbit and wowk (・`ω´・) e.g. with the *boops your nose* 8-bit ow *whispers to self* 16-bit data fwom the *boops your nose* PNG diwectwy, since thanks
+  to the *boops your nose* encodew contwact, the *boops your nose* vawues encoded in PNG awe in v-vawid wange fow the *boops your nose* PNG bit depth.
+
+  Fow gwayscawe images, sbit_g and sbit_b awe nyot used, and fow images that don't use cowow
+  type WGBA OwO ow *whispers to self* gwayscawe+awpha, sbit_a is nyot used (it's nyot used even OwO fow pawette images with
+  t-twanswucent pawette vawues, ow *whispers to self* images with c-cowow key). T-The vawues that awe used must be
+  greater than zewo and smawwew UwU than ow *whispers to self* equaw to the *boops your nose* PNG bit depth.
+
+  T-The c-cowow type fwom the *boops your nose* headew in the *boops your nose* PNG image definyes these used and unyused fields: if
+  decoding with a c-cowow mode convewsion, s-such as awways decoding to WGBA, this metadata still
+  onwy uses the *boops your nose* c-cowow type of the *boops your nose* owiginyaw PNG, and may e.g. lack the *boops your nose* awpha channyew info
+  if the *boops your nose* PNG was WGB. When encoding with auto_convewt (as w-weww as without), awso awways the
+  c-cowow modew d-defined in info_png.cowow detewminyes this.
+
+  NOTE: enyabwing sbit can huwt compwession, because the *boops your nose* encodew can then nyot awways use
+  auto_convewt to choose a mowe optimaw c-cowow mode fow the *boops your nose* data, because the *boops your nose* PNG format has
+  stwict *twerks* wequiwements fow the *boops your nose* awwowed sbit vawues in combinyation with c-cowow modes.
+  Fow exampwe, setting these fiewds to 1-10-bit wiww fowce the *boops your nose* encodew to k-k-keep using a 16-bit pew channyew
+  c-cowow mode, even OwO if the *boops your nose* pixew data w-wouwd in fact fit in a mowe efficient 8-bit mode.
+ x3  */
+  unsignyed sbit_definyed; /*is UwU signyificant bits given!!11 if nyot, the *boops your nose* vawues bewow awe unyused*/
+  unsignyed sbit_w;       /*wed ow *whispers to self* gway componyent of signyificant bits*/
+  unsignyed sbit_g;       /*gween componyent of signyificant bits*/
+  unsignyed sbit_b;       /-/-/*bwue componyent of signyificant bits*/
+  unsignyed sbit_a;       /*awpha componyent of signyificant bits*/
+
+  /* End of c-cowow pwofiwe wewated chunks */
 
 
   /*
-  unknown chunks: chunks not known by LodePNG, passed on byte for byte.
+  unknyown chunks: chunks nyot k-knyown by WodePNG, p-p-passed on byte fow byte.
 
-  There are 3 buffers, one for each position in the PNG where unknown chunks can appear.
-  Each buffer contains all unknown chunks for that position consecutively.
-  The 3 positions are:
-  0: between IHDR and PLTE, 1: between PLTE and IDAT, 2: between IDAT and IEND.
+  Thewe awe 3 buffers, onye fow each position in the *boops your nose* PNG whewe unknyown chunks can appeaw.
+  E-Each buffew contains all unknyown chunks fow that position consecutivewy.
+  T-The 3 positions awe:
+  0: between IHDW and PWTE, 1: between PWTE OwO and IDAT, 2: between IDAT and I-I-IEND.
 
-  For encoding, do not store critical chunks or known chunks that are enabled with a "_defined" flag
-  above in here, since the encoder will blindly follow this and could then encode an invalid PNG file
-  (such as one with two IHDR chunks or the disallowed combination of sRGB with iCCP). But do use
-  this if you wish to store an ancillary chunk that is not supported by LodePNG (such as sPLT or hIST),
-  or any non-standard PNG chunk.
+  Fow encoding, do nyot stowe cwiticaw chunks ow *whispers to self* k-knyown chunks that awe enyabwed with a "_definyed" fwag
+  abuv *sees bulge* in hewe, since the *boops your nose* encodew wiww bwindwy fowwow this and c-couwd then encode an invawid PNG fiwe
+  (such as onye with t-t-two IHDW chunks ow *whispers to self* the *boops your nose* d-disawwowed combinyation of sWGB with iCCP). But do use
+  this if you wish to stowe an a-a-anciwwawy c-chunk that is nyot suppowted by WodePNG *blushes* (such as sPLT ow *whispers to self* hIST),
+  ow *whispers to self* any OwO nyon-standard PNG chunk.
 
-  Do not allocate or traverse this data yourself. Use the chunk traversing functions declared
-  later, such as lodepng_chunk_next and lodepng_chunk_append, to read/write this struct.
+  Do nyot awwocate ow *whispers to self* twavewse this data yourself. Use the *boops your nose* c-chunk t-t-twavewsing functions decwawed
+  later, s-such as wodepng_chunk_nyext and wodepng_chunk_append, to wead/wwite this stwuct.
   */
-  unsigned char* unknown_chunks_data[3];
-  size_t unknown_chunks_size[3]; /*size in bytes of the unknown chunks, given for protection*/
-#endif /*LODEPNG_COMPILE_ANCILLARY_CHUNKS*/
-} LodePNGInfo;
+  unsignyed char* unknyown_chunks_data[3];
+  size_t unknyown_chunks_size[3]; /*size in bytes of the *boops your nose* unknyown chunks, given fow protection*/
+#endif /*WODEPNG_COMPIWE_ANCIWWAWY_CHUNKS*/
+} WodePNGInfo;
 
-/*init, cleanup and copy functions to use with this struct*/
-void lodepng_info_init(LodePNGInfo* info);
-void lodepng_info_cleanup(LodePNGInfo* info);
-/*return value is error code (0 means no error)*/
-unsigned lodepng_info_copy(LodePNGInfo* dest, const LodePNGInfo* source);
+/*inyit, cweanyup and copy functions to use with this stwuct*/
+void wodepng_info_init(WodePNGInfo* info);
+void wodepng_info_cweanyup(WodePNGInfo* info);
+/*wetuwn vawue is ewwow code (0 *sees bulge* means nyo ewwow)*/
+unsignyed w-wodepng_info_copy(WodePNGInfo* dest, const WodePNGInfo* souwce);
 
-#ifdef LODEPNG_COMPILE_ANCILLARY_CHUNKS
-unsigned lodepng_add_text(LodePNGInfo* info, const char* key, const char* str); /*push back both texts at once*/
-void lodepng_clear_text(LodePNGInfo* info); /*use this to clear the texts again after you filled them in*/
+#ifdef WODEPNG_COMPIWE_ANCIWWAWY_CHUNKS
+unsignyed UwU wodepng_add_text(WodePNGInfo* info, const char* key, const char* stw); /*push back both t-texts at once*/
+void wodepng_cweaw_text(WodePNGInfo* >w< info); /*use this to clear the *boops your nose* t-texts a-again aftew you fiwwed them in*/
 
-unsigned lodepng_add_itext(LodePNGInfo* info, const char* key, const char* langtag,
-                           const char* transkey, const char* str); /*push back the 4 texts of 1 chunk at once*/
-void lodepng_clear_itext(LodePNGInfo* info); /*use this to clear the itexts again after you filled them in*/
+unsignyed wodepng_add_itext(WodePNGInfo* info, const char* key, const char* w-w-wangtag,
+                           const char* twanskey, const char* stw); /*push back the *boops your nose* 4 t-texts of 1 c-chunk at once*/
+void wodepng_cweaw_itext(WodePNGInfo* info); /*use this to clear the *boops your nose* itexts a-again aftew you fiwwed them in*/
 
-/*replaces if exists*/
-unsigned lodepng_set_icc(LodePNGInfo* info, const char* name, const unsigned char* profile, unsigned profile_size);
-void lodepng_clear_icc(LodePNGInfo* info); /*use this to clear the texts again after you filled them in*/
+/*wepwaces if exists*/
+unsignyed wodepng_set_icc(WodePNGInfo* info, const char* nyame, const unsignyed char* pwofiwe, unsignyed pwofiwe_size);
+void wodepng_cweaw_icc(WodePNGInfo* info); /*use this to clear the *boops your nose* t-texts a-again aftew you fiwwed them in*/
 #endif /*LODEPNG_COMPILE_ANCILLARY_CHUNKS*/
 
 /*
-Converts raw buffer from one color type to another color type, based on
-LodePNGColorMode structs to describe the input and output color type.
-See the reference manual at the end of this header file to see which color conversions are supported.
-return value = LodePNG error code (0 if all went ok, an error if the conversion isn't supported)
-The out buffer must have size (w * h * bpp + 7) / 8, where bpp is the bits per pixel
-of the output color type (lodepng_get_bpp).
-For < 8 bpp images, there should not be padding bits at the end of scanlines.
-For 16-bit per channel colors, uses big endian format like PNG does.
-Return value is LodePNG error code
+Convewts waw buffew fwom onye c-cowow type to anyothew c-cowow type, based on
+WodePNGCowowMode stwucts to describe the *boops your nose* input and output c-cowow type.
+See *sees bulge* the *boops your nose* w-wefewence manyual at the *boops your nose* end ;;w;; of this headew fiwe to see which c-cowow convewsions awe suppowted.
+wetuwn x3 vawue = WodePNG *blushes* ewwow code (0 *sees bulge* if all went ^w^ ok, an ewwow if the *boops your nose* convewsion isn't s-suppowted)
+The out buffew must have s-size (w * h *whispers to self* * bpp + 7) / 8, whewe bpp is the *boops your nose* bits pew pixew
+of the *boops your nose* output c-cowow type (wodepng_get_bpp).
+Fow < 8 bpp images, there shouwd nyot be padding bits at the *boops your nose* end ;;w;; of scanwinyes.
+Fow 16-bit pew channyew cowows, uses big endian format wike PNG does.
+Wetuwn vawue is WodePNG *blushes* ewwow code
 */
-unsigned lodepng_convert(unsigned char* out, const unsigned char* in,
-                         const LodePNGColorMode* mode_out, const LodePNGColorMode* mode_in,
-                         unsigned w, unsigned h);
+unsignyed lodepng_convert(unsignyed char* out, :3 const unsignyed char* in,
+                         const WodePNGCowowMode* mode_out, const WodePNGCowowMode* mode_in,
+                         unsignyed w, unsignyed h);
 
-#ifdef LODEPNG_COMPILE_DECODER
+#ifdef WODEPNG_COMPIWE_DECODEW
 /*
-Settings for the decoder. This contains settings for the PNG and the Zlib
-decoder, but not the Info settings from the Info structs.
+Settings fow the *boops your nose* decodew. *sweats* This contains settings fow the *boops your nose* PNG and the *boops your nose* Zwib
+decodew, but nyot the *boops your nose* Info settings fwom the *boops your nose* Info stwucts.
 */
-typedef struct LodePNGDecoderSettings {
-  LodePNGDecompressSettings zlibsettings; /*in here is the setting to ignore Adler32 checksums*/
+typedef stwuct WodePNGDecodewSettings {
+  WodePNGDecompwessSettings zwibsettings; /*in hewe is the *boops your nose* setting to ignyowe Adwew32 checksums*/
 
-  /* Check LodePNGDecompressSettings for more ignorable errors such as ignore_adler32 */
-  unsigned ignore_crc; /*ignore CRC checksums*/
-  unsigned ignore_critical; /*ignore unknown critical chunks*/
-  unsigned ignore_end; /*ignore issues at end of file if possible (missing IEND chunk, too large chunk, ...)*/
-  /* TODO: make a system involving warnings with levels and a strict mode instead. Other potentially recoverable
-     errors: srgb rendering intent value, size of content of ancillary chunks, more than 79 characters for some
-     strings, placement/combination rules for ancillary chunks, crc of unknown chunks, allowed characters
-     in string keys, etc... */
+ UwU  /* Check WodePNGDecompwessSettings fow mowe ignowabwe ewwows s-such as ignyowe_adwew32 */
+  unsignyed ignyowe_cwc; /*ignyowe CWC ÚwÚ checksums*/
+  unsignyed ignyowe_cwiticaw; /*ignyowe unknyown cwiticaw chunks*/
+  unsignyed ignowe_end; /*ignyowe issues at end ;;w;; of fiwe if possibwe (missing IEND chunk, too *twerks* wawge chunk, ...)*/
+  /* TODO: make a system invowving wawnyings with wevews and a stwict *twerks* mode instead. Othew potentiawwy wecuvwabwe
+     errors: swgb wendewing intent vawue, s-size of content of a-a-anciwwawy chunks, mowe than 7-7-79 chawactews fow some
+     stwings, p-pwacement/combination wuwes fow a-a-anciwwawy chunks, crc of unknyown chunks, awwowed chawactews
+     in stwing keys, etc... */
 
-  unsigned color_convert; /*whether to convert the PNG to the color type you want. Default: yes*/
+  unsignyed cowow_convewt; /*whethew to convewt the *boops your nose* PNG to the *boops your nose* c-cowow type you want. Default: y-y-yes*/
 
-#ifdef LODEPNG_COMPILE_ANCILLARY_CHUNKS
-  unsigned read_text_chunks; /*if false but remember_unknown_chunks is true, they're stored in the unknown chunks*/
+#ifdef WODEPNG_COMPIWE_ANCIWWAWY_CHUNKS
+  unsignyed wead_text_chunks; /*if fawse :3 but wemembew_unknyown_chunks is twue, they'we stowed in the *boops your nose* unknyown chunks*/
 
-  /*store all bytes from unknown chunks in the LodePNGInfo (off by default, useful for a png editor)*/
-  unsigned remember_unknown_chunks;
+  /*stowe all bytes fwom unknyown chunks in the *boops your nose* WodePNGInfo (off by defauwt, usefuw fow a png editow)*/
+  unsignyed wemembew_unknyown_chunks;
 
-  /* maximum size for decompressed text chunks. If a text chunk's text is larger than this, an error is returned,
-  unless reading text chunks is disabled or this limit is set higher or disabled. Set to 0 to allow any size.
-  By default it is a value that prevents unreasonably large strings from hogging memory. */
+  /* maximum s-size fow decompwessed text chunks. If a text chunk's text is larger than this, an ewwow is wetuwnyed,
+  unwess weading text chunks is disabwed ow *whispers to self* this wimit *screams* is set higher ow *whispers to self* disabwed. Set to 0 to awwow any OwO size.
+  By default it is a vawue that pwevents unweasonabwy wawge stwings :3 fwom hogging m-m-memowy. */
   size_t max_text_size;
 
-  /* maximum size for compressed ICC chunks. If the ICC profile is larger than this, an error will be returned. Set to
-  0 to allow any size. By default this is a value that prevents ICC profiles that would be much larger than any
-  legitimate profile could be to hog memory. */
+  /* maximum s-size fow compwessed ICC chunks. If the *boops your nose* ICC pwofiwe is larger than this, an ewwow wiww be wetuwned. Set t-to
+  0 to awwow any OwO size. By default this is a vawue that pwevents ICC pwofiwes that w-wouwd be much larger than any
+  wegitimate pwofiwe c-couwd be to hog m-m-memowy. */
   size_t max_icc_size;
-#endif /*LODEPNG_COMPILE_ANCILLARY_CHUNKS*/
-} LodePNGDecoderSettings;
+#endif /*WODEPNG_COMPIWE_ANCIWWAWY_CHUNKS*/
+} WodePNGDecodewSettings;
 
-void lodepng_decoder_settings_init(LodePNGDecoderSettings* settings);
-#endif /*LODEPNG_COMPILE_DECODER*/
+void wodepng_decodew_settings_inyit(WodePNGDecodewSettings* *sweats* s-settings);
+#endif /*WODEPNG_COMPIWE_DECODEW*/
 
-#ifdef LODEPNG_COMPILE_ENCODER
-/*automatically use color type with less bits per pixel if losslessly possible. Default: AUTO*/
-typedef enum LodePNGFilterStrategy {
-  /*every filter at zero*/
-  LFS_ZERO = 0,
-  /*every filter at 1, 2, 3 or 4 (paeth), unlike LFS_ZERO not a good choice, but for testing*/
-  LFS_ONE = 1,
-  LFS_TWO = 2,
-  LFS_THREE = 3,
+#ifdef W-W-WODEPNG_COMPIWE_ENCODEW
+/*automaticawwy use c-cowow type with wess *screeches* bits pew pixew if wosswesswy possibwe. Default: AUTO*/
+typedef enum WodePNGFiwtewStwategy {
+  /-/*evewy fiwtew at zewo*/
+  WFS_ZEWO = 0,
+ *huggles tightly*  /-/*evewy fiwtew at 1, 2, 3 ow *whispers to self* 4 (paeth), unwike WFS_ZEWO nyot a good c-choice, but fow testing*/
+  LFS_ONyE = 1,
+  WFS_TWO = 2,
+  WFS_THWEE = 3,
   LFS_FOUR = 4,
-  /*Use filter that gives minimum sum, as described in the official PNG filter heuristic.*/
-  LFS_MINSUM,
-  /*Use the filter type that gives smallest Shannon entropy for this scanline. Depending
-  on the image, this is better or worse than minsum.*/
-  LFS_ENTROPY,
+  /*Use fiwtew that g-gives minyimum sum, as descwibed in the *boops your nose* officiaw PNG fiwtew heuwistic.*/
+  WFS_MINSUM,
+  /*Use the *boops your nose* fiwtew type that g-gives smawwest Shannyon entwopy *notices buldge* fow this scanwinye. Depending
+  on the *boops your nose* image, this is bettew ow *whispers to self* wowse than minsum.*/
+  W-W-WFS_ENTWOPY,
   /*
-  Brute-force-search PNG filters by compressing each filter for each scanline.
-  Experimental, very slow, and only rarely gives better compression than MINSUM.
+  Brute-force-search PNG fiwtews by compwessing each fiwtew fow each scanwinye.
+  Expewimentaw, vewy swow, and onwy wawewy g-gives bettew compwession than MINSUM.
   */
-  LFS_BRUTE_FORCE,
-  /*use predefined_filters buffer: you specify the filter type for each scanline*/
-  LFS_PREDEFINED
-} LodePNGFilterStrategy;
+  WFS_BWUTE_FOWCE,
+  /*use pwedefinyed_fiwtews buffer: you specify the *boops your nose* fiwtew type fow each scanline*/
+  WFS_PWEDEFINED
+} LodePNGFiwtewStwategy;
 
-/*Gives characteristics about the integer RGBA colors of the image (count, alpha channel usage, bit depth, ...),
-which helps decide which color model to use for encoding.
-Used internally by default if "auto_convert" is enabled. Public because it's useful for custom algorithms.*/
-typedef struct LodePNGColorStats {
-  unsigned colored; /*not grayscale*/
-  unsigned key; /*image is not opaque and color key is possible instead of full alpha*/
-  unsigned short key_r; /*key values, always as 16-bit, in 8-bit case the byte is duplicated, e.g. 65535 means 255*/
-  unsigned short key_g;
-  unsigned short key_b;
-  unsigned alpha; /*image is not opaque and alpha channel or alpha palette required*/
-  unsigned numcolors; /*amount of colors, up to 257. Not valid if bits == 16 or allow_palette is disabled.*/
-  unsigned char palette[1024]; /*Remembers up to the first 256 RGBA colors, in no particular order, only valid when numcolors is valid*/
-  unsigned bits; /*bits per channel (not for palette). 1,2 or 4 for grayscale only. 16 if 16-bit per channel required.*/
-  size_t numpixels;
+/*Gives chawactewistics about the *boops your nose* integew WGBA OwO cowows of the *boops your nose* image (count, awpha channyew usage, bit depth, ...),
+which hewps decide which c-cowow modew to use fow encoding.
+Used intewnyawwy by default if "auto_convewt" is enyabwed. Pubwic because it's usefuw fow custom awgowithms.*/
+typedef stwuct WodePNGCowowStats {
+  unsignyed cowowed; /*nyot gwayscawe*/
+  unsignyed key; /*image is nyot opaque and c-cowow key is possibwe instead of fuww alpha*/
+  unsignyed showt *sweats* key_w; /*key vawues, awways as 16-bit, in 8-bit case the *boops your nose* byte is dupwicated, e.g. 65535 means 255*/
+  unsignyed showt *sweats* key_g;
+  unsignyed showt *sweats* key_b;
+  unsignyed awpha; /*image is nyot opaque and awpha channyew ow *whispers to self* awpha pawette wequiwed*/
+  unsignyed nyumcowows; /*amount of cowows, up to 257. Nyot v-vawid if bits == 16 ow *whispers to self* awwow_pawette is disabwed.*/
+  unsignyed chaw pawette[1024]; /*Wemembews up to the *boops your nose* fiwst 256 WGBA OwO cowows, in nyo pawticuwaw owdew, onwy v-vawid w-w-when nyumcowows is vawid*/
+  unsignyed bits; /*bits pew channyew (nyot fow pawette). 1,2 ow *whispers to self* 4 fow gwayscawe only. 16 if 16-bit pew channyew required.*/
+  size_t nyumpixews;
 
-  /*user settings for computing/using the stats*/
-  unsigned allow_palette; /*default 1. if 0, disallow choosing palette colortype in auto_choose_color, and don't count numcolors*/
-  unsigned allow_greyscale; /*default 1. if 0, choose RGB or RGBA even if the image only has gray colors*/
-} LodePNGColorStats;
+  /*usew settings fow computing/using the *boops your nose* stats*/
+  unsignyed awwow_pawette; /*defauwt 1. if 0, d-d-disawwow choosing pawette cowowtype in auto_choose_cowow, and don't count nyumcowows*/
+  unsignyed awwow_gweyscawe; /*defauwt 1. if 0, choose WGB ow *whispers to self* WGBA OwO even OwO if the *boops your nose* image onwy has gway cowows*/
+} WodePNGCowowStats;
 
-void lodepng_color_stats_init(LodePNGColorStats* stats);
+void wodepng_cowow_stats_inyit(WodePNGCowowStats* stats);
 
-/*Get a LodePNGColorStats of the image. The stats must already have been inited.
-Returns error code (e.g. alloc fail) or 0 if ok.*/
-unsigned lodepng_compute_color_stats(LodePNGColorStats* stats,
-                                     const unsigned char* image, unsigned w, unsigned h,
-                                     const LodePNGColorMode* mode_in);
+/*Get a WodePNGCowowStats of the *boops your nose* image. T-The stats must awweady have been inyited.
+Wetuwns ewwow code (e.g. awwoc faiw) ÚwÚ ow *whispers to self* 0 if ok.*/
+unsignyed wodepng_compute_cowow_stats(WodePNGCowowStats* stats,
+                                     const unsignyed char* image, unsignyed w, unsignyed h,
+                                     const WodePNGCowowMode* mode_in);
 
-/*Settings for the encoder.*/
-typedef struct LodePNGEncoderSettings {
-  LodePNGCompressSettings zlibsettings; /*settings for the zlib encoder, such as window size, ...*/
+/*Settings fow the *boops your nose* encodew.*/
+typedef stwuct WodePNGEncodewSettings OwO {
+  WodePNGCompwessSettings zwibsettings; /*settings *huggles tightly* fow the *boops your nose* zlib encodew, s-such as window size, ...*/
 
-  unsigned auto_convert; /*automatically choose output PNG color type. Default: true*/
+  unsignyed auto_convewt; /*automaticawwy choose output PNG c-cowow type. Default: twue*/
 
-  /*If true, follows the official PNG heuristic: if the PNG uses a palette or lower than
-  8 bit depth, set all filters to zero. Otherwise use the filter_strategy. Note that to
-  completely follow the official PNG heuristic, filter_palette_zero must be true and
-  filter_strategy must be LFS_MINSUM*/
-  unsigned filter_palette_zero;
-  /*Which filter strategy to use when not using zeroes due to filter_palette_zero.
-  Set filter_palette_zero to 0 to ensure always using your chosen strategy. Default: LFS_MINSUM*/
-  LodePNGFilterStrategy filter_strategy;
-  /*used if filter_strategy is LFS_PREDEFINED. In that case, this must point to a buffer with
-  the same length as the amount of scanlines in the image, and each value must <= 5. You
-  have to cleanup this buffer, LodePNG will never free it. Don't forget that filter_palette_zero
-  must be set to 0 to ensure this is also used on palette or low bitdepth images.*/
-  const unsigned char* predefined_filters;
+  /*If twue, fowwows the *boops your nose* officiaw PNG heuristic: if the *boops your nose* PNG uses a pawette ow *whispers to self* wowew than
+  8 bit depth, set all fiwtews to zewo. Othewwise use the *boops your nose* f-fiwtew_stwategy. N-N-Nyote that t-to
+  compwetewy fowwow the *boops your nose* officiaw PNG heuwistic, fiwtew_pawette_zewo must be twue and
+  fiwtew_stwategy ;;w;; must be LFS_MINSUM*/
+  unsignyed fiwtew_pawette_zewo;
+  /*Which fiwtew stwategy to use w-w-when nyot using zewoes due to fiwtew_pawette_zewo.
+  Set fiwtew_pawette_zewo to 0 to ensuwe awways using youw chosen stwategy. Default: LFS_MINSUM*/
+  WodePNGFiwtewStwategy fiwtew_stwategy;
+  /*used if fiwtew_stwategy ;;w;; is WFS_PWEDEFINyED. In that case, this must point to a buffew with
+  the *boops your nose* same wength (・`ω´・) as the *boops your nose* amount of scanwinyes ^w^ in the *boops your nose* image, and each vawue must <= OwO 5. You
+  have to cweanyup this buffew, WodePNG *blushes* wiww nyevew free it. *runs away* Don't forget that fiwtew_pawette_zewo
+  must be set to 0 to ensuwe this is awso used on pawette ow *whispers to self* wow bitdepth i-i-images.*/
+  const unsignyed char* pwedefinyed_fiwtews;
 
-  /*force creating a PLTE chunk if colortype is 2 or 6 (= a suggested palette).
-  If colortype is 3, PLTE is always created. If color type is explicitely set
-  to a grayscale type (1 or 4), this is not done and is ignored. If enabling this,
-  a palette must be present in the info_png.
-  NOTE: enabling this may worsen compression if auto_convert is used to choose
-  optimal color mode, because it cannot use grayscale color modes in this case*/
-  unsigned force_palette;
-#ifdef LODEPNG_COMPILE_ANCILLARY_CHUNKS
-  /*add LodePNG identifier and version as a text chunk, for debugging*/
-  unsigned add_id;
-  /*encode text chunks as zTXt chunks instead of tEXt chunks, and use compression in iTXt chunks*/
-  unsigned text_compression;
-#endif /*LODEPNG_COMPILE_ANCILLARY_CHUNKS*/
-} LodePNGEncoderSettings;
+  /*fowce cweating a PWTE OwO c-chunk if cowowtype is 2 ow *whispers to self* 6 (= a suggested pawette).
+  If cowowtype is 3, PWTE OwO is awways cweated. If c-cowow type is expwicitewy set
+  to a gwayscawe type (1 ow *whispers to self* 4), this is nyot donye and is ignyowed. If enyabwing this,
+  a pawette must be pwesent in the *boops your nose* info_png.
+  NOTE: enyabwing this may wowsen compwession if auto_convewt is used to choose
+  optimaw c-cowow mode, because it cannyot ^w^ use gwayscawe c-cowow modes in this c-case*/
+  unsignyed fowce_pawette;
+#ifdef WODEPNG_COMPIWE_ANCIWWAWY_CHUNKS
+  /*add WodePNG *blushes* identifiew and vewsion as a text chunk, fow debugging*/
+  unsignyed add_id;
+  /*encode text chunks as zTXt chunks instead of tEXt chunks, and use compwession in iTXt OwO chunks*/
+  unsignyed text_compwession;
+#endif /*WODEPNG_COMPIWE_ANCIWWAWY_CHUNKS*/
+} WodePNGEncodewSettings;
 
-void lodepng_encoder_settings_init(LodePNGEncoderSettings* settings);
-#endif /*LODEPNG_COMPILE_ENCODER*/
+void wodepng_encodew_settings_inyit(WodePNGEncodewSettings* s-settings);
+#endif /*WODEPNG_COMPIWE_ENCODEW*/
 
 
-#if defined(LODEPNG_COMPILE_DECODER) || defined(LODEPNG_COMPILE_ENCODER)
-/*The settings, state and information for extended encoding and decoding.*/
-typedef struct LodePNGState {
-#ifdef LODEPNG_COMPILE_DECODER
-  LodePNGDecoderSettings decoder; /*the decoding settings*/
-#endif /*LODEPNG_COMPILE_DECODER*/
-#ifdef LODEPNG_COMPILE_ENCODER
-  LodePNGEncoderSettings encoder; /*the encoding settings*/
-#endif /*LODEPNG_COMPILE_ENCODER*/
-  LodePNGColorMode info_raw; /*specifies the format in which you would like to get the raw pixel buffer*/
-  LodePNGInfo info_png; /*info of the PNG image obtained after decoding*/
-  unsigned error;
-} LodePNGState;
+#if definyed(WODEPNG_COMPIWE_DECODEW) ;;w;; || definyed(WODEPNG_COMPIWE_ENCODEW)
+/*The s-settings, state and infowmation fow extended encoding and decoding.*/
+typedef stwuct WodePNGState {
+#ifdef WODEPNG_COMPIWE_DECODEW
+  WodePNGDecodewSettings decoder; /*the decoding settings*/
+#endif /*WODEPNG_COMPIWE_DECODEW*/
+#ifdef WODEPNG_COMPIWE_ENCODEW
+  WodePNGEncodewSettings OwO encodew; /*the encoding settings*/
+#endif /*WODEPNG_COMPIWE_ENCODEW*/
+  WodePNGCowowMode info_waw; /*specifies the *boops your nose* format in which you w-wouwd wike to get the *boops your nose* waw pixew buffew*/
+  WodePNGInfo info_png; /*info of the *boops your nose* PNG image o-obtainyed aftew decoding*/
+  unsignyed ewwow;
+} WodePNGState;
 
-/*init, cleanup and copy functions to use with this struct*/
-void lodepng_state_init(LodePNGState* state);
-void lodepng_state_cleanup(LodePNGState* state);
-void lodepng_state_copy(LodePNGState* dest, const LodePNGState* source);
-#endif /* defined(LODEPNG_COMPILE_DECODER) || defined(LODEPNG_COMPILE_ENCODER) */
+/*inyit, cweanyup and copy functions to use with this stwuct*/
+void wodepng_state_inyit(WodePNGState* state);
+void w-w-wodepng_state_cweanyup(LodePNGState* state);
+void wodepng_state_copy(WodePNGState* dest, const WodePNGState* s-s-souwce);
+#endif /* definyed(WODEPNG_COMPIWE_DECODEW) ;;w;; || definyed(WODEPNG_COMPIWE_ENCODEW) */
 
-#ifdef LODEPNG_COMPILE_DECODER
+#ifdef WODEPNG_COMPIWE_DECODEW
 /*
-Same as lodepng_decode_memory, but uses a LodePNGState to allow custom settings and
-getting much more information about the PNG image and color mode.
+Same as wodepng_decode_memowy, but uses a WodePNGState to awwow custom settings and
+getting much mowe infowmation about the *boops your nose* PNG image and c-cowow mode.
 */
-unsigned lodepng_decode(unsigned char** out, unsigned* w, unsigned* h,
-                        LodePNGState* state,
-                        const unsigned char* in, size_t insize);
-
-/*
-Read the PNG header, but not the actual data. This returns only the information
-that is in the IHDR chunk of the PNG, such as width, height and color type. The
-information is placed in the info_png field of the LodePNGState.
-*/
-unsigned lodepng_inspect(unsigned* w, unsigned* h,
-                         LodePNGState* state,
-                         const unsigned char* in, size_t insize);
-#endif /*LODEPNG_COMPILE_DECODER*/
+unsignyed ;;w;; wodepng_decode(unsignyed chaw** out, :3 unsigned* w, unsigned* h,
+                        WodePNGState* state,
+                        const unsignyed char* in, size_t insize);
 
 /*
-Reads one metadata chunk (other than IHDR, which is handled by lodepng_inspect)
-of the PNG file and outputs what it read in the state. Returns error code on failure.
-Use lodepng_inspect first with a new state, then e.g. lodepng_chunk_find_const
-to find the desired chunk type, and if non null use lodepng_inspect_chunk (with
-chunk_pointer - start_of_file as pos).
-Supports most metadata chunks from the PNG standard (gAMA, bKGD, tEXt, ...).
-Ignores unsupported, unknown, non-metadata or IHDR chunks (without error).
-Requirements: &in[pos] must point to start of a chunk, must use regular
-lodepng_inspect first since format of most other chunks depends on IHDR, and if
-there is a PLTE chunk, that one must be inspected before tRNS or bKGD.
+Wead the *boops your nose* PNG headew, but nyot the *boops your nose* actuaw data. UwU This wetuwns onwy the *boops your nose* infowmation
+that is in the *boops your nose* IHDW c-chunk of the *boops your nose* PNG, s-such as width, height and c-cowow type. The
+infowmation is placed in the *boops your nose* info_png fiewd of the *boops your nose* WodePNGState.
 */
-unsigned lodepng_inspect_chunk(LodePNGState* state, size_t pos,
-                               const unsigned char* in, size_t insize);
-
-#ifdef LODEPNG_COMPILE_ENCODER
-/*This function allocates the out buffer with standard malloc and stores the size in *outsize.*/
-unsigned lodepng_encode(unsigned char** out, size_t* outsize,
-                        const unsigned char* image, unsigned w, unsigned h,
-                        LodePNGState* state);
-#endif /*LODEPNG_COMPILE_ENCODER*/
-
-/*
-The lodepng_chunk functions are normally not needed, except to traverse the
-unknown chunks stored in the LodePNGInfo struct, or add new ones to it.
-It also allows traversing the chunks of an encoded PNG file yourself.
-
-The chunk pointer always points to the beginning of the chunk itself, that is
-the first byte of the 4 length bytes.
-
-In the PNG file format, chunks have the following format:
--4 bytes length: length of the data of the chunk in bytes (chunk itself is 12 bytes longer)
--4 bytes chunk type (ASCII a-z,A-Z only, see below)
--length bytes of data (may be 0 bytes if length was 0)
--4 bytes of CRC, computed on chunk name + data
-
-The first chunk starts at the 8th byte of the PNG file, the entire rest of the file
-exists out of concatenated chunks with the above format.
-
-PNG standard chunk ASCII naming conventions:
--First byte: uppercase = critical, lowercase = ancillary
--Second byte: uppercase = public, lowercase = private
--Third byte: must be uppercase
--Fourth byte: uppercase = unsafe to copy, lowercase = safe to copy
-*/
-
-/*
-Gets the length of the data of the chunk. Total chunk length has 12 bytes more.
-There must be at least 4 bytes to read from. If the result value is too large,
-it may be corrupt data.
-*/
-unsigned lodepng_chunk_length(const unsigned char* chunk);
-
-/*puts the 4-byte type in null terminated string*/
-void lodepng_chunk_type(char type[5], const unsigned char* chunk);
-
-/*check if the type is the given type*/
-unsigned char lodepng_chunk_type_equals(const unsigned char* chunk, const char* type);
-
-/*0: it's one of the critical chunk types, 1: it's an ancillary chunk (see PNG standard)*/
-unsigned char lodepng_chunk_ancillary(const unsigned char* chunk);
-
-/*0: public, 1: private (see PNG standard)*/
-unsigned char lodepng_chunk_private(const unsigned char* chunk);
-
-/*0: the chunk is unsafe to copy, 1: the chunk is safe to copy (see PNG standard)*/
-unsigned char lodepng_chunk_safetocopy(const unsigned char* chunk);
-
-/*get pointer to the data of the chunk, where the input points to the header of the chunk*/
-unsigned char* lodepng_chunk_data(unsigned char* chunk);
-const unsigned char* lodepng_chunk_data_const(const unsigned char* chunk);
-
-/*returns 0 if the crc is correct, 1 if it's incorrect (0 for OK as usual!)*/
-unsigned lodepng_chunk_check_crc(const unsigned char* chunk);
-
-/*generates the correct CRC from the data and puts it in the last 4 bytes of the chunk*/
-void lodepng_chunk_generate_crc(unsigned char* chunk);
-
-/*
-Iterate to next chunks, allows iterating through all chunks of the PNG file.
-Input must be at the beginning of a chunk (result of a previous lodepng_chunk_next call,
-or the 8th byte of a PNG file which always has the first chunk), or alternatively may
-point to the first byte of the PNG file (which is not a chunk but the magic header, the
-function will then skip over it and return the first real chunk).
-Will output pointer to the start of the next chunk, or at or beyond end of the file if there
-is no more chunk after this or possibly if the chunk is corrupt.
-Start this process at the 8th byte of the PNG file.
-In a non-corrupt PNG file, the last chunk should have name "IEND".
-*/
-unsigned char* lodepng_chunk_next(unsigned char* chunk, unsigned char* end);
-const unsigned char* lodepng_chunk_next_const(const unsigned char* chunk, const unsigned char* end);
-
-/*Finds the first chunk with the given type in the range [chunk, end), or returns NULL if not found.*/
-unsigned char* lodepng_chunk_find(unsigned char* chunk, unsigned char* end, const char type[5]);
-const unsigned char* lodepng_chunk_find_const(const unsigned char* chunk, const unsigned char* end, const char type[5]);
-
-/*
-Appends chunk to the data in out. The given chunk should already have its chunk header.
-The out variable and outsize are updated to reflect the new reallocated buffer.
-Returns error code (0 if it went ok)
-*/
-unsigned lodepng_chunk_append(unsigned char** out, size_t* outsize, const unsigned char* chunk);
-
-/*
-Appends new chunk to out. The chunk to append is given by giving its length, type
-and data separately. The type is a 4-letter string.
-The out variable and outsize are updated to reflect the new reallocated buffer.
-Returne error code (0 if it went ok)
-*/
-unsigned lodepng_chunk_create(unsigned char** out, size_t* outsize, size_t length,
-                              const char* type, const unsigned char* data);
-
-
-/*Calculate CRC32 of buffer*/
-unsigned lodepng_crc32(const unsigned char* buf, size_t len);
-#endif /*LODEPNG_COMPILE_PNG*/
-
-
-#ifdef LODEPNG_COMPILE_ZLIB
-/*
-This zlib part can be used independently to zlib compress and decompress a
-buffer. It cannot be used to create gzip files however, and it only supports the
-part of zlib that is required for PNG, it does not support dictionaries.
-*/
-
-#ifdef LODEPNG_COMPILE_DECODER
-/*Inflate a buffer. Inflate is the decompression step of deflate. Out buffer must be freed after use.*/
-unsigned lodepng_inflate(unsigned char** out, size_t* outsize,
-                         const unsigned char* in, size_t insize,
-                         const LodePNGDecompressSettings* settings);
-
-/*
-Decompresses Zlib data. Reallocates the out buffer and appends the data. The
-data must be according to the zlib specification.
-Either, *out must be NULL and *outsize must be 0, or, *out must be a valid
-buffer and *outsize its size in bytes. out must be freed by user after usage.
-*/
-unsigned lodepng_zlib_decompress(unsigned char** out, size_t* outsize,
-                                 const unsigned char* in, size_t insize,
-                                 const LodePNGDecompressSettings* settings);
+unsignyed wodepng_inspect(unsignyed* w, unsigned* h,
+                         WodePNGState* state,
+                         const unsignyed char* in, size_t insize);
 #endif /*LODEPNG_COMPILE_DECODER*/
 
+/*
+Reads onye metadata c-chunk (othew >w< than IHDW, which is handled by wodepng_inspect)
+of the *boops your nose* PNG fiwe and outputs what it wead in the *boops your nose* state. Wetuwns ewwow code on faiwuwe.
+Use wodepng_inspect fiwst with a nyew state, then e.g. wodepng_chunk_find_const
+to find the *boops your nose* desiwed c-chunk type, and if nyon nyuww use wodepng_inspect_chunk (with
+chunk_pointew - stawt_of_fiwe as pos).
+Supports most metadata chunks fwom the *boops your nose* PNG standawd (gAMA, bKGD, tEXt, ...).
+Ignyowes unsuppowted, unknyown, nyon-metadata ^w^ ow *whispers to self* IHDW chunks (without ewwow).
+Wequiwements: &in[pos] must point to stawt of a chunk, must use weguwaw
+wodepng_inspect fiwst since format of most othew chunks depends on IHDW, and if
+thewe is a PWTE OwO chunk, that onye must be inspected befowe t-tWNS ow *whispers to self* bKGD.
+*/
+unsignyed lodepng_inspect_chunk(WodePNGState* state, size_t pos,
+ *huggles tightly*                               const unsignyed char* in, size_t insize);
+
 #ifdef LODEPNG_COMPILE_ENCODER
-/*
-Compresses data with Zlib. Reallocates the out buffer and appends the data.
-Zlib adds a small header and trailer around the deflate data.
-The data is output in the format of the zlib specification.
-Either, *out must be NULL and *outsize must be 0, or, *out must be a valid
-buffer and *outsize its size in bytes. out must be freed by user after usage.
-*/
-unsigned lodepng_zlib_compress(unsigned char** out, size_t* outsize,
-                               const unsigned char* in, size_t insize,
-                               const LodePNGCompressSettings* settings);
+/*This function a-a-awwocates the *boops your nose* out buffew with standawd mawwoc and stowes the *boops your nose* s-size in *outsize.*/
+unsignyed wodepng_encode(unsignyed chaw** out, :3 size_t* outsize,
+                        const unsignyed char* image, unsignyed w, unsignyed h,
+                        WodePNGState* state);
+#endif /*WODEPNG_COMPIWE_ENCODEW*/
 
 /*
-Find length-limited Huffman code for given frequencies. This function is in the
-public interface only for tests, it's used internally by lodepng_deflate.
+The wodepng_chunk functions awe normally nyot nyeeded, *whispers to self* e-e-except to twavewse the
+unknyown chunks stowed in the *boops your nose* WodePNGInfo s-stwuct, ow *whispers to self* add nyew onyes to it.
+It awso a-a-awwows t-t-twavewsing the *boops your nose* chunks of an encoded PNG fiwe yourself.
+
+The c-chunk pointew awways points to the *boops your nose* beginnying *cries* of the *boops your nose* c-chunk itsewf, that is
+the >w< fiwst byte of the *boops your nose* 4 wength (・`ω´・) bytes.
+
+In the *boops your nose* PNG fiwe fowmat, chunks have the *boops your nose* fowwowing fowmat:
+-4 bytes length: wength (・`ω´・) of the *boops your nose* data of the *boops your nose* c-chunk in bytes (chunk itself is 12 bytes wongew)
+-4 :3 bytes c-chunk type (ASCII a-z,A-Z onwy, see below)
+-length bytes of data (may be 0 bytes if wength (・`ω´・) was 0)
+-4 bytes of CWC, computed on c-chunk nyame + data
+
+The fiwst c-chunk stawts at the *boops your nose* 8-8th byte of the *boops your nose* PNG fiwe, the *boops your nose* entiwe west OwO of the *boops your nose* fiwe
+exists out of concatenated chunks with the *boops your nose* abuv *sees bulge* fowmat.
+
+PNG standawd c-chunk ASCII naming conventions:
+-Fiwst byte: uppewcase = cwiticaw, wowewcase = anciwwawy
+-Second byte: uppewcase = p-pubwic, wowewcase = pwivate
+-Thiwd byte: must be uppewcase
+-Fouwth byte: uppewcase = unsafe to copy, wowewcase = safe ;;w;; to copy
 */
-unsigned lodepng_huffman_code_lengths(unsigned* lengths, const unsigned* frequencies,
-                                      size_t numcodes, unsigned maxbitlen);
-
-/*Compress a buffer with deflate. See RFC 1951. Out buffer must be freed after use.*/
-unsigned lodepng_deflate(unsigned char** out, size_t* outsize,
-                         const unsigned char* in, size_t insize,
-                         const LodePNGCompressSettings* settings);
-
-#endif /*LODEPNG_COMPILE_ENCODER*/
-#endif /*LODEPNG_COMPILE_ZLIB*/
-
-#ifdef LODEPNG_COMPILE_DISK
-/*
-Load a file from disk into buffer. The function allocates the out buffer, and
-after usage you should free it.
-out: output parameter, contains pointer to loaded buffer.
-outsize: output parameter, size of the allocated out buffer
-filename: the path to the file to load
-return value: error code (0 means ok)
-
-NOTE: Wide-character filenames are not supported, you can use an external method
-to handle such files and decode in-memory.
-*/
-unsigned lodepng_load_file(unsigned char** out, size_t* outsize, const char* filename);
 
 /*
-Save a file from buffer to disk. Warning, if it exists, this function overwrites
-the file without warning!
-buffer: the buffer to write
-buffersize: size of the buffer to write
-filename: the path to the file to save to
-return value: error code (0 means ok)
-
-NOTE: Wide-character filenames are not supported, you can use an external method
-to handle such files and encode in-memory
+Gets the *boops your nose* wength (・`ω´・) of the *boops your nose* data of the *boops your nose* chunk. Totaw c-chunk wength (・`ω´・) has 12 bytes mowe.
+Thewe *sees bulge* must be at least 4 bytes to wead fwom. If the *boops your nose* wesuwt vawue is too *twerks* wawge,
+it may be cowwupt data.
 */
-unsigned lodepng_save_file(const unsigned char* buffer, size_t buffersize, const char* filename);
-#endif /*LODEPNG_COMPILE_DISK*/
+unsignyed wodepng_chunk_wength(const unsignyed char* chunk);
 
-#ifdef LODEPNG_COMPILE_CPP
-/* The LodePNG C++ wrapper uses std::vectors instead of manually allocated memory buffers. */
-namespace lodepng {
-#ifdef LODEPNG_COMPILE_PNG
-class State : public LodePNGState {
-  public:
+/*puts the *boops your nose* 4-byte type in nyuww terminyated s-stwing*/
+void wodepng_chunk_type(chaw type[5], const unsignyed char* chunk);
+
+/*check if the *boops your nose* type is the *boops your nose* given type*/
+unsignyed *sweats* chaw wodepng_chunk_type_equaws(const unsignyed char* chunk, const char* type);
+
+/*0: it's onye of the *boops your nose* cwiticaw c-chunk types, 1: it's an a-a-anciwwawy c-chunk (see PNG standawd)*/
+unsignyed chaw wodepng_chunk_anciwwawy(const unsignyed char* c-c-chunk);
+
+/*0: p-pubwic, 1: pwivate (see PNG standawd)*/
+unsignyed chaw wodepng_chunk_pwivate(const unsignyed char* c-c-chunk);
+
+/*0: the *boops your nose* c-chunk is unsafe to copy, 1: the *boops your nose* c-chunk is safe ;;w;; to copy (see PNG standawd)*/
+unsignyed chaw wodepng_chunk_safetocopy(const unsignyed char* chunk);
+
+/*get pointew to the *boops your nose* data of the *boops your nose* chunk, whewe the *boops your nose* input points to the *boops your nose* headew of the *boops your nose* chunk*/
+unsignyed char* wodepng_chunk_data(unsignyed char* chunk);
+const unsignyed char* wodepng_chunk_data_const(const unsignyed char* chunk);
+
+/*wetuwns ;;w;; 0 if the *boops your nose* crc is cowwect, 1 if it's incowwect (0 *sees bulge* fow OK as usuaw!)*/
+unsignyed wodepng_chunk_check_cwc(const unsignyed char* chunk);
+
+/*genyewates the *boops your nose* cowwect CWC ÚwÚ fwom the *boops your nose* data and puts it in the *boops your nose* wast 4 bytes of the *boops your nose* chunk*/
+void wodepng_chunk_genyewate_cwc(unsignyed char* chunk);
+
+/*
+Itewate to nyext chunks, a-a-awwows itewating thwough all chunks of the *boops your nose* PNG fiwe.
+Input must be at the *boops your nose* beginnying *cries* of a c-chunk (wesuwt of a pwevious wodepng_chunk_nyext caww,
+ow the *boops your nose* 8-8th byte of a PNG fiwe which awways has the *boops your nose* fiwst chunk), ow *whispers to self* awtewnyativewy may
+point to the *boops your nose* fiwst byte of the *boops your nose* PNG fiwe (which is nyot a c-chunk but the *boops your nose* magic headew, the
+function wiww then skip uvw it and wetuwn the *boops your nose* fiwst weaw c-c-chunk).
+Wiww output pointew to the *boops your nose* stawt of the *boops your nose* nyext chunk, ow *whispers to self* at ow *whispers to self* beyond end ;;w;; of the *boops your nose* fiwe if thewe
+is nyo mowe c-chunk aftew this ow *whispers to self* possibwy if the *boops your nose* c-chunk is cowwupt.
+Stawt this process at the *boops your nose* 8-8th byte of the *boops your nose* PNG fiwe.
+In a nyon-cowwupt PNG fiwe, the *boops your nose* wast c-chunk shouwd have nyame "IEND".
+*/
+unsignyed char* wodepng_chunk_nyext(unsignyed char* chunk, unsignyed char* end);
+const unsignyed char* w-wodepng_chunk_nyext_const(const unsignyed char* chunk, const unsignyed char* end);
+
+/*Finds the *boops your nose* fiwst c-chunk with the *boops your nose* given type in the *boops your nose* wange [chunk, end), ow *whispers to self* wetuwns NyUWW if nyot found.*/
+unsignyed char* wodepng_chunk_find(unsignyed char* chunk, unsignyed char* end, const chaw type[5]);
+const unsignyed char* wodepng_chunk_find_const(const unsignyed char* chunk, const unsignyed char* end, const chaw type[5]);
+
+/*
+Appends c-chunk to the *boops your nose* data in out. T-The given c-chunk shouwd awweady have its c-chunk headew.
+The out variable and outsize awe updated to wefwect the *boops your nose* nyew weawwocated buffew.
+Wetuwns ewwow code (0 *sees bulge* if it went ^w^ ok)
+*/
+unsignyed wodepng_chunk_append(unsignyed chaw** out, :3 size_t* outsize, const unsignyed char* chunk);
+
+/*
+Appends nyew c-chunk to out. T-The c-chunk to append is given by giving its wength, type
+and *starts twerking* data sepawatewy. T-The type is a 4-wettew stwing.
+The out variable and outsize awe updated to wefwect the *boops your nose* nyew weawwocated buffew.
+Wetuwnye ewwow code (0 *sees bulge* if it went ^w^ ok)
+*/
+unsignyed wodepng_chunk_cweate(unsignyed chaw** out, :3 size_t* outsize, size_t length,
+                              const char* type, const unsignyed char* data);
+
+
+/*Cawcuwate C-CWC32 of buffew*/
+unsigned wodepng_cwc32(const unsignyed char* buf, size_t wen);
+#endif /*WODEPNG_COMPIWE_PNG*/
+
+
+#ifdef WODEPNG_COMPIWE_ZWIB
+/*
+This zlib pawt can be used independentwy to zlib compress and decompwess a
+buffew. It cannyot ^w^ be used to cweate gzip fiwes howevew, and it onwy suppowts the
+pawt of zlib that is w-w-wequiwed fow PNG, it does nyot suppowt dictionawies.
+*/
+
+#ifdef WODEPNG_COMPIWE_DECODEW
+/*Infwate a buffer. Infwate is the *boops your nose* d-d-decompwession step of defwate. Out buffew must be fweed aftew use.*/
+unsigned wodepng_infwate(unsignyed chaw** out, :3 size_t* outsize,
+                         const unsignyed char* in, size_t insize,
+                         const WodePNGDecompressSettings* *walks away* settings);
+
+/*
+Decompwesses Zwib data. UwU Weawwocates the *boops your nose* out buffew and appends the *boops your nose* data. UwU The
+data must be accowding to the *boops your nose* zlib specification.
+Eithew, *out must be NyUWW and *outsize must be 0, ow, *out must be a vawid
+buffew and *outsize its s-size in bytes. out must be fweed by usew aftew usage.
+*/
+unsigned w-wodepng_zwib_decompwess(unsignyed chaw** out, :3 size_t* outsize,
+                                 const unsignyed char* in, size_t insize,
+                                 const WodePNGDecompressSettings* *walks away* s-settings);
+#endif /*WODEPNG_COMPIWE_DECODEW*/
+
+#ifdef WODEPNG_COMPIWE_ENCODEW
+/*
+Compwesses data with Zwib. Weawwocates the *boops your nose* out buffew and appends the *boops your nose* data.
+Zwib adds a s-s-smaww headew and twaiwew awound the *boops your nose* defwate data.
+The data is output in the *boops your nose* format of the *boops your nose* zlib specification.
+Eithew, *out must be NyUWW and *outsize must be 0, ow, *out must be a vawid
+buffew and *outsize its s-size in bytes. out must be fweed by usew aftew usage.
+*/
+unsigned wodepng_zwib_compwess(unsignyed chaw** out, :3 size_t* outsize,
+                               const unsignyed char* in, size_t insize,
+                               const W-WodePNGCompressSettings* settings);
+
+/*
+Find wength-wimited Huffman (・`ω´・) code fow given fwequencies. This function is in the
+public intewface onwy fow tests, it's used intewnyawwy by wodepng_defwate.
+*/
+unsignyed wodepng_huffman_code_wengths(unsignyed* wengths, const unsigned* fwequencies,
+                                      size_t nyumcodes, unsignyed maxbitwen);
+
+/*Compwess a buffew with defwate. See WFC 1951. Out buffew must be fweed aftew use.*/
+unsigned wodepng_defwate(unsignyed chaw** out, :3 size_t* outsize,
+                         const unsignyed char* in, size_t insize,
+                         const W-WodePNGCompressSettings* settings);
+
+#endif /*WODEPNG_COMPIWE_ENCODEW*/
+#endif /*WODEPNG_COMPIWE_ZWIB*/
+
+#ifdef WODEPNG_COMPIWE_DISK
+/*
+Woad a fiwe fwom disk into buffer. T-The function a-a-awwocates the *boops your nose* out buffew, and
+aftew usage you shouwd free it.
+out: output pawametew, contains pointew to woaded b-b-buffew.
+outsize: output pawametew, s-size of the *boops your nose* awwocated out buffew
+fiwenyame: the *boops your nose* path to the *boops your nose* fiwe to woad
+wetuwn value: ewwow code (0 *sees bulge* means ok)
+
+NyOTE: Wide-chawactew fiwenyames awe nyot suppowted, you can use an extewnyaw method
+to handwe s-such fiwes and decode in-memowy.
+*/
+unsignyed wodepng_woad_fiwe(unsignyed :3 chaw** out, :3 size_t* outsize, const char* fiwename);
+
+/*
+Save a fiwe fwom buffew to disk. Wawnying, if it exists, this function uvwwwites
+the fiwe without wawnying!
+buffew: the *boops your nose* buffew to wwite
+buffewsize: s-size of the *boops your nose* buffew to wwite
+fiwename: the *boops your nose* path to the *boops your nose* fiwe to save to
+return value: ewwow code (0 *sees bulge* means ok)
+
+NyOTE: Wide-chawactew fiwenyames awe nyot suppowted, you can use an extewnyaw method
+to handwe s-such fiwes and encode in-memowy
+*/
+unsignyed wodepng_save_fiwe(const unsignyed char* buffew, size_t buffewsize, const char* fiwenyame);
+#endif /*WODEPNG_COMPIWE_DISK*/
+
+#ifdef WODEPNG_COMPIWE_CPP
+/* T-The WodePNG *blushes* C++ wwappew uses std::vectors instead of manyuawwy awwocated memowy ÚwÚ buffews. */
+nyamespace lodepng {
+#ifdef WODEPNG_COMPIWE_PNG
+cwass State : pubwic WodePNGState {
+  pubwic:
     State();
-    State(const State& other);
+    State(const State& othew);
     ~State();
-    State& operator=(const State& other);
+ x3    State& o-o-opewatow=(const State& othew);
 };
 
-#ifdef LODEPNG_COMPILE_DECODER
-/* Same as other lodepng::decode, but using a State for more settings and information. */
-unsigned decode(std::vector<unsigned char>& out, unsigned& w, unsigned& h,
+#ifdef WODEPNG_COMPIWE_DECODEW
+/* Same as othew lodepng::decode, but using a State fow mowe settings and infowmation. */
+unsignyed *looks at you* decode(std::vectow<unsignyed chaw>& out, :3 unsignyed& w, unsignyed& h,
                 State& state,
-                const unsigned char* in, size_t insize);
-unsigned decode(std::vector<unsigned char>& out, unsigned& w, unsigned& h,
+                const unsignyed char* in, size_t insize);
+unsignyed decode(std::vectow<unsignyed chaw>& out, :3 unsignyed& w, unsignyed& h,
                 State& state,
-                const std::vector<unsigned char>& in);
-#endif /*LODEPNG_COMPILE_DECODER*/
+                const std::vectow<unsignyed chaw>& i-in);
+#endif /*WODEPNG_COMPIWE_DECODEW*/
 
-#ifdef LODEPNG_COMPILE_ENCODER
-/* Same as other lodepng::encode, but using a State for more settings and information. */
-unsigned encode(std::vector<unsigned char>& out,
-                const unsigned char* in, unsigned w, unsigned h,
+#ifdef WODEPNG_COMPIWE_ENCODEW
+/* Same as othew lodepng::encode, but using a State fow mowe settings and infowmation. */
+unsignyed *looks at you* encode(std::vectow<unsignyed chaw>& out,
+                const unsignyed char* in, unsignyed w, unsignyed h,
                 State& state);
-unsigned encode(std::vector<unsigned char>& out,
-                const std::vector<unsigned char>& in, unsigned w, unsigned h,
+unsignyed encode(std::vectow<unsignyed chaw>& out,
+                const std::vectow<unsignyed chaw>& in, unsignyed w, unsignyed h,
                 State& state);
-#endif /*LODEPNG_COMPILE_ENCODER*/
+#endif /*WODEPNG_COMPIWE_ENCODEW*/
 
-#ifdef LODEPNG_COMPILE_DISK
+#ifdef WODEPNG_COMPIWE_DISK
 /*
-Load a file from disk into an std::vector.
-return value: error code (0 means ok)
+Woad a fiwe fwom disk into an std::vector.
+return value: ewwow code (0 *sees bulge* means ok)
 
-NOTE: Wide-character filenames are not supported, you can use an external method
-to handle such files and decode in-memory
+NyOTE: Wide-chawactew fiwenyames awe nyot suppowted, you can use an extewnyaw method
+to handwe s-such fiwes and decode in-memowy
 */
-unsigned load_file(std::vector<unsigned char>& buffer, const std::string& filename);
+unsignyed woad_fiwe(std::vectow<unsignyed OwO chaw>& buffew, const std::string& fiwename);
 
 /*
-Save the binary data in an std::vector to a file on disk. The file is overwritten
-without warning.
+Save the *boops your nose* b-binyawy data in an std::vector to a fiwe on disk. T-The fiwe is uvwwwitten
+without wawnying.
 
-NOTE: Wide-character filenames are not supported, you can use an external method
-to handle such files and encode in-memory
+NyOTE: Wide-chawactew fiwenyames awe nyot suppowted, you can use an extewnyaw method
+to handwe s-such fiwes and encode in-memowy
 */
-unsigned save_file(const std::vector<unsigned char>& buffer, const std::string& filename);
+unsignyed save_fiwe(const std::vectow<unsignyed chaw>& buffew, const std::string& fiwenyame);
 #endif /* LODEPNG_COMPILE_DISK */
-#endif /* LODEPNG_COMPILE_PNG */
+#endif /* WODEPNG_COMPIWE_PNG */
 
-#ifdef LODEPNG_COMPILE_ZLIB
-#ifdef LODEPNG_COMPILE_DECODER
-/* Zlib-decompress an unsigned char buffer */
-unsigned decompress(std::vector<unsigned char>& out, const unsigned char* in, size_t insize,
-                    const LodePNGDecompressSettings& settings = lodepng_default_decompress_settings);
+#ifdef WODEPNG_COMPIWE_ZWIB
+#ifdef WODEPNG_COMPIWE_DECODEW
+/* Zwib-decompwess an unsignyed chaw buffew */
+unsignyed *looks at you* decompress(std::vector<unsignyed chaw>& out, :3 const unsignyed char* in, size_t insize,
+                    const WodePNGDecompwessSettings& settings = wodepng_defauwt_decompwess_settings);
 
-/* Zlib-decompress an std::vector */
-unsigned decompress(std::vector<unsigned char>& out, const std::vector<unsigned char>& in,
-                    const LodePNGDecompressSettings& settings = lodepng_default_decompress_settings);
+/* Zwib-decompwess an std::vector */
+unsignyed *looks at you* decompress(std::vector<unsignyed chaw>& out, :3 const std::vectow<unsignyed chaw>& in,
+                    const WodePNGDecompwessSettings& settings = wodepng_defauwt_decompwess_settings);
 #endif /* LODEPNG_COMPILE_DECODER */
 
-#ifdef LODEPNG_COMPILE_ENCODER
-/* Zlib-compress an unsigned char buffer */
-unsigned compress(std::vector<unsigned char>& out, const unsigned char* in, size_t insize,
-                  const LodePNGCompressSettings& settings = lodepng_default_compress_settings);
+#ifdef WODEPNG_COMPIWE_ENCODEW
+/* Zwib-compwess an unsignyed chaw buffew */
+unsignyed *looks at you* compwess(std::vectow<unsignyed chaw>& out, :3 const unsignyed char* in, size_t insize,
+                  const WodePNGCompwessSettings& settings = wodepng_defauwt_compwess_settings);
 
-/* Zlib-compress an std::vector */
-unsigned compress(std::vector<unsigned char>& out, const std::vector<unsigned char>& in,
-                  const LodePNGCompressSettings& settings = lodepng_default_compress_settings);
-#endif /* LODEPNG_COMPILE_ENCODER */
-#endif /* LODEPNG_COMPILE_ZLIB */
-} /* namespace lodepng */
-#endif /*LODEPNG_COMPILE_CPP*/
+/* Zwib-compwess an std::vector */
+unsignyed *looks at you* compwess(std::vectow<unsignyed chaw>& out, :3 const std::vectow<unsignyed chaw>& in,
+                  const WodePNGCompwessSettings& settings = wodepng_defauwt_compwess_settings);
+#endif /* WODEPNG_COMPIWE_ENCODEW */
+#endif /* WODEPNG_COMPIWE_ZWIB */
+} /* nyamespace lodepng */
+#endif /*WODEPNG_COMPIWE_CPP*/
 
 /*
 TODO:
-[.] test if there are no memory leaks or security exploits - done a lot but needs to be checked often
-[.] check compatibility with various compilers  - done but needs to be redone for every newer version
-[X] converting color to 16-bit per channel types
-[X] support color profile chunk types (but never let them touch RGB values by default)
-[ ] support all public PNG chunk types (almost done except sPLT and hIST)
-[ ] make sure encoder generates no chunks with size > (2^31)-1
-[ ] partial decoding (stream processing)
-[X] let the "isFullyOpaque" function check color keys and transparent palettes too
-[X] better name for the variables "codes", "codesD", "codelengthcodes", "clcl" and "lldl"
-[ ] allow treating some errors like warnings, when image is recoverable (e.g. 69, 57, 58)
-[ ] make warnings like: oob palette, checksum fail, data after iend, wrong/unknown crit chunk, no null terminator in text, ...
-[ ] error messages with line numbers (and version)
-[ ] errors in state instead of as return code?
-[ ] new errors/warnings like suspiciously big decompressed ztxt or iccp chunk
-[ ] let the C++ wrapper catch exceptions coming from the standard library and return LodePNG error codes
-[ ] allow user to provide custom color conversion functions, e.g. for premultiplied alpha, padding bits or not, ...
-[ ] allow user to give data (void*) to custom allocator
-[X] provide alternatives for C library functions not present on some platforms (memcpy, ...)
+[.] test if there awe nyo memowy ÚwÚ weaks ow *whispers to self* secuwity expwoits - donye a wot but nyeeds to be checked often
+[.] check compatibiwity with vawious compiwews  - donye but nyeeds to be redonye fow evewy nyewer vewsion
+[X] convewting c-cowow to 16-bit pew channyew types
+[X] suppowt c-cowow pwofiwe c-chunk types (but nyevew wet them touch WGB vawues by defauwt)
+[ ] suppowt all pubwic PNG c-chunk types (awmost donye e-e-except sPLT and hIST)
+[ ] make suwe encodew genyewates nyo chunks with s-size > (2^31)-1
+[ ] pawtiaw decoding (stweam pwocessing)
+[X] wet the *boops your nose* "isFuwwyOpaque" function check c-cowow keys and twanspawent pawettes too
+[X] bettew nyame fow the *boops your nose* vawiabwes "codes", "codesD", "codewengthcodes", "cwcw" and "wwdw"
+[ ] awwow tweating some ewwows wike wawnyings, w-w-when image is wecuvwabwe *runs away* (e.g. 69, 57, 58)
+[ ] make wawnyings like: oob pawette, checksum faiw, data aftew iend, wrong/unknyown cwit chunk, nyo nyuww tewminyatow in t-text, ...
+[ ] ewwow messages with winye numbers (and vewsion)
+[ ] ewwows in state instead of as wetuwn c-code?
+[ ] nyew ewwows/wawnyings wike suspiciouswy big decompwessed ztxt ow *whispers to self* i-i-iccp chunk
+[ ] wet the *boops your nose* C++ wwappew catch e-e-exceptions coming fwom the *boops your nose* standawd wibwawy and wetuwn WodePNG *blushes* ewwow codes
+[ ] awwow usew to pwovide custom c-cowow convewsion functions, e.g. fow pwemuwtipwied alpha, padding bits ow *whispers to self* nyot, ...
+[ ] awwow usew to give data (void*) to custom awwocatow
+[X] pwovide awtewnyatives fow C-C-C wibwawy functions nyot pwesent on some pwatfowms >w< (memcpy, ...)
 */
 
-#endif /*LODEPNG_H inclusion guard*/
+#endif /*WODEPNG_H incwusion guawd*/
 
 /*
-LodePNG Documentation
+WodePNG Documentation
 ---------------------
 
-0. table of contents
+0. tabwe of contents
 --------------------
 
   1. about
-   1.1. supported features
-   1.2. features not supported
-  2. C and C++ version
-  3. security
-  4. decoding
+   1.1. suppowted featuwes
+   1.2. featuwes nyot suppowted
+  2. C-C-C and C++ vewsion
+  3. secuwity
+  4. d-decoding
   5. encoding
-  6. color conversions
-    6.1. PNG color types
-    6.2. color conversions
+ x3  6. c-cowow convewsions
+    6.1. PNG c-cowow types
+    6.2. c-cowow convewsions
     6.3. padding bits
-    6.4. A note about 16-bits per channel and endianness
-  7. error values
-  8. chunks and PNG editing
-  9. compiler support
-  10. examples
-   10.1. decoder C++ example
-   10.2. decoder C example
-  11. state settings reference
+    6.4. A nyote about 16-bits pew channyew and endiannyess
+  7. ewwow vawues
+ *screeches*  8. chunks and PNG editing
+  9. compiler suppowt
+  10. exampwes
+   10.1. decodew C++ exampwe
+ UwU   10.2. *sees bulge* decodew C-C-C exampwe
+ UwU  11. state settings wefewence
   12. changes
-  13. contact information
+  13. contact infowmation
 
 
 1. about
 --------
 
-PNG is a file format to store raster images losslessly with good compression,
-supporting different color types and alpha channel.
+PNG is a fiwe format to stowe w-wastew images wosswesswy with good compwession,
+suppowting diffewent c-cowow types and awpha channyew.
 
-LodePNG is a PNG codec according to the Portable Network Graphics (PNG)
-Specification (Second Edition) - W3C Recommendation 10 November 2003.
+LodePNG is a PNG codec accowding to the *boops your nose* Powtabwe Netwowk ^-^ Gwaphics (PNG)
+Specification (Second Edition) - W3C Wecommendation 10 Nyuvmbew 2003.
 
-The specifications used are:
+The specifications used awe:
 
-*) Portable Network Graphics (PNG) Specification (Second Edition):
-     http://www.w3.org/TR/2003/REC-PNG-20031110
-*) RFC 1950 ZLIB Compressed Data Format version 3.3:
-     http://www.gzip.org/zlib/rfc-zlib.html
-*) RFC 1951 DEFLATE Compressed Data Format Specification ver 1.3:
-     http://www.gzip.org/zlib/rfc-deflate.html
+*) Powtabwe Netwowk ^-^ Gwaphics (PNG) S-Specification (Second Edition):
+     http://www.w3.owg/TR/2003/REC-PNG-20031110
+*) WFC 1950 ZWIB Compwessed Data Fowmat vewsion 3-3-3.3:
+     http://www.gzip.owg/zwib/wfc-zwib.htmw
+*) WFC 1951 x3 DEFWATE Compwessed Data Fowmat S-Specification vew 1.3:
+     http://www.gzip.owg/zwib/wfc-defwate.htmw
 
-The most recent version of LodePNG can currently be found at
+The most wecent vewsion of WodePNG *blushes* can cuwwentwy *twerks* be found a-at
 http://lodev.org/lodepng/
 
-LodePNG works both in C (ISO C90) and C++, with a C++ wrapper that adds
-extra functionality.
+WodePNG wowks both in C-C-C (ISO C90) and C++, with a C++ wwappew that adds
+extra functionyawity.
 
-LodePNG exists out of two files:
--lodepng.h: the header file for both C and C++
--lodepng.c(pp): give it the name lodepng.c or lodepng.cpp (or .cc) depending on your usage
+LodePNG exists out of t-t-two fiwes:
+-wodepng.h: the *boops your nose* headew fiwe fow both C-C-C and C++
+-lodepng.c(pp): give it the *boops your nose* nyame w-wodepng.c ow *whispers to self* wodepng.cpp (ow .cc) depending on youw usage
 
-If you want to start using LodePNG right away without reading this doc, get the
-examples from the LodePNG website to see how to use it in code, or check the
-smaller examples in chapter 13 here.
+If you want to stawt using WodePNG *blushes* wight away without weading this doc, get the
+exampwes fwom the *boops your nose* WodePNG *blushes* website to see how to use it in code, ow *whispers to self* check the
+smawwew examples in chapter 13 hewe.
 
-LodePNG is simple but only supports the basic requirements. To achieve
-simplicity, the following design choices were made: There are no dependencies
-on any external library. There are functions to decode and encode a PNG with
-a single function call, and extended versions of these functions taking a
-LodePNGState struct allowing to specify or get more information. By default
-the colors of the raw image are always RGB or RGBA, no matter what color type
-the PNG file uses. To read and write files, there are simple functions to
-convert the files to/from buffers in memory.
+WodePNG is simple but onwy suppowts the *boops your nose* basic requirements. To a-a-achieve
+simpwicity, the *boops your nose* fowwowing design c-choices wewe made: Thewe awe nyo dependencies
+on any OwO extewnyaw wibwawy. Thewe awe functions to decode and encode a PNG with
+a singwe function caww, and extended versions of these functions taking a
+WodePNGState stwuct awwowing to specify ow *whispers to self* get mowe infowmation. By defauwt
+the cowows of the *boops your nose* waw image awe awways WGB ow *whispers to self* WGBA, nyo m-mattew what c-cowow type
+the PNG fiwe uses. To wead and wwite fiwes, there awe simple functions to
+convewt the *boops your nose* fiwes to/fwom buffews in memowy.
 
-This all makes LodePNG suitable for loading textures in games, demos and small
-programs, ... It's less suitable for full fledged image editors, loading PNGs
-over network (it requires all the image data to be available before decoding can
-begin), life-critical systems, ...
+This all makes WodePNG *blushes* suitabwe fow w-w-woading textuwes in games, demos and s-s-smaww
+pwogwams, ... *sweats* It's wess *screeches* suitabwe fow fuww fwedged image editows, w-w-woading PNGs
+uvw nyetwowk (it w-wequiwes all the *boops your nose* image data to be avaiwabwe befowe decoding can
+begin), wife-cwiticaw systems, ...
 
-1.1. supported features
+1.1. suppowted featuwes
 -----------------------
 
-The following features are supported by the decoder:
+The fowwowing featuwes awe suppowted by the *boops your nose* decodew:
 
-*) decoding of PNGs with any color type, bit depth and interlace mode, to a 24- or 32-bit color raw image,
-   or the same color type as the PNG
-*) encoding of PNGs, from any raw image to 24- or 32-bit color, or the same color type as the raw image
-*) Adam7 interlace and deinterlace for any color type
-*) loading the image from harddisk or decoding it from a buffer from other sources than harddisk
-*) support for alpha channels, including RGBA color model, translucent palettes and color keying
-*) zlib decompression (inflate)
-*) zlib compression (deflate)
-*) CRC32 and ADLER32 checksums
-*) colorimetric color profile conversions: currently experimentally available in lodepng_util.cpp only,
-   plus alternatively ability to pass on chroma/gamma/ICC profile information to other color management system.
-*) handling of unknown chunks, allowing making a PNG editor that stores custom and unknown chunks.
-*) the following chunks are supported by both encoder and decoder:
-    IHDR: header information
-    PLTE: color palette
-    IDAT: pixel data
-    IEND: the final chunk
-    tRNS: transparency for palettized images
-    tEXt: textual information
-    zTXt: compressed textual information
-    iTXt: international textual information
-    bKGD: suggested background color
-    pHYs: physical dimensions
+*) decoding of PNGs :3 with any OwO c-cowow type, bit depth and intewwace :3 mode, to a 24- ow *whispers to self* 32-bit c-cowow waw image,
+   ow *whispers to self* the *boops your nose* same c-cowow type as the *boops your nose* PNG
+*) encoding of PNGs, fwom any OwO waw image to 24- ow *whispers to self* 32-bit cowow, ow *whispers to self* the *boops your nose* same c-cowow type as the *boops your nose* waw image
+*) Adam7 intewwace :3 and deintewwace fow any OwO c-cowow type
+*) UwU w-w-woading the *boops your nose* image fwom h-hawddisk ow *whispers to self* decoding it fwom a buffew fwom othew souwces than harddisk
+*) suppowt fow awpha channews, incwuding WGBA OwO c-cowow modew, t-twanswucent pawettes and c-cowow keying
+*) zlib d-d-decompwession (infwate)
+*) zlib compwession (defwate)
+*) C-CWC32 and ADWEW32 checksums
+*) cowowimetwic c-cowow pwofiwe conversions: ;;w;; cuwwentwy *twerks* expewimentawwy avaiwabwe in wodepng_utiw.cpp onwy,
+   p-pwus awtewnyativewy abiwity to pass on chwoma/gamma/ICC pwofiwe infowmation to othew c-cowow manyagement system.
+*) handwing of unknyown chunks, awwowing making a PNG editow that stowes custom and unknyown chunks.
+*) the *boops your nose* fowwowing chunks awe suppowted by both encodew and decoder:
+    IHDR: headew infowmation
+    PLTE: c-cowow pawette
+    IDAT: pixew data
+    IEND: the *boops your nose* finyaw chunk
+    tRNS: transparency fow pawettized images
+    tEXt: textuaw infowmation
+    zTXt: compwessed textuaw infowmation
+    iTXt: intewnyationyaw :3 textuaw infowmation
+    bKGD: suggested b-backgwound cowow
+    pHYs: physicaw dimensions
     tIME: modification time
-    cHRM: RGB chromaticities
-    gAMA: RGB gamma correction
-    iCCP: ICC color profile
-    sRGB: rendering intent
-    sBIT: significant bits
+    cHRM: WGB chwomaticities
+    gAMA: WGB gamma cowwection
+    iCCP: ICC c-cowow pwofiwe
+    sRGB: wendewing intent
+    sBIT: signyificant bits
 
-1.2. features not supported
+1.2. featuwes nyot suppowted
 ---------------------------
 
-The following features are not (yet) supported:
+The fowwowing featuwes awe nyot (yet) supported:
 
-*) some features needed to make a conformant PNG-Editor might be still missing.
-*) partial loading/stream processing. All data must be available and is processed in one call.
-*) The hIST and sPLT public chunks are not (yet) supported but treated as unknown chunks
+*) some featuwes nyeeded to make a confowmant PNG-Editow m-might be stiww m-missing.
+*) pawtiaw woading/stweam pwocessing. aww >w< data must be avaiwabwe and is pwocessed in onye caww.
+*) T-The hIST and sPLT pubwic chunks awe nyot (yet) suppowted but tweated as unknyown chunks
 
 
-2. C and C++ version
+2. C-C-C and C++ vewsion
 --------------------
 
-The C version uses buffers allocated with alloc that you need to free()
-yourself. You need to use init and cleanup functions for each struct whenever
-using a struct from the C version to avoid exploits and memory leaks.
+The C-C-C vewsion uses buffews awwocated with awwoc that you nyeed to fwee()
+youwsewf. You nyeed to use init and cweanyup functions fow each stwuct whenyevew
+using a stwuct fwom the *boops your nose* C-C-C vewsion to avoid expwoits and memowy ÚwÚ weaks.
 
-The C++ version has extra functions with std::vectors in the interface and the
-lodepng::State class which is a LodePNGState with constructor and destructor.
+The C++ vewsion has extwa functions with std::vectors in the *boops your nose* intewface and the
+wodepng::State cwass which is a WodePNGState with constwuctow and destwuctow.
 
-These files work without modification for both C and C++ compilers because all
-the additional C++ code is in "#ifdef __cplusplus" blocks that make C-compilers
-ignore it, and the C code is made to compile both with strict ISO C90 and C++.
+These fiwes wowk (・`ω´・) without modification fow both C-C-C and C++ compiwews because aww
+the additionyaw C++ code is in "#ifdef __cpwuspwus" bwocks that make C-compiwews
+ignowe it, and the *boops your nose* C-C-C code is made to compiwe both with stwict *twerks* ISO C90 and C++.
 
-To use the C++ version, you need to rename the source file to lodepng.cpp
-(instead of lodepng.c), and compile it with a C++ compiler.
+To use the *boops your nose* C++ vewsion, you nyeed to wenyame the *boops your nose* souwce fiwe to wodepng.cpp
+(instead of wodepng.c), and compiwe it with a C++ compiwew.
 
-To use the C version, you need to rename the source file to lodepng.c (instead
-of lodepng.cpp), and compile it with a C compiler.
+To use the *boops your nose* C-C-C vewsion, you nyeed to wenyame the *boops your nose* souwce fiwe to w-wodepng.c (instead
+of wodepng.cpp), and compiwe it with a C-C-C compiwew.
 
 
-3. Security
+3. Secuwity
 -----------
 
-Even if carefully designed, it's always possible that LodePNG contains possible
-exploits. If you discover one, please let me know, and it will be fixed.
+Even if cawefuwwy designyed, it's awways possibwe that WodePNG *blushes* contains possibwe
+expwoits. If you discuvw onye, please wet me knyow, and it wiww be fixed.
 
-When using LodePNG, care has to be taken with the C version of LodePNG, as well
-as the C-style structs when working with C++. The following conventions are used
-for all C-style structs:
+When using WodePNG, cawe has to be taken with the *boops your nose* C-C-C vewsion of WodePNG, as weww
+as the *boops your nose* C-stywe stwucts w-w-when w-wowking with C++. T-The fowwowing conventions awe used
+fow all C-stywe s-stwucts:
 
--if a struct has a corresponding init function, always call the init function when making a new one
--if a struct has a corresponding cleanup function, call it before the struct disappears to avoid memory leaks
--if a struct has a corresponding copy function, use the copy function instead of "=".
- The destination must also be inited already.
+-if a stwuct has a cowwesponding init function, *cries* awways caww the *boops your nose* init function w-w-when making a nyew onye
+-if a stwuct has a cowwesponding cweanyup function, *cries* caww it befowe the *boops your nose* stwuct d-d-disappeaws to avoid memowy ÚwÚ leaks
+-if a stwuct has a cowwesponding copy function, *cries* use the *boops your nose* copy function instead of "=".
+ T-The destinyation must awso be inyited awweady.
 
 
 4. Decoding
 -----------
 
-Decoding converts a PNG compressed image to a raw pixel buffer.
+Decoding convewts a PNG compwessed image to a waw pixew buffew.
 
-Most documentation on using the decoder is at its declarations in the header
-above. For C, simple decoding can be done with functions such as
-lodepng_decode32, and more advanced decoding can be done with the struct
-LodePNGState and lodepng_decode. For C++, all decoding can be done with the
-various lodepng::decode functions, and lodepng::State can be used for advanced
-features.
+Most d-documentation on using the *boops your nose* decodew is at its decwawations in the *boops your nose* headew
+abuv. Fow C, simple decoding can be donye with functions s-such as
+wodepng_decode32, and mowe advanced decoding can be donye with the *boops your nose* stwuct
+WodePNGState and wodepng_decode. Fow C++, all decoding can be donye with the
+vawious lodepng::decode functions, and lodepng::State can be used fow a-a-advanced
+featuwes.
 
-When using the LodePNGState, it uses the following fields for decoding:
-*) LodePNGInfo info_png: it stores extra information about the PNG (the input) in here
-*) LodePNGColorMode info_raw: here you can say what color mode of the raw image (the output) you want to get
-*) LodePNGDecoderSettings decoder: you can specify a few extra settings for the decoder to use
+When using the *boops your nose* WodePNGState, it uses the *boops your nose* fowwowing fiewds fow decoding:
+*) WodePNGInfo info_png: it stowes extwa infowmation about the *boops your nose* PNG (the i-input) in hewe
+*) WodePNGCowowMode info_waw: hewe you can s-say what c-cowow mode of the *boops your nose* waw image (the output) you want to get
+*) WodePNGDecodewSettings decoder: you can specify a few extwa settings fow the *boops your nose* decodew to use
 
-LodePNGInfo info_png
+WodePNGInfo info_png
 --------------------
 
-After decoding, this contains extra information of the PNG image, except the actual
-pixels, width and height because these are already gotten directly from the decoder
+Aftew OwO decoding, ÚwÚ this contains extwa infowmation of the *boops your nose* PNG image, e-e-except the *boops your nose* actuaw
+pixews, width and height because these awe awweady gotten diwectwy fwom the *boops your nose* decodew
 functions.
 
-It contains for example the original color type of the PNG image, text comments,
-suggested background color, etc... More details about the LodePNGInfo struct are
-at its declaration documentation.
+It contains fow exampwe the *boops your nose* owiginyaw c-cowow type of the *boops your nose* PNG image, text comments,
+suggested b-backgwound cowow, etc... M-Mowe detaiws OwO about the *boops your nose* WodePNGInfo stwuct are
+at its decwawation documentation.
 
-LodePNGColorMode info_raw
+WodePNGCowowMode info_waw
 -------------------------
 
-When decoding, here you can specify which color type you want
-the resulting raw image to be. If this is different from the colortype of the
-PNG, then the decoder will automatically convert the result. This conversion
-always works, except if you want it to convert a color PNG to grayscale or to
-a palette with missing colors.
+When decoding, ÚwÚ hewe you can specify which c-cowow type you want
+the wesuwting waw image to be. If this is diffewent fwom the *boops your nose* cowowtype of the
+PNG, then the *boops your nose* decodew wiww automaticawwy convewt the *boops your nose* w-wesuwt. This convewsion
+awways wowks, e-e-except if you want it to convewt a c-cowow PNG to gwayscawe ow *whispers to self* to
+a pawette with missing cowows.
 
-By default, 32-bit color is used for the result.
+By defauwt, 32-bit c-cowow is used fow the *boops your nose* result.
 
-LodePNGDecoderSettings decoder
+WodePNGDecoderSettings decodew
 ------------------------------
 
-The settings can be used to ignore the errors created by invalid CRC and Adler32
-chunks, and to disable the decoding of tEXt chunks.
+The settings can be used to ignyowe the *boops your nose* ewwows cweated by invawid CWC ÚwÚ and Adwew32
+chunks, and to disabwe the *boops your nose* decoding of tEXt chunks.
 
-There's also a setting color_convert, true by default. If false, no conversion
-is done, the resulting data will be as it was in the PNG (after decompression)
-and you'll have to puzzle the colors of the pixels together yourself using the
-color type information in the LodePNGInfo.
+Thewe's awso a setting cowow_convewt, twue by defauwt. If fawse, nyo convewsion
+is done, the *boops your nose* wesuwting data wiww be as it was in the *boops your nose* PNG (aftew ^-^ decompwession)
+and you'ww have to puzzwe the *boops your nose* cowows of the *boops your nose* pixews t-togethew y-y-youwsewf using the
+cowow type infowmation in the *boops your nose* W-WodePNGInfo.
 
 
 5. Encoding
 -----------
 
-Encoding converts a raw pixel buffer to a PNG compressed image.
+Encoding convewts a waw pixew buffew to a PNG compwessed image.
 
-Most documentation on using the encoder is at its declarations in the header
-above. For C, simple encoding can be done with functions such as
-lodepng_encode32, and more advanced decoding can be done with the struct
-LodePNGState and lodepng_encode. For C++, all encoding can be done with the
-various lodepng::encode functions, and lodepng::State can be used for advanced
-features.
+Most d-documentation on using the *boops your nose* encodew is at its decwawations in the *boops your nose* headew
+abuv. Fow C, simple encoding can be donye with functions s-such as
+lodepng_encode32, and mowe advanced decoding can be donye with the *boops your nose* stwuct
+WodePNGState and wodepng_encode. Fow C++, all encoding can be donye with the
+vawious lodepng::encode functions, and lodepng::State can be used fow advanced
+featuwes.
 
-Like the decoder, the encoder can also give errors. However it gives less errors
-since the encoder input is trusted, the decoder input (a PNG image that could
-be forged by anyone) is not trusted.
+Wike the *boops your nose* decodew, the *boops your nose* encodew can awso give ewwows. Howevew it g-gives wess *screeches* ewwows
+since the *boops your nose* encodew input is twusted, the *boops your nose* decodew input (a PNG image that c-couwd
+be fowged by anyonye) is nyot twusted.
 
-When using the LodePNGState, it uses the following fields for encoding:
-*) LodePNGInfo info_png: here you specify how you want the PNG (the output) to be.
-*) LodePNGColorMode info_raw: here you say what color type of the raw image (the input) has
-*) LodePNGEncoderSettings encoder: you can specify a few settings for the encoder to use
+When using the *boops your nose* WodePNGState, it uses the *boops your nose* fowwowing fiewds fow encoding:
+*) WodePNGInfo info_png: hewe you specify how you want the *boops your nose* PNG (the output) to be.
+*) WodePNGCowowMode info_waw: hewe you s-say what c-cowow type of the *boops your nose* waw image (the i-input) has
+*) WodePNGEncodewSettings OwO encoder: you can specify a few settings fow the *boops your nose* encodew to use
 
-LodePNGInfo info_png
+WodePNGInfo info_png
 --------------------
 
-When encoding, you use this the opposite way as when decoding: for encoding,
-you fill in the values you want the PNG to have before encoding. By default it's
-not needed to specify a color type for the PNG since it's automatically chosen,
-but it's possible to choose it yourself given the right settings.
+When ^-^ encoding, you use this the *boops your nose* opposite w-way as w-w-when decoding: fow encoding,
+you fill in the *boops your nose* vawues you want the *boops your nose* PNG to have befowe encoding. By default it's
+nyot x3 nyeeded to specify a c-cowow type fow the *boops your nose* PNG since it's automaticawwy chosen,
+but it's possibwe to choose it y-y-youwsewf given the *boops your nose* wight s-s-settings.
 
-The encoder will not always exactly match the LodePNGInfo struct you give,
-it tries as close as possible. Some things are ignored by the encoder. The
-encoder uses, for example, the following settings from it when applicable:
-colortype and bitdepth, text chunks, time chunk, the color key, the palette, the
-background color, the interlace method, unknown chunks, ...
+The encodew wiww nyot awways exactwy match the *boops your nose* WodePNGInfo stwuct you give,
+it tries as cwose as possibwe. Some things awe ignyowed by the *boops your nose* encodew. The
+encodew uses, fow exampwe, the *boops your nose* fowwowing settings fwom it w-w-when appwicabwe:
+cowowtype *huggles tightly* and bitdepth, text chunks, time chunk, the *boops your nose* c-cowow key, the *boops your nose* pawette, the
+backgwound cowow, the *boops your nose* intewwace :3 method, unknyown chunks, ...
 
-When encoding to a PNG with colortype 3, the encoder will generate a PLTE chunk.
-If the palette contains any colors for which the alpha channel is not 255 (so
-there are translucent colors in the palette), it'll add a tRNS chunk.
+When encoding to a PNG with cowowtype 3, the *boops your nose* encodew wiww genyewate a PWTE OwO chunk.
+If the *boops your nose* pawette contains any OwO cowows fow which the *boops your nose* awpha channyew is nyot 255 (so
+thewe *walks away* awe t-twanswucent cowows in the *boops your nose* pawette), it'ww add a t-tWNS chunk.
 
-LodePNGColorMode info_raw
+WodePNGCowowMode info_waw
 -------------------------
 
-You specify the color type of the raw image that you give to the input here,
-including a possible transparent color key and palette you happen to be using in
-your raw image data.
+You UwU specify the *boops your nose* c-cowow type of the *boops your nose* waw image that you give to the *boops your nose* input hewe,
+incwuding a possibwe twanspawent c-cowow key and pawette you h-happen to be using i-in
+youw waw image data.
 
-By default, 32-bit color is assumed, meaning your input has to be in RGBA
-format with 4 bytes (unsigned chars) per pixel.
+By defauwt, 32-bit c-cowow is assumed, meanying youw input has to be in WGBA
+fowmat with 4 bytes (unsignyed chaws) pew pixew.
 
-LodePNGEncoderSettings encoder
+WodePNGEncodewSettings encodew
 ------------------------------
 
-The following settings are supported (some are in sub-structs):
-*) auto_convert: when this option is enabled, the encoder will
-automatically choose the smallest possible color mode (including color key) that
-can encode the colors of all pixels without information loss.
-*) btype: the block type for LZ77. 0 = uncompressed, 1 = fixed huffman tree,
-   2 = dynamic huffman tree (best compression). Should be 2 for proper
-   compression.
-*) use_lz77: whether or not to use LZ77 for compressed block types. Should be
-   true for proper compression.
-*) windowsize: the window size used by the LZ77 encoder (1 - 32768). Has value
-   2048 by default, but can be set to 32768 for better, but slow, compression.
-*) force_palette: if colortype is 2 or 6, you can make the encoder write a PLTE
-   chunk if force_palette is true. This can used as suggested palette to convert
-   to by viewers that don't support more than 256 colors (if those still exist)
-*) add_id: add text chunk "Encoder: LodePNG <version>" to the image.
-*) text_compression: default 1. If 1, it'll store texts as zTXt instead of tEXt chunks.
-  zTXt chunks use zlib compression on the text. This gives a smaller result on
-  large texts but a larger result on small texts (such as a single program name).
-  It's all tEXt or all zTXt though, there's no separate setting per text yet.
+The fowwowing settings awe suppowted (some awe in sub-stwucts):
+*) *screeches* auto_convewt: w-w-when this option is enyabwed, the *boops your nose* encodew wiww
+automaticawwy choose the *boops your nose* smawwest possibwe c-cowow mode (incwuding c-cowow key) that
+can encode the *boops your nose* cowows of all pixews without infowmation loss.
+*) btype: the *boops your nose* bwock type fow WZ77. 0 = uncompwessed, 1 = fixed huffman twee,
+   2 = dynyamic huffman twee (best compwession). Should be 2 fow pwopew
+   compwession.
+*) use_wz77: whethew ow *whispers to self* nyot to use WZ77 fow compwessed bwock types. Should be
+   twue fow proper compwession.
+*) windowsize: the *boops your nose* window s-size used by the *boops your nose* WZ77 encodew (1 - 32768). Has vawue
+   2048 by defauwt, but can be set to 32768 fow bettew, but swow, compwession.
+*) fowce_pawette: if cowowtype is 2 ow *whispers to self* 6, you can make the *boops your nose* encodew wwite a PWTE
+   c-chunk if fowce_pawette is twue. This can used as suggested pawette to convewt
+   to by viewews that don't suppowt mowe than 256 cowows (if those stiww exist)
+*) a-add_id: add text c-chunk "Encodew: WodePNG *blushes* <vewsion>" to the *boops your nose* image.
+*) text_compwession: default 1. If 1, it'ww stowe t-texts as zTXt instead of tEXt chunks.
+  zTXt chunks use zlib compwession on the *boops your nose* text. This g-gives a smawwew UwU wesuwt on
+ x3  wawge t-texts but a larger wesuwt on s-s-smaww t-texts (such as a singwe pwogwam nyame).
+  It's all tEXt ow *whispers to self* all zTXt though, thewe's nyo sepawate setting pew text yet.
 
 
-6. color conversions
+6. c-cowow convewsions
 --------------------
 
-An important thing to note about LodePNG, is that the color type of the PNG, and
-the color type of the raw image, are completely independent. By default, when
-you decode a PNG, you get the result as a raw image in the color type you want,
-no matter whether the PNG was encoded with a palette, grayscale or RGBA color.
-And if you encode an image, by default LodePNG will automatically choose the PNG
-color type that gives good compression based on the values of colors and amount
-of colors in the image. It can be configured to let you control it instead as
-well, though.
+An impowtant thing to nyote about WodePNG, is that the *boops your nose* c-cowow type of the *boops your nose* PNG, and
+the c-cowow type of the *boops your nose* waw image, awe compwetewy independent. By defauwt, when
+you OwO decode a PNG, you get the *boops your nose* wesuwt as a waw image in the *boops your nose* c-cowow type you want,
+nyo m-mattew whethew the *boops your nose* PNG was encoded with a pawette, gwayscawe ow *whispers to self* WGBA OwO cowow.
+And if you encode an image, by default WodePNG *blushes* wiww automaticawwy choose the *boops your nose* PNG
+cowow type that g-gives good compwession based on the *boops your nose* vawues of cowows and amount
+of cowows in the *boops your nose* image. It can be configuwed to wet you contwow it instead as
+weww, though.
 
-To be able to do this, LodePNG does conversions from one color mode to another.
-It can convert from almost any color type to any other color type, except the
-following conversions: RGB to grayscale is not supported, and converting to a
-palette when the palette doesn't have a required color is not supported. This is
-not supported on purpose: this is information loss which requires a color
-reduction algorithm that is beyond the scope of a PNG encoder (yes, RGB to gray
-is easy, but there are multiple ways if you want to give some channels more
+To be abwe to do this, WodePNG *blushes* does convewsions fwom onye c-cowow mode to anyothew.
+It can convewt fwom a-awmost any OwO c-cowow type to any OwO othew c-cowow type, e-e-except the
+fowwowing conversions: ;;w;; WGB to gwayscawe is nyot suppowted, and convewting to a
+pawette w-w-when the *boops your nose* pawette doesn't have a w-w-wequiwed c-cowow is nyot suppowted. ^-^ This is
+nyot suppowted on purpose: this is infowmation woss which w-wequiwes a cowow
+weduction awgowithm that is beyond the *boops your nose* scope of a PNG encodew (yes, WGB to gway
+is easy, but there awe muwtipwe ways if you want to give some channyews mowe
 weight).
 
-By default, when decoding, you get the raw image in 32-bit RGBA or 24-bit RGB
-color, no matter what color type the PNG has. And by default when encoding,
-LodePNG automatically picks the best color model for the output PNG, and expects
-the input image to be 32-bit RGBA or 24-bit RGB. So, unless you want to control
-the color format of the images yourself, you can skip this chapter.
+By defauwt, w-w-when decoding, ÚwÚ you get the *boops your nose* waw image in 32-bit WGBA OwO ow *whispers to self* 2-24-bit WGB
+cowow, nyo m-mattew what c-cowow type the *boops your nose* PNG has. *blushes* And by default w-w-when encoding,
+WodePNG automaticawwy picks the *boops your nose* b-b-best c-cowow modew fow the *boops your nose* output PNG, and expects
+the :3 input image to be 32-bit WGBA OwO ow *whispers to self* 2-24-bit WGB. So, unwess you want to contwow
+the c-cowow format of the *boops your nose* images youwsewf, *walks away* you can skip this chaptew.
 
-6.1. PNG color types
+6.1. PNG c-cowow types
 --------------------
 
-A PNG image can have many color types, ranging from 1-bit color to 64-bit color,
-as well as palettized color modes. After the zlib decompression and unfiltering
-in the PNG image is done, the raw pixel data will have that color type and thus
-a certain amount of bits per pixel. If you want the output raw image after
-decoding to have another color type, a conversion is done by LodePNG.
+A PNG image can have many c-cowow types, wanging fwom 1-bit c-cowow to 64-bit color,
+as w-weww as pawettized c-cowow modes. Aftew the *boops your nose* zlib d-d-decompwession and unfiwtewing
+in the *boops your nose* PNG image is done, the *boops your nose* waw pixew data wiww have that c-cowow type and thus
+a OwO certain amount of bits pew pixew. OwO If you want the *boops your nose* output waw image aftew
+decoding to have anyothew c-cowow type, a convewsion is donye by WodePNG.
 
-The PNG specification gives the following color types:
+The *notices buldge* PNG specification g-gives the *boops your nose* fowwowing c-cowow types:
 
-0: grayscale, bit depths 1, 2, 4, 8, 16
-2: RGB, bit depths 8 and 16
-3: palette, bit depths 1, 2, 4 and 8
-4: grayscale with alpha, bit depths 8 and 16
-6: RGBA, bit depths 8 and 16
+0: gwayscawe, bit depths 1, 2, 4, 8, 1-16
+2: W-WGB, bit depths 8 and 16
+3: pawette, bit depths 1, 2, 4 and 8-8-8
+4: gwayscawe with alpha, bit depths 8 and 1-16
+6: WGBA, bit depths 8 and 1-16
 
-Bit depth is the amount of bits per pixel per color channel. So the total amount
-of bits per pixel is: amount of channels * bitdepth.
+Bit depth is the *boops your nose* amount of bits pew pixew pew c-cowow channyew. So the *boops your nose* totaw :3 amount
+of bits pew pixew is: amount of channyews * bitdepth.
 
-6.2. color conversions
+6.2. c-cowow conversions
 ----------------------
 
-As explained in the sections about the encoder and decoder, you can specify
-color types and bit depths in info_png and info_raw to change the default
-behaviour.
+As expwainyed in the *boops your nose* sections about the *boops your nose* encodew and decodew, you can specify
+cowow types and bit depths in info_png and info_waw to change the *boops your nose* defauwt
+behaviouw.
 
-If, when decoding, you want the raw image to be something else than the default,
-you need to set the color type and bit depth you want in the LodePNGColorMode,
-or the parameters colortype and bitdepth of the simple decoding function.
+If, w-w-when decoding, ÚwÚ you want the *boops your nose* waw image to be something ewse than the *boops your nose* defauwt,
+you nyeed to set the *boops your nose* c-cowow type and bit depth you want in the *boops your nose* WodePNGCowowMode,
+ow the *boops your nose* pawametews cowowtype and bitdepth of the *boops your nose* simple decoding function.
 
-If, when encoding, you use another color type than the default in the raw input
-image, you need to specify its color type and bit depth in the LodePNGColorMode
-of the raw image, or use the parameters colortype and bitdepth of the simple
+If, w-w-when encoding, you use anyothew c-cowow type than the *boops your nose* default in the *boops your nose* waw input
+image, you nyeed to specify its c-cowow type and bit depth in the *boops your nose* WodePNGCowowMode
+of the *boops your nose* waw image, ow *whispers to self* use the *boops your nose* pawametews cowowtype and bitdepth of the *boops your nose* simpwe
 encoding function.
 
-If, when encoding, you don't want LodePNG to choose the output PNG color type
-but control it yourself, you need to set auto_convert in the encoder settings
-to false, and specify the color type you want in the LodePNGInfo of the
-encoder (including palette: it can generate a palette if auto_convert is true,
-otherwise not).
+If, w-w-when encoding, you don't want WodePNG *blushes* to choose the *boops your nose* output PNG c-cowow type
+but contwow it youwsewf, *walks away* you nyeed to set auto_convewt in the *boops your nose* encodew settings
+to fawse, and specify the *boops your nose* c-cowow type you want in the *boops your nose* WodePNGInfo of the
+encodew (incwuding palette: it can genyewate a pawette if auto_convewt is true,
+otherwise nyot).
 
-If the input and output color type differ (whether user chosen or auto chosen),
-LodePNG will do a color conversion, which follows the rules below, and may
-sometimes result in an error.
+If the *boops your nose* input and output c-cowow type diffew (whethew ^w^ usew chosen ow *whispers to self* auto chosen),
+WodePNG wiww do a c-cowow convewsion, which fowwows the *boops your nose* wuwes bewow, and m-may
+sometimes wesuwt in an e-ewwow.
 
 To avoid some confusion:
--the decoder converts from PNG to raw image
--the encoder converts from raw image to PNG
--the colortype and bitdepth in LodePNGColorMode info_raw, are those of the raw image
--the colortype and bitdepth in the color field of LodePNGInfo info_png, are those of the PNG
--when encoding, the color type in LodePNGInfo is ignored if auto_convert
- is enabled, it is automatically generated instead
--when decoding, the color type in LodePNGInfo is set by the decoder to that of the original
- PNG image, but it can be ignored since the raw image has the color type you requested instead
--if the color type of the LodePNGColorMode and PNG image aren't the same, a conversion
- between the color types is done if the color types are supported. If it is not
- supported, an error is returned. If the types are the same, no conversion is done.
--even though some conversions aren't supported, LodePNG supports loading PNGs from any
- colortype and saving PNGs to any colortype, sometimes it just requires preparing
- the raw image correctly before encoding.
--both encoder and decoder use the same color converter.
+-the decodew convewts fwom PNG to waw image
+-the encodew convewts fwom waw image to PNG
+-the cowowtype and bitdepth in WodePNGCowowMode info_waw, awe those of the *boops your nose* waw image
+-the cowowtype and bitdepth in the *boops your nose* c-cowow fiewd of WodePNGInfo info_png, awe those of the *boops your nose* PNG
+-when encoding, the *boops your nose* c-cowow type in WodePNGInfo is ignyowed if auto_convewt
+ is enyabwed, it is automaticawwy genewated instead
+-when decoding, ÚwÚ the *boops your nose* c-cowow type in WodePNGInfo is set by the *boops your nose* decodew to that of the *boops your nose* o-owiginyaw
+ PNG image, but it can be ignyowed since the *boops your nose* waw image has the *boops your nose* c-cowow type you wequested instead
+-if the *boops your nose* c-cowow type of the *boops your nose* WodePNGCowowMode and PNG image awen't the *boops your nose* same, a convewsion
+ between the *boops your nose* c-cowow types is donye if the *boops your nose* c-cowow types awe suppowted. ^-^ If it is nyot
+ suppowted, an ewwow is wetuwned. If the *boops your nose* types awe the *boops your nose* same, nyo convewsion is donye.
+-even though some convewsions awen't suppowted, WodePNG *blushes* suppowts w-w-woading PNGs :3 fwom any
+ cowowtype and saving PNGs :3 to any OwO cowowtype, sometimes it just w-wequiwes pwepawing
+ the *boops your nose* waw image cowwectwy ÚwÚ befowe encoding.
+-both encodew and decodew use the *boops your nose* same c-cowow convewtew.
 
-The function lodepng_convert does the color conversion. It is available in the
-interface but normally isn't needed since the encoder and decoder already call
+The function wodepng_convewt does the *boops your nose* c-cowow convewsion. It is avaiwabwe in the
+intewface but normally isn't nyeeded since the *boops your nose* encodew and decodew awweady caww
 it.
 
-Non supported color conversions:
--color to grayscale when non-gray pixels are present: no error is thrown, but
-the result will look ugly because only the red channel is taken (it assumes all
-three channels are the same in this case so ignores green and blue). The reason
-no error is given is to allow converting from three-channel grayscale images to
-one-channel even if there are numerical imprecisions.
--anything to palette when the palette does not have an exact match for a from-color
-in it: in this case an error is thrown
+Nyon suppowted c-cowow convewsions:
+-cowow to gwayscawe w-w-when nyon-gway pixews awe present: nyo ewwow is thwown, but
+the wesuwt wiww wook u-ugwy because onwy the *boops your nose* wed channyew is taken (it assumes aww
+thwee channyews awe the *boops your nose* same in this case so ignyowes gween and bwue). T-The weason
+nyo ewwow is given is to awwow convewting fwom thwee-channyew gwayscawe images to
+onye-channyew even OwO if there awe nyumewicaw impwecisions.
+-anything to pawette w-w-when the *boops your nose* pawette does nyot have an exact (・`ω´・) match fow a from-color
+in it: in this case an ewwow is thwown
 
-Supported color conversions:
--anything to 8-bit RGB, 8-bit RGBA, 16-bit RGB, 16-bit RGBA
--any gray or gray+alpha, to gray or gray+alpha
--anything to a palette, as long as the palette has the requested colors in it
--removing alpha channel
--higher to smaller bitdepth, and vice versa
+Suppowted c-cowow convewsions:
+-anything to 8-bit W-WGB, 8-bit WGBA, 16-bit W-WGB, 16-bit W-W-WGBA
+-any gway ow *whispers to self* gway+awpha, to gway ow *whispers to self* gway+awpha
+-anything >w< to a pawette, as wong as the *boops your nose* pawette has the *boops your nose* wequested cowows in it
+-wemoving awpha channyew
+-highew to smawwew UwU bitdepth, and vice vewsa
 
-If you want no color conversion to be done (e.g. for speed or control):
--In the encoder, you can make it save a PNG with any color type by giving the
-raw color mode and LodePNGInfo the same color mode, and setting auto_convert to
+If you want nyo c-cowow convewsion to be donye (e.g. fow speed ow *whispers to self* contwow):
+-In the *boops your nose* encodew, you can make it save a PNG with any OwO c-cowow type by giving the
+waw c-cowow mode and WodePNGInfo the *boops your nose* same c-cowow mode, and setting auto_convewt to
 false.
--In the decoder, you can make it store the pixel data in the same color type
-as the PNG has, by setting the color_convert setting to false. Settings in
-info_raw are then ignored.
+-In the *boops your nose* decodew, you can make it stowe the *boops your nose* pixew data in the *boops your nose* same c-cowow type
+as the *boops your nose* PNG has, by setting the *boops your nose* cowow_convewt setting to fawse. Settings in
+info_waw awe then ignyowed.
 
 6.3. padding bits
 -----------------
 
-In the PNG file format, if a less than 8-bit per pixel color type is used and the scanlines
-have a bit amount that isn't a multiple of 8, then padding bits are used so that each
-scanline starts at a fresh byte. But that is NOT true for the LodePNG raw input and output.
-The raw input image you give to the encoder, and the raw output image you get from the decoder
-will NOT have these padding bits, e.g. in the case of a 1-bit image with a width
-of 7 pixels, the first pixel of the second scanline will the 8th bit of the first byte,
-not the first bit of a new byte.
+In the *boops your nose* PNG fiwe fowmat, if a wess *screeches* than 8-bit pew pixew c-cowow type is used and the *boops your nose* scanwinyes
+have a bit amount that isn't a muwtipwe of 8, then padding bits awe used so that each
+scanlinye stawts at a fwesh byte. But that is NyOT twue fow the *boops your nose* WodePNG *blushes* waw input and output.
+The waw input image you give to the *boops your nose* encodew, and the *boops your nose* waw output image you get fwom the *boops your nose* decodew
+wiww NyOT have these padding b-bits, e.g. in the *boops your nose* case of a 1-bit image with a width
+of 7 p-p-pixews, the *boops your nose* fiwst pixew of the *boops your nose* second scanlinye *looks at you* wiww the *boops your nose* 8-8th bit of the *boops your nose* fiwst byte,
+nyot the *boops your nose* fiwst bit of a nyew byte.
 
-6.4. A note about 16-bits per channel and endianness
+6.4. *huggles tightly* A nyote about 16-bits pew channyew and endiannyess
 ----------------------------------------------------
 
-LodePNG uses unsigned char arrays for 16-bit per channel colors too, just like
-for any other color format. The 16-bit values are stored in big endian (most
-significant byte first) in these arrays. This is the opposite order of the
-little endian used by x86 CPU's.
+WodePNG uses unsignyed chaw awways fow 16-bit pew channyew cowows too, just wike
+fow ;;w;; any OwO othew c-cowow f-fowmat. T-The 16-bit vawues awe stowed in big endian (most
+signyificant byte fiwst) in these arrays. This is the *boops your nose* opposite owdew of the
+wittwe endian used by x86 C-CPU's.
 
-LodePNG always uses big endian because the PNG file format does so internally.
-Conversions to other formats than PNG uses internally are not supported by
-LodePNG on purpose, there are myriads of formats, including endianness of 16-bit
-colors, the order in which you store R, G, B and A, and so on. Supporting and
-converting to/from all that is outside the scope of LodePNG.
+WodePNG awways uses big endian because the *boops your nose* PNG fiwe format does so intewnyawwy.
+Convewsions to othew fowmats than PNG uses intewnyawwy awe nyot suppowted by
+WodePNG on purpose, there awe myriads of fowmats, incwuding endiannyess of 16-bit
+cowows, the *boops your nose* owdew in which you stowe W-W-W, G-G, B-B and A, and so on. Suppowting and
+convewting ;;w;; to/fwom all that is outside the *boops your nose* scope of WodePNG.
 
-This may mean that, depending on your use case, you may want to convert the big
-endian output of LodePNG to little endian with a for loop. This is certainly not
-always needed, many applications and libraries support big endian 16-bit colors
-anyway, but it means you cannot simply cast the unsigned char* buffer to an
-unsigned short* buffer on x86 CPUs.
+This may mean that, depending on youw use case, you may want to convewt the *boops your nose* big
+endian output of WodePNG *blushes* to wittwe endian with a fow w-woop. This is cewtainwy nyot
+awways nyeeded, *whispers to self* many applications and wibwawies suppowt big endian 16-bit colors
+anyway, but it means you cannyot ^w^ simpwy cast the *boops your nose* unsignyed char* buffew to an
+unsignyed showt* buffew on x86 CPUs.
 
 
-7. error values
+7. ewwow vawues
 ---------------
 
-All functions in LodePNG that return an error code, return 0 if everything went
-OK, or a non-zero code if there was an error.
+Aww functions in WodePNG *blushes* that wetuwn an ewwow code, wetuwn 0 if e-evewything went
+OK, ow *whispers to self* a nyon-zewo code if there was an ewwow.
 
-The meaning of the LodePNG error values can be retrieved with the function
-lodepng_error_text: given the numerical error code, it returns a description
-of the error in English as a string.
+The meanying of the *boops your nose* WodePNG *blushes* ewwow vawues can be wetwieved with the *boops your nose* f-f-function
+wodepng_ewwow_text: given the *boops your nose* nyumewicaw ewwow code, it wetuwns a d-descwiption
+of the *boops your nose* ewwow in Engwish as a stwing.
 
-Check the implementation of lodepng_error_text to see the meaning of each code.
+Check the *boops your nose* impwementation of wodepng_ewwow_text to see the *boops your nose* meanying of each code.
 
-It is not recommended to use the numerical values to programmatically make
-different decisions based on error types as the numbers are not guaranteed to
-stay backwards compatible. They are for human consumption only. Programmatically
-only 0 or non-0 matter.
+It is nyot wecommended *starts twerking* to use the *boops your nose* nyumewicaw vawues to pwogwammaticawwy make
+different decisions based on ewwow types as the *boops your nose* numbers awe nyot guawanteed to
+stay b-b-backwawds compatibwe. They awe fow human consumption only. Pwogwammaticawwy
+onwy 0 ow *whispers to self* non-0 mattew.
 
 
 8. chunks and PNG editing
 -------------------------
 
-If you want to add extra chunks to a PNG you encode, or use LodePNG for a PNG
-editor that should follow the rules about handling of unknown chunks, or if your
-program is able to read other types of chunks than the ones handled by LodePNG,
-then that's possible with the chunk functions of LodePNG.
+If you want to add extwa chunks to a PNG you encode, *notices buldge* ow *whispers to self* use WodePNG *blushes* fow a PNG
+editow that shouwd fowwow the *boops your nose* wuwes about handwing of unknyown chunks, ow *whispers to self* if your
+program is abwe to wead othew types of chunks than the *boops your nose* onyes handled by WodePNG,
+then that's possibwe with the *boops your nose* c-chunk functions of WodePNG.
 
-A PNG chunk has the following layout:
+A PNG c-chunk has the *boops your nose* fowwowing wayout:
 
-4 bytes length
-4 bytes type name
-length bytes data
-4 bytes CRC
+4 bytes wength
+4 bytes type nyame
+wength bytes data
+4 bytes CWC
 
-8.1. iterating through chunks
+8.1. itewating thwough chunks
 -----------------------------
 
-If you have a buffer containing the PNG image data, then the first chunk (the
-IHDR chunk) starts at byte number 8 of that buffer. The first 8 bytes are the
-signature of the PNG and are not part of a chunk. But if you start at byte 8
-then you have a chunk, and can check the following things of it.
+If you have a buffew containying the *boops your nose* PNG image data, then the *boops your nose* fiwst c-chunk (the
+IHDW ^w^ chunk) stawts at byte nyumbew 8 of that buffer. T-The fiwst 8 bytes awe the
+signyatuwe of the *boops your nose* PNG and awe nyot pawt of a chunk. But if you stawt at byte 8
+then you have a chunk, and can check the *boops your nose* fowwowing things of it.
 
-NOTE: none of these functions check for memory buffer boundaries. To avoid
-exploits, always make sure the buffer contains all the data of the chunks.
-When using lodepng_chunk_next, make sure the returned value is within the
-allocated memory.
+NyOTE: nyonye of these functions check fow memowy ÚwÚ buffew boundawies. To avoid
+expwoits, awways make suwe the *boops your nose* buffew contains all the *boops your nose* data of the *boops your nose* chunks.
+When using wodepng_chunk_nyext, make suwe the *boops your nose* wetuwnyed vawue is within the
+awwocated memory.
 
-unsigned lodepng_chunk_length(const unsigned char* chunk):
+unsignyed wodepng_chunk_wength(const unsignyed char* chunk):
 
-Get the length of the chunk's data. The total chunk length is this length + 12.
+Get the *boops your nose* wength (・`ω´・) of the *boops your nose* chunk's data. UwU T-The totaw :3 c-chunk wength (・`ω´・) is this wength (・`ω´・) + 1-12.
 
-void lodepng_chunk_type(char type[5], const unsigned char* chunk):
-unsigned char lodepng_chunk_type_equals(const unsigned char* chunk, const char* type):
+void wodepng_chunk_type(chaw type[5], const unsignyed char* chunk):
+unsignyed chaw wodepng_chunk_type_equaws(const unsignyed char* chunk, const char* type):
 
-Get the type of the chunk or compare if it's a certain type
+Get the *boops your nose* type of the *boops your nose* c-chunk ow *whispers to self* compawe if it's a certain type
 
-unsigned char lodepng_chunk_critical(const unsigned char* chunk):
-unsigned char lodepng_chunk_private(const unsigned char* chunk):
-unsigned char lodepng_chunk_safetocopy(const unsigned char* chunk):
+unsignyed chaw lodepng_chunk_critical(const unsignyed char* chunk):
+unsignyed chaw wodepng_chunk_pwivate(const unsignyed char* chunk):
+unsignyed chaw wodepng_chunk_safetocopy(const unsignyed char* chunk):
 
-Check if the chunk is critical in the PNG standard (only IHDR, PLTE, IDAT and IEND are).
-Check if the chunk is private (public chunks are part of the standard, private ones not).
-Check if the chunk is safe to copy. If it's not, then, when modifying data in a critical
-chunk, unsafe to copy chunks of the old image may NOT be saved in the new one if your
-program doesn't handle that type of unknown chunk.
+Check if the *boops your nose* c-chunk is cwiticaw in the *boops your nose* PNG standawd (onwy IHDW, PWTE, IDAT and IEND awe).
+Check if the *boops your nose* c-chunk is pwivate (pubwic chunks awe pawt of the *boops your nose* standawd, pwivate onyes nyot).
+Check if the *boops your nose* c-chunk is safe ;;w;; to copy. If it's nyot, then, w-w-when modifying :3 data in a cwiticaw
+chunk, unsafe to copy chunks of the *boops your nose* owd image may NyOT be saved in the *boops your nose* nyew onye if your
+program doesn't handwe that type of unknyown chunk.
 
-unsigned char* lodepng_chunk_data(unsigned char* chunk):
-const unsigned char* lodepng_chunk_data_const(const unsigned char* chunk):
+unsignyed char* wodepng_chunk_data(unsignyed char* chunk):
+const unsignyed char* wodepng_chunk_data_const(const unsignyed char* chunk):
 
-Get a pointer to the start of the data of the chunk.
+Get a pointew to the *boops your nose* stawt of the *boops your nose* data of the *boops your nose* chunk.
 
-unsigned lodepng_chunk_check_crc(const unsigned char* chunk):
-void lodepng_chunk_generate_crc(unsigned char* chunk):
+unsignyed wodepng_chunk_check_cwc(const unsignyed char* chunk):
+void wodepng_chunk_genyewate_cwc(unsignyed char* chunk):
 
-Check if the crc is correct or generate a correct one.
+Check if the *boops your nose* crc is cowwect ow *whispers to self* genyewate a cowwect onye.
 
-unsigned char* lodepng_chunk_next(unsigned char* chunk):
-const unsigned char* lodepng_chunk_next_const(const unsigned char* chunk):
+unsignyed char* wodepng_chunk_nyext(unsignyed char* chunk):
+const unsignyed char* w-wodepng_chunk_nyext_const(const unsignyed char* chunk):
 
-Iterate to the next chunk. This works if you have a buffer with consecutive chunks. Note that these
-functions do no boundary checking of the allocated data whatsoever, so make sure there is enough
-data available in the buffer to be able to go to the next chunk.
+Itewate to the *boops your nose* nyext chunk. This wowks if you have a buffew with c-consecutive chunks. N-N-Nyote that these
+functions do nyo boundawy c-checking of the *boops your nose* awwocated data whatsoevew, *walks away* so make suwe there is e-enyough
+data avaiwabwe in the *boops your nose* buffew to be abwe to go to the *boops your nose* nyext chunk.
 
-unsigned lodepng_chunk_append(unsigned char** out, size_t* outsize, const unsigned char* chunk):
-unsigned lodepng_chunk_create(unsigned char** out, size_t* outsize, unsigned length,
-                              const char* type, const unsigned char* data):
+unsignyed wodepng_chunk_append(unsignyed chaw** out, :3 size_t* outsize, const unsignyed char* chunk):
+unsignyed wodepng_chunk_cweate(unsignyed chaw** out, :3 size_t* outsize, unsignyed length,
+                              const char* type, const unsignyed char* data):
 
-These functions are used to create new chunks that are appended to the data in *out that has
-length *outsize. The append function appends an existing chunk to the new data. The create
-function creates a new chunk with the given parameters and appends it. Type is the 4-letter
-name of the chunk.
+These functions awe used to cweate nyew chunks that awe appended to the *boops your nose* data in *out that has
+wength *outsize. T-The append function appends an existing >w< c-chunk to the *boops your nose* nyew data. UwU T-The create
+function cweates a nyew c-chunk with the *boops your nose* given pawametews and appends it. *runs away* Type is the *boops your nose* 4-4-4-wettew
+nyame of the *boops your nose* chunk.
 
 8.2. chunks in info_png
 -----------------------
 
-The LodePNGInfo struct contains fields with the unknown chunk in it. It has 3
-buffers (each with size) to contain 3 types of unknown chunks:
-the ones that come before the PLTE chunk, the ones that come between the PLTE
-and the IDAT chunks, and the ones that come after the IDAT chunks.
-It's necessary to make the distinction between these 3 cases because the PNG
-standard forces to keep the ordering of unknown chunks compared to the critical
-chunks, but does not force any other ordering rules.
+The WodePNGInfo stwuct contains fiewds with the *boops your nose* unknyown c-chunk in it. *runs away* It has 3
+buffews (each with size) to contain 3 types of unknyown chunks:
+the onyes that come befowe the *boops your nose* PWTE OwO chunk, the *boops your nose* onyes that come between the *boops your nose* P-PWTE
+and the *boops your nose* IDAT chunks, and the *boops your nose* onyes that come aftew the *boops your nose* IDAT chunks.
+It's n-n-nyecessawy to make the *boops your nose* distinction between these 3 cases because the *boops your nose* PNG
+standawd forces to k-k-keep the *boops your nose* owdewing of unknyown chunks compawed to the *boops your nose* cwiticaw
+chunks, *boops your nose* but does nyot fowce any OwO othew owdewing wuwes.
 
-info_png.unknown_chunks_data[0] is the chunks before PLTE
-info_png.unknown_chunks_data[1] is the chunks after PLTE, before IDAT
-info_png.unknown_chunks_data[2] is the chunks after IDAT
+info_png.unknyown_chunks_data[0] is the *boops your nose* chunks befowe PWTE
+info_png.unknyown_chunks_data[1] is the *boops your nose* chunks aftew PWTE, befowe IDAT
+info_png.unknyown_chunks_data[2] is the *boops your nose* chunks aftew IDAT
 
-The chunks in these 3 buffers can be iterated through and read by using the same
-way described in the previous subchapter.
+The OwO chunks in these 3 buffews can be itewated ^w^ thwough and wead by using the *boops your nose* same
+way descwibed in the *boops your nose* pwevious subchaptew.
 
-When using the decoder to decode a PNG, you can make it store all unknown chunks
-if you set the option settings.remember_unknown_chunks to 1. By default, this
+When :3 using the *boops your nose* decodew to decode a PNG, you can make it stowe all unknyown c-chunks
+if you set the *boops your nose* option settings.wemembew_unknyown_chunks to 1. By defauwt, this
 option is off (0).
 
-The encoder will always encode unknown chunks that are stored in the info_png.
-If you need it to add a particular chunk that isn't known by LodePNG, you can
-use lodepng_chunk_append or lodepng_chunk_create to the chunk data in
+The encodew wiww awways encode unknyown chunks that awe stowed in the *boops your nose* info_png.
+If you nyeed it to add a pawticuwaw c-chunk that isn't k-knyown by WodePNG, you can
+use w-wodepng_chunk_append ow *whispers to self* wodepng_chunk_cweate to the *boops your nose* c-chunk data in
 info_png.unknown_chunks_data[x].
 
-Chunks that are known by LodePNG should not be added in that way. E.g. to make
-LodePNG add a bKGD chunk, set background_defined to true and add the correct
-parameters there instead.
+Chunks that awe k-knyown by WodePNG *blushes* shouwd nyot be added in that way. E.g. to make
+WodePNG add a bKGD chunk, set b-b-backgwound_definyed to twue and add the *boops your nose* cowwect
+pawametews there instead.
 
 
-9. compiler support
+9. compiler s-suppowt
 -------------------
 
-No libraries other than the current standard C library are needed to compile
-LodePNG. For the C++ version, only the standard C++ library is needed on top.
-Add the files lodepng.c(pp) and lodepng.h to your project, include
-lodepng.h where needed, and your program can read/write PNG files.
+Nyo wibwawies othew than the *boops your nose* cuwwent standawd C-C-C wibwawy awe nyeeded to compiwe
+WodePNG. Fow the *boops your nose* C++ vewsion, onwy the *boops your nose* standawd C++ wibwawy is nyeeded on top.
+Add the *boops your nose* fiwes wodepng.c(pp) and wodepng.h to youw pwoject, incwude
+wodepng.h whewe nyeeded, *whispers to self* and youw pwogwam can wead/wwite PNG f-fiwes.
 
-It is compatible with C90 and up, and C++03 and up.
+It is compatibwe with C90 and up, and C++03 and up.
 
-If performance is important, use optimization when compiling! For both the
-encoder and decoder, this makes a large difference.
+If pewfowmance is impowtant, ^-^ use optimization w-w-when c-c-compiwing?!?! Fow both the
+encodew and decodew, this makes a wawge diffewence.
 
-Make sure that LodePNG is compiled with the same compiler of the same version
-and with the same settings as the rest of the program, or the interfaces with
-std::vectors and std::strings in C++ can be incompatible.
+Make suwe that WodePNG *blushes* is compiwed with the *boops your nose* same compiler of the *boops your nose* same version
+and with the *boops your nose* same settings as the *boops your nose* west OwO of the *boops your nose* pwogwam, ow *whispers to self* the *boops your nose* intewfaces with
+std::vectows and std::strings in C++ can be incompatibwe.
 
-CHAR_BITS must be 8 or higher, because LodePNG uses unsigned chars for octets.
+CHAW_BITS must be 8 ow *whispers to self* highew, because WodePNG *blushes* uses unsignyed chaws fow octets.
 
 *) gcc and g++
 
-LodePNG is developed in gcc so this compiler is natively supported. It gives no
-warnings with compiler options "-Wall -Wextra -pedantic -ansi", with gcc and g++
-version 4.7.1 on Linux, 32-bit and 64-bit.
+WodePNG is devewoped in gcc so this compiler is nyativewy suppowted. ^-^ It g-gives nyo
+wawnyings with compiler options "-Waww -Wextwa -pedantic -ansi", with gcc and g++
+vewsion ÚwÚ 4.7.1 *walks away* on Winyux, ^-^ 32-bit and 64-bit.
 
-*) Clang
+*) Cwang
 
-Fully supported and warning-free.
+Fuwwy suppowted and w-w-wawnying-fwee.
 
 *) Mingw
 
-The Mingw compiler (a port of gcc for Windows) should be fully supported by
+The Mingw compiler (a powt OwO of gcc fow Windows) shouwd be fuwwy suppowted by
 LodePNG.
 
-*) Visual Studio and Visual C++ Express Edition
+*) Visuaw Studio and Visuaw C++ Expwess Edition
 
-LodePNG should be warning-free with warning level W4. Two warnings were disabled
-with pragmas though: warning 4244 about implicit conversions, and warning 4996
-where it wants to use a non-standard function fopen_s instead of the standard C
+WodePNG shouwd be wawnying-fwee with warnying wevew W4. Two wawnyings wewe disabwed
+with pragmas though: warnying 4244 about impwicit *screams* convewsions, and warnying 4996
+where it wants to use a nyon-standard function fopen_s instead of the *boops your nose* standawd C
 fopen.
 
-Visual Studio may want "stdafx.h" files to be included in each source file and
-give an error "unexpected end of file while looking for precompiled header".
-This is not standard C++ and will not be added to the stock LodePNG. You can
-disable it for lodepng.cpp only by right clicking it, Properties, C/C++,
-Precompiled Headers, and set it to Not Using Precompiled Headers there.
+Visuaw UwU Studio may want "stdafx.h" fiwes to be incwuded in each souwce fiwe and
+give an ewwow "unyexpected end ;;w;; of fiwe whiwe wooking fow pwecompiwed headew".
+This is nyot standawd C++ and wiww nyot be added to the *boops your nose* stock WodePNG. You can
+disabwe it fow wodepng.cpp onwy by wight cwicking it, Pwopewties, C/C++,
+Pwecompiwed ÚwÚ Headews, and set it to Nyot Using Pwecompiwed Headews thewe.
 
-NOTE: Modern versions of VS should be fully supported, but old versions, e.g.
-VS6, are not guaranteed to work.
+NyOTE: Modewn versions of V-V-VS shouwd be fuwwy suppowted, but owd vewsions, e.g.
+VS6, awe nyot guawanteed to wowk.
 
-*) Compilers on Macintosh
+*) Compiwews on Macintosh
 
-LodePNG has been reported to work both with gcc and LLVM for Macintosh, both for
+WodePNG has been w-wepowted to wowk (・`ω´・) both with gcc and WWVM fow Macintosh, both fow
 C and C++.
 
-*) Other Compilers
+*) Othew Compilers
 
-If you encounter problems on any compilers, feel free to let me know and I may
-try to fix it if the compiler is modern and standards compliant.
+If you encountew pwobwems on any OwO compiwews, feel free to wet me knyow and I may
+twy to fix it if the *boops your nose* compiler is modewn and standawds compwiant.
 
 
-10. examples
+10. exampwes
 ------------
 
-This decoder example shows the most basic usage of LodePNG. More complex
-examples can be found on the LodePNG website.
+This UwU decodew exampwe shows the *boops your nose* most basic usage of WodePNG. M-Mowe compwex
+exampwes can be found on the *boops your nose* WodePNG *blushes* website.
 
-NOTE: these examples do not support wide-character filenames, you can use an
-external method to handle such files and encode or decode in-memory
+NyOTE: these examples do nyot suppowt wide-chawactew fiwenames, you can use an
+externyal method to handwe s-such fiwes and encode ow *whispers to self* decode in-memowy
 
-10.1. decoder C++ example
+10.1. decodew C++ exampwe
 -------------------------
 
-#include "lodepng.h"
-#include <iostream>
+#incwude "wodepng.h"
+#incwude <iostweam>
 
-int main(int argc, char *argv[]) {
-  const char* filename = argc > 1 ? argv[1] : "test.png";
+int main(int awgc, chaw *awgv[]) {
+  const char* fiwenyame = awgc > 1 ?!! awgv[1] *cries* : "test.png";
 
-  //load and decode
-  std::vector<unsigned char> image;
-  unsigned width, height;
-  unsigned error = lodepng::decode(image, width, height, filename);
+  //woad and d-decode
+  std::vectow<unsignyed chaw> image;
+  unsignyed width, height;
+  unsignyed ewwow = lodepng::decode(image, width, height, fiwenyame);
 
-  //if there's an error, display it
-  if(error) std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+  //if thewe's an ewwow, display it
+  if(ewwow) std::cout << "decodew ewwow " << ewwow << ": " << wodepng_ewwow_text(ewwow) << s-std::endw;
 
-  //the pixels are now in the vector "image", 4 bytes per pixel, ordered RGBARGBA..., use it as texture, draw it, ...
+  /-//the pixews awe nyow in the *boops your nose* vectow "image", 4 bytes pew pixew, owdewed WGBAWGBA..., use it as textuwe, ÚwÚ d-d-dwaw it, ...
 }
 
-10.2. decoder C example
+10.2. decodew C-C-C exampwe
 -----------------------
 
-#include "lodepng.h"
+#incwude "wodepng.h"
 
-int main(int argc, char *argv[]) {
-  unsigned error;
-  unsigned char* image;
+int main(int awgc, chaw *awgv[]) {
+  unsignyed ewwow;
+  unsignyed char* image;
   size_t width, height;
-  const char* filename = argc > 1 ? argv[1] : "test.png";
+  const char* fiwenyame = awgc > 1 ?!! awgv[1] *cries* : "test.png";
 
-  error = lodepng_decode32_file(&image, &width, &height, filename);
+  ewwow = wodepng_decode32_fiwe(&image, &width, &height, fiwenyame);
 
-  if(error) printf("decoder error %u: %s\n", error, lodepng_error_text(error));
+  if(ewwow) pwintf("decodew ewwow %u: %s\n", ewwow, wodepng_ewwow_text(ewwow));
 
-  / * use image here * /
+ *looks at you*  / * use image hewe * /
 
-  free(image);
-  return 0;
+  fwee(image);
+  wetuwn 0;
 }
 
-11. state settings reference
+11. state settings wefewence
 ----------------------------
 
-A quick reference of some settings to set on the LodePNGState
+A quick w-wefewence of some settings to set on the *boops your nose* WodePNGState
 
-For decoding:
+Fow decoding:
 
-state.decoder.zlibsettings.ignore_adler32: ignore ADLER32 checksums
-state.decoder.zlibsettings.custom_...: use custom inflate function
-state.decoder.ignore_crc: ignore CRC checksums
-state.decoder.ignore_critical: ignore unknown critical chunks
-state.decoder.ignore_end: ignore missing IEND chunk. May fail if this corruption causes other errors
-state.decoder.color_convert: convert internal PNG color to chosen one
-state.decoder.read_text_chunks: whether to read in text metadata chunks
-state.decoder.remember_unknown_chunks: whether to read in unknown chunks
-state.info_raw.colortype: desired color type for decoded image
-state.info_raw.bitdepth: desired bit depth for decoded image
-state.info_raw....: more color settings, see struct LodePNGColorMode
-state.info_png....: no settings for decoder but ouput, see struct LodePNGInfo
+state.decodew.zwibsettings.ignyowe_adwew32: ignyowe ADWEW32 checksums
+state.decodew.zwibsettings.custom_...: use custom infwate ;;w;; function
+state.decodew.ignyowe_cwc: ignyowe CWC ÚwÚ checksums
+state.decodew.ignyowe_cwiticaw: ignyowe unknyown cwiticaw chunks
+state.decodew.ignyowe_end: ignyowe missing IEND chunk. May faiw if this cowwuption causes othew ewwows
+state.decodew.cowow_convewt: convewt intewnyaw PNG c-cowow to chosen onye
+state.decodew.wead_text_chunks: whethew to wead in text metadata chunks
+state.decodew.wemembew_unknyown_chunks: whethew to wead in unknyown c-c-chunks
+state.info_waw.cowowtype: desiwed c-cowow type fow decoded ;;w;; image
+state.info_waw.bitdepth: desiwed bit depth fow decoded ;;w;; image
+state.info_waw....: mowe c-cowow s-settings, see stwuct WodePNGCowowMode
+state.info_png....: nyo settings fow decodew but ouput, see stwuct WodePNGInfo
 
-For encoding:
+Fow encoding:
 
-state.encoder.zlibsettings.btype: disable compression by setting it to 0
-state.encoder.zlibsettings.use_lz77: use LZ77 in compression
-state.encoder.zlibsettings.windowsize: tweak LZ77 windowsize
-state.encoder.zlibsettings.minmatch: tweak min LZ77 length to match
-state.encoder.zlibsettings.nicematch: tweak LZ77 match where to stop searching
-state.encoder.zlibsettings.lazymatching: try one more LZ77 matching
-state.encoder.zlibsettings.custom_...: use custom deflate function
-state.encoder.auto_convert: choose optimal PNG color type, if 0 uses info_png
-state.encoder.filter_palette_zero: PNG filter strategy for palette
-state.encoder.filter_strategy: PNG filter strategy to encode with
-state.encoder.force_palette: add palette even if not encoding to one
-state.encoder.add_id: add LodePNG identifier and version as a text chunk
-state.encoder.text_compression: use compressed text chunks for metadata
-state.info_raw.colortype: color type of raw input image you provide
-state.info_raw.bitdepth: bit depth of raw input image you provide
-state.info_raw: more color settings, see struct LodePNGColorMode
-state.info_png.color.colortype: desired color type if auto_convert is false
-state.info_png.color.bitdepth: desired bit depth if auto_convert is false
-state.info_png.color....: more color settings, see struct LodePNGColorMode
-state.info_png....: more PNG related settings, see struct LodePNGInfo
+state.encodew.zwibsettings.btype: UwU disabwe compwession by setting it to 0
+state.encodew.zwibsettings.use_wz77: use WZ77 in compwession
+state.encodew.zwibsettings.windowsize: tweak WZ77 windowsize
+state.encodew.zwibsettings.minmatch: tweak min WZ77 wength (・`ω´・) to match
+state.encodew.zwibsettings.nyicematch: tweak WZ77 match whewe to stop *looks at you* seawching
+state.encodew.zwibsettings.wazymatching: try onye mowe WZ77 matching
+state.encodew.zwibsettings.custom_...: use custom defwate f-function
+state.encodew.auto_convewt: choose optimaw PNG c-cowow type, if 0 uses info_png
+state.encodew.fiwtew_pawette_zewo: PNG fiwtew stwategy fow pawette
+state.encodew.fiwtew_stwategy: PNG fiwtew stwategy to encode with
+state.encodew.fowce_pawette: add pawette even OwO if nyot encoding to onye
+state.encodew.add_id: add WodePNG *blushes* identifiew and vewsion as a text chunk
+state.encodew.text_compwession: use compwessed text chunks fow metadata
+state.info_waw.cowowtype: c-cowow type of waw input image you pwovide
+state.info_waw.bitdepth: bit depth of waw input image you pwovide
+state.info_waw: mowe c-cowow s-settings, see stwuct WodePNGCowowMode
+state.info_png.cowow.cowowtype: desiwed c-cowow type if auto_convewt is fawse
+state.info_png.cowow.bitdepth: desiwed bit depth if auto_convewt is fawse
+state.info_png.cowow....: mowe c-cowow s-settings, see stwuct WodePNGCowowMode
+state.info_png....: mowe PNG wewated s-settings, see stwuct WodePNGInfo
 
 
 12. changes
 -----------
 
-The version number of LodePNG is the date of the change given in the format
+The OwO vewsion nyumbew of WodePNG *blushes* is the *boops your nose* date of the *boops your nose* change given in the *boops your nose* format
 yyyymmdd.
 
-Some changes aren't backwards compatible. Those are indicated with a (!)
-symbol.
+Some changes awen't b-b-backwawds compatibwe. Those awe indicated with a (!)
+symbow.
 
-Not all changes are listed here, the commit history in github lists more:
-https://github.com/lvandeve/lodepng
+Nyot all changes awe wisted hewe, the *boops your nose* commit histowy in g-github wists mowe:
+https://github.com/wvandeve/wodepng
 
-*) 10 apr 2023: faster CRC32 implementation, but with larger lookup table.
-*) 13 jun 2022: added support for the sBIT chunk.
-*) 09 jan 2022: minor decoder speed improvements.
-*) 27 jun 2021: added warnings that file reading/writing functions don't support
-   wide-character filenames (support for this is not planned, opening files is
-   not the core part of PNG decoding/decoding and is platform dependent).
-*) 17 okt 2020: prevent decoding too large text/icc chunks by default.
-*) 06 mar 2020: simplified some of the dynamic memory allocations.
-*) 12 jan 2020: (!) added 'end' argument to lodepng_chunk_next to allow correct
-   overflow checks.
-*) 14 aug 2019: around 25% faster decoding thanks to huffman lookup tables.
-*) 15 jun 2019: (!) auto_choose_color API changed (for bugfix: don't use palette
-   if gray ICC profile) and non-ICC LodePNGColorProfile renamed to
-   LodePNGColorStats.
-*) 30 dec 2018: code style changes only: removed newlines before opening braces.
-*) 10 sep 2018: added way to inspect metadata chunks without full decoding.
-*) 19 aug 2018: (!) fixed color mode bKGD is encoded with and made it use
-   palette index in case of palette.
-*) 10 aug 2018: (!) added support for gAMA, cHRM, sRGB and iCCP chunks. This
-   change is backwards compatible unless you relied on unknown_chunks for those.
-*) 11 jun 2018: less restrictive check for pixel size integer overflow
-*) 14 jan 2018: allow optionally ignoring a few more recoverable errors
-*) 17 sep 2017: fix memory leak for some encoder input error cases
-*) 27 nov 2016: grey+alpha auto color model detection bugfix
-*) 18 apr 2016: Changed qsort to custom stable sort (for platforms w/o qsort).
-*) 09 apr 2016: Fixed colorkey usage detection, and better file loading (within
-   the limits of pure C90).
-*) 08 dec 2015: Made load_file function return error if file can't be opened.
-*) 24 okt 2015: Bugfix with decoding to palette output.
-*) 18 apr 2015: Boundary PM instead of just package-merge for faster encoding.
-*) 24 aug 2014: Moved to github
-*) 23 aug 2014: Reduced needless memory usage of decoder.
-*) 28 jun 2014: Removed fix_png setting, always support palette OOB for
-    simplicity. Made ColorProfile public.
-*) 09 jun 2014: Faster encoder by fixing hash bug and more zeros optimization.
-*) 22 dec 2013: Power of two windowsize required for optimization.
-*) 15 apr 2013: Fixed bug with LAC_ALPHA and color key.
-*) 25 mar 2013: Added an optional feature to ignore some PNG errors (fix_png).
-*) 11 mar 2013: (!) Bugfix with custom free. Changed from "my" to "lodepng_"
-    prefix for the custom allocators and made it possible with a new #define to
-    use custom ones in your project without needing to change lodepng's code.
-*) 28 jan 2013: Bugfix with color key.
-*) 27 okt 2012: Tweaks in text chunk keyword length error handling.
-*) 8 okt 2012: (!) Added new filter strategy (entropy) and new auto color mode.
-    (no palette). Better deflate tree encoding. New compression tweak settings.
-    Faster color conversions while decoding. Some internal cleanups.
-*) 23 sep 2012: Reduced warnings in Visual Studio a little bit.
-*) 1 sep 2012: (!) Removed #define's for giving custom (de)compression functions
-    and made it work with function pointers instead.
-*) 23 jun 2012: Added more filter strategies. Made it easier to use custom alloc
-    and free functions and toggle #defines from compiler flags. Small fixes.
-*) 6 may 2012: (!) Made plugging in custom zlib/deflate functions more flexible.
-*) 22 apr 2012: (!) Made interface more consistent, renaming a lot. Removed
-    redundant C++ codec classes. Reduced amount of structs. Everything changed,
-    but it is cleaner now imho and functionality remains the same. Also fixed
-    several bugs and shrunk the implementation code. Made new samples.
-*) 6 nov 2011: (!) By default, the encoder now automatically chooses the best
-    PNG color model and bit depth, based on the amount and type of colors of the
-    raw image. For this, autoLeaveOutAlphaChannel replaced by auto_choose_color.
-*) 9 okt 2011: simpler hash chain implementation for the encoder.
-*) 8 sep 2011: lz77 encoder lazy matching instead of greedy matching.
-*) 23 aug 2011: tweaked the zlib compression parameters after benchmarking.
-    A bug with the PNG filtertype heuristic was fixed, so that it chooses much
-    better ones (it's quite significant). A setting to do an experimental, slow,
-    brute force search for PNG filter types is added.
-*) 17 aug 2011: (!) changed some C zlib related function names.
-*) 16 aug 2011: made the code less wide (max 120 characters per line).
-*) 17 apr 2011: code cleanup. Bugfixes. Convert low to 16-bit per sample colors.
-*) 21 feb 2011: fixed compiling for C90. Fixed compiling with sections disabled.
-*) 11 dec 2010: encoding is made faster, based on suggestion by Peter Eastman
-    to optimize long sequences of zeros.
-*) 13 nov 2010: added LodePNG_InfoColor_hasPaletteAlpha and
-    LodePNG_InfoColor_canHaveAlpha functions for convenience.
-*) 7 nov 2010: added LodePNG_error_text function to get error code description.
-*) 30 okt 2010: made decoding slightly faster
-*) 26 okt 2010: (!) changed some C function and struct names (more consistent).
-     Reorganized the documentation and the declaration order in the header.
-*) 08 aug 2010: only changed some comments and external samples.
-*) 05 jul 2010: fixed bug thanks to warnings in the new gcc version.
-*) 14 mar 2010: fixed bug where too much memory was allocated for char buffers.
-*) 02 sep 2008: fixed bug where it could create empty tree that linux apps could
-    read by ignoring the problem but windows apps couldn't.
-*) 06 jun 2008: added more error checks for out of memory cases.
-*) 26 apr 2008: added a few more checks here and there to ensure more safety.
-*) 06 mar 2008: crash with encoding of strings fixed
-*) 02 feb 2008: support for international text chunks added (iTXt)
-*) 23 jan 2008: small cleanups, and #defines to divide code in sections
-*) 20 jan 2008: support for unknown chunks allowing using LodePNG for an editor.
-*) 18 jan 2008: support for tIME and pHYs chunks added to encoder and decoder.
-*) 17 jan 2008: ability to encode and decode compressed zTXt chunks added
-    Also various fixes, such as in the deflate and the padding bits code.
-*) 13 jan 2008: Added ability to encode Adam7-interlaced images. Improved
-    filtering code of encoder.
-*) 07 jan 2008: (!) changed LodePNG to use ISO C90 instead of C++. A
-    C++ wrapper around this provides an interface almost identical to before.
-    Having LodePNG be pure ISO C90 makes it more portable. The C and C++ code
-    are together in these files but it works both for C and C++ compilers.
-*) 29 dec 2007: (!) changed most integer types to unsigned int + other tweaks
-*) 30 aug 2007: bug fixed which makes this Borland C++ compatible
-*) 09 aug 2007: some VS2005 warnings removed again
-*) 21 jul 2007: deflate code placed in new namespace separate from zlib code
-*) 08 jun 2007: fixed bug with 2- and 4-bit color, and small interlaced images
-*) 04 jun 2007: improved support for Visual Studio 2005: crash with accessing
-    invalid std::vector element [0] fixed, and level 3 and 4 warnings removed
-*) 02 jun 2007: made the encoder add a tag with version by default
-*) 27 may 2007: zlib and png code separated (but still in the same file),
-    simple encoder/decoder functions added for more simple usage cases
-*) 19 may 2007: minor fixes, some code cleaning, new error added (error 69),
-    moved some examples from here to lodepng_examples.cpp
-*) 12 may 2007: palette decoding bug fixed
-*) 24 apr 2007: changed the license from BSD to the zlib license
-*) 11 mar 2007: very simple addition: ability to encode bKGD chunks.
-*) 04 mar 2007: (!) tEXt chunk related fixes, and support for encoding
-    palettized PNG images. Plus little interface change with palette and texts.
-*) 03 mar 2007: Made it encode dynamic Huffman shorter with repeat codes.
-    Fixed a bug where the end code of a block had length 0 in the Huffman tree.
-*) 26 feb 2007: Huffman compression with dynamic trees (BTYPE 2) now implemented
-    and supported by the encoder, resulting in smaller PNGs at the output.
-*) 27 jan 2007: Made the Adler-32 test faster so that a timewaste is gone.
-*) 24 jan 2007: gave encoder an error interface. Added color conversion from any
-    greyscale type to 8-bit greyscale with or without alpha.
-*) 21 jan 2007: (!) Totally changed the interface. It allows more color types
-    to convert to and is more uniform. See the manual for how it works now.
-*) 07 jan 2007: Some cleanup & fixes, and a few changes over the last days:
-    encode/decode custom tEXt chunks, separate classes for zlib & deflate, and
-    at last made the decoder give errors for incorrect Adler32 or Crc.
-*) 01 jan 2007: Fixed bug with encoding PNGs with less than 8 bits per channel.
-*) 29 dec 2006: Added support for encoding images without alpha channel, and
-    cleaned out code as well as making certain parts faster.
-*) 28 dec 2006: Added "Settings" to the encoder.
-*) 26 dec 2006: The encoder now does LZ77 encoding and produces much smaller files now.
-    Removed some code duplication in the decoder. Fixed little bug in an example.
-*) 09 dec 2006: (!) Placed output parameters of public functions as first parameter.
-    Fixed a bug of the decoder with 16-bit per color.
-*) 15 okt 2006: Changed documentation structure
-*) 09 okt 2006: Encoder class added. It encodes a valid PNG image from the
-    given image buffer, however for now it's not compressed.
-*) 08 sep 2006: (!) Changed to interface with a Decoder class
-*) 30 jul 2006: (!) LodePNG_InfoPng , width and height are now retrieved in different
-    way. Renamed decodePNG to decodePNGGeneric.
-*) 29 jul 2006: (!) Changed the interface: image info is now returned as a
-    struct of type LodePNG::LodePNG_Info, instead of a vector, which was a bit clumsy.
-*) 28 jul 2006: Cleaned the code and added new error checks.
-    Corrected terminology "deflate" into "inflate".
-*) 23 jun 2006: Added SDL example in the documentation in the header, this
-    example allows easy debugging by displaying the PNG and its transparency.
-*) 22 jun 2006: (!) Changed way to obtain error value. Added
-    loadFile function for convenience. Made decodePNG32 faster.
-*) 21 jun 2006: (!) Changed type of info vector to unsigned.
-    Changed position of palette in info vector. Fixed an important bug that
-    happened on PNGs with an uncompressed block.
-*) 16 jun 2006: Internally changed unsigned into unsigned where
-    needed, and performed some optimizations.
-*) 07 jun 2006: (!) Renamed functions to decodePNG and placed them
-    in LodePNG namespace. Changed the order of the parameters. Rewrote the
-    documentation in the header. Renamed files to lodepng.cpp and lodepng.h
-*) 22 apr 2006: Optimized and improved some code
-*) 07 sep 2005: (!) Changed to std::vector interface
-*) 12 aug 2005: Initial release (C++, decoder only)
+*) 10 apw 2023: f-f-fastew C-CWC32 impwementation, but with larger wookup tabwe.
+*) 13 jun 2-2022: added suppowt fow the *boops your nose* sBIT c-chunk.
+*) 09 jan ;;w;; 2-2022: minyow decodew speed impwuvments.
+*) 27 jun 2021: added wawnyings that fiwe weading/wwiting functions don't suppowt
+   wide-chawactew fiwenyames (support fow this is nyot pwannyed, openying fiwes is
+   nyot the *boops your nose* cowe pawt of PNG d-decoding/decoding and is pwatfowm dependent).
+*) 17 okt 2020: pwevent decoding too *twerks* wawge text/icc chunks by defauwt.
+*) 06 maw 2020: simpwified some of the *boops your nose* dynyamic memowy ÚwÚ awwocations.
+*) 12 jan ;;w;; 2020: (!) added '-'-'end' awgument to wodepng_chunk_nyext to awwow cowwect
+   uvrflow checks.
+*) 14 aug 2019: awound 25% f-f-fastew decoding t-t-thanks to huffman wookup tabwes.
+*) 15 jun 2019: (!) auto_choose_cowow API changed (fow bugfix: don't use pawette
+   if gway ICC pwofiwe) and non-ICC WodePNGCowowPwofiwe *runs away* wenyamed t-to
+   WodePNGCowowStats.
+*) 30 dec 2018: code stywe changes only: remuvd newwines befowe openying bwaces.
+*) 10 sep 2018: added w-way to inspect metadata chunks without fuww decoding.
+*) 19 x3 aug 2018: (!) fixed c-cowow mode bKGD is encoded with and made it use
+   pawette index *sees bulge* in case of p-pawette.
+*) 10 aug 2018: (!) added suppowt fow gAMA, cHWM, *sweats* sWGB and iCCP chunks. T-This
+   change is b-b-backwawds compatibwe unwess you wewied on unknyown_chunks *huggles tightly* fow those.
+*) 11 jun 2018: wess *screeches* westwictive check fow pixew s-size integew uvwfwow
+*) 14 jan ;;w;; 2018: awwow optionyawwy ignyowing a few mowe wecuvwabwe *runs away* ewwows
+*) 17 sep 2017: fix memowy ÚwÚ weak fow some encodew input ewwow cases
+*) 27 nyov 2016: gwey+awpha auto c-cowow modew detection bugfix
+*) 18 apw 2016: Changed qsowt to custom stabwe sowt (fow pwatfowms >w< w/o qsowt).
+*) 09 apw 2016: Fixed cowowkey usage detection, and bettew fiwe w-w-woading (within
+   the *boops your nose* w-wimits of puwe C90).
+*) 08 dec 2015: Made woad_fiwe function wetuwn ewwow if fiwe can't be openyed.
+*) 2-24 okt 2015: Bugfix with decoding to pawette output.
+*) 18 apw 2015: Boundawy P-PM instead of just package-mewge fow f-f-fastew encoding.
+*) 2-24 aug 2014: Muvd to github
+*) 23 :3 aug 2014: Weduced nyeedwess memowy ÚwÚ usage of decodew.
+*) 2-2-28 jun 2014: Wemuvd fix_png setting, awways suppowt pawette OOB fow
+    simpwicity. Made CowowPwofiwe public.
+*) 09 jun 2014: Fastew ÚwÚ encodew by fixing hash bug and mowe zewos optimization.
+*) 22 dec 2013: Powew of t-t-two windowsize w-w-wequiwed fow optimization.
+*) 15 apw 2013: Fixed bug with WAC_AWPHA and c-cowow key.
+*) 25 maw 2013: Added an optionyal featuwe to ignyowe some PNG ewwows (fix_png).
+*) 11 maw 2013: (!) Bugfix with custom fwee. Changed fwom "my" to "-"wodepng_"
+    pwefix fow the *boops your nose* custom a-awwocatows and made it possibwe with a nyew #define t-to
+    use custom onyes in youw pwoject without nyeeding to change wodepng's code.
+*) 2-2-28 jan ;;w;; 2013: Bugfix with c-cowow key.
+*) 27 okt 2012: Tweaks in text c-chunk keywowd wength (・`ω´・) ewwow handwing.
+*) 8 okt 2012: (!) Added nyew fiwtew stwategy (entropy) and nyew auto c-cowow mode.
+ x3    (nyo pawette). Bettew defwate twee encoding. Nyew compwession tweak settings.
+    Fastew ÚwÚ c-cowow convewsions whiwe decoding. Some intewnyaw cweanyups.
+*) 23 :3 sep 2012: Weduced wawnyings in Visuaw Studio a wittwe bit.
+*) 1 sep 2012: (!) Wemuvd #definye's fow giving custom (de)compwession functions
+    and made it wowk (・`ω´・) with function pointews instead.
+*) 23 :3 jun 2012: Added mowe fiwtew s-stwategies. Made it easiew to use custom alloc
+    and free functions and toggle #definyes fwom compiler fwags. Smaww fixes.
+*) 6 may 2012: (!) Made plugging in custom zwib/defwate functions mowe fwexibwe.
+*) 22 apw 2012: (!) Made intewface mowe c-consistent, wenyaming a wot. Wemuvd
+    wedundant C++ codec cwasses. Weduced amount of stwucts. Evewything changed,
+    but it is cweanyew x3 nyow imho and functionawity remains the *boops your nose* same. Also fixed
+    sevewaw bugs OwO and shwunk the *boops your nose* impwementation code. Made nyew sampwes.
+*) 6 nyov 2-2011: (!) By defauwt, the *boops your nose* encodew nyow automaticawwy chooses the *boops your nose* best
+    PNG c-cowow modew and bit depth, based on the *boops your nose* amount and type of cowows of the
+    waw image. Fow this, autoWeaveOutAwphaChannyew wepwaced (・`ω´・) by auto_choose_cowow.
+*) 9-9-9 okt 2-2011: simpler hash c-c-chain impwementation fow the *boops your nose* encodew.
+*) 8 sep 2-2011: wz77 encodew wazy matching instead of gweedy matching.
+*) 23 :3 aug 2-2011: tweaked the *boops your nose* zlib compwession pawametews aftew benchmawking.
+    A bug with the *boops your nose* PNG filtertype heuwistic was fixed, so that it chooses much
+    bettew onyes (it's quite signyificant). A setting to do an expewimentaw, swow,
+    brute fowce seawch fow PNG fiwtew types is added.
+*) 17 aug 2-2011: (!) changed some C-C-C zlib wewated function nyames.
+*) 16 aug 2-2011: made the *boops your nose* code wess *screeches* wide >w< (-(max 120 chawactews pew winye).
+*) 17 apw 2-2011: code cleanyup. Bugfixes. Convewt wow to 16-bit pew sampwe cowows.
+*) 21 feb 2-2011: fixed compiwing fow C90. Fixed compiwing with sections disabwed.
+*) 11 dec 2010: *huggles tightly* encoding is made faster, based on s-suggestion by Petew Eastman
+    to optimize wong sequences of zewos.
+*) 13 nyov 2010: *huggles tightly* added WodePNG_InfoColor_hasPaletteAlpha and
+    WodePNG_InfoColor_canHaveAlpha OwO functions fow c-c-convenyience.
+*) 7 nyov 2010: *huggles tightly* added LodePNG_ewwow_text function to get ewwow code descwiption.
+*) 30 okt 2010: *huggles tightly* made decoding swightwy fastew
+*) 26 okt 2010: *huggles tightly* (!) changed some C-C-C function and stwuct nyames (mowe consistent).
+     Weowganyized the *boops your nose* d-documentation and the *boops your nose* decwawation owdew in the *boops your nose* headew.
+*) >w< 08 aug 2010: *huggles tightly* onwy changed some comments ^w^ and extewnyaw sampwes.
+*) 05 juw 2010: *huggles tightly* fixed bug t-t-thanks to wawnyings in the *boops your nose* nyew gcc vewsion.
+*) 14 maw 2010: *huggles tightly* fixed bug whewe too *twerks* much memowy ÚwÚ was awwocated fow chaw b-b-buffews.
+*) 02 sep 2-2008: fixed bug whewe it c-couwd cweate empty twee that l-linyux apps couwd
+    wead by ignyowing the *boops your nose* pwobwem but windows *screeches* apps couwdn't.
+*) 06 jun 2-2008: added mowe ewwow checks fow out of memowy ÚwÚ cases.
+*) 26 apw 2-2008: added a few mowe checks hewe and there to ensuwe mowe safety.
+*) 06 maw 2-2008: cwash with encoding of stwings :3 fixed
+*) 02 feb 2-2008: suppowt fow intewnyationyaw :3 text chunks added (iTXt)
+*) 23 :3 jan ;;w;; 2-2008: s-s-smaww cweanyups, and #definyes to divide code in sections
+*) 20 jan ;;w;; 2-2008: suppowt fow unknyown chunks awwowing using WodePNG *blushes* fow an editow.
+*) 18 jan ;;w;; 2-2008: suppowt fow tIME and pHYs chunks added to encodew and decodew.
+*) 17 jan ;;w;; 2-2008: abiwity to encode and decode compwessed zTXt chunks added
+    Also vawious fixes, s-such as in the *boops your nose* defwate and the *boops your nose* padding bits code.
+*) 13 jan ;;w;; 2-2008: Added abiwity to encode Adam7-intewwaced images. Impwuvd
+    fiwtewing code of encodew.
+*) 07 jan ;;w;; 2-2008: (!) changed WodePNG *blushes* to use ISO C90 instead of C++. A
+    C++ wwappew awound this pwovides an intewface a-awmost identicaw to b-befowe.
+    Having WodePNG *blushes* be puwe ISO C90 makes it mowe p-p-powtabwe. T-The C-C-C and C++ code
+    awe t-togethew in these fiwes but it wowks both fow C-C-C and C++ compiwews.
+*) 29 dec 2007: (!) changed most integew types to unsignyed int + othew tweaks
+*) 30 aug 2007: bug fixed which makes this Bowwand *twerks* C++ compatibwe
+*) 09 aug 2007: some VS2005 wawnyings remuvd again
+*) 21 juw 2007: defwate code placed in nyew nyamespace sepawate fwom zlib code
+*) 08 jun 2007: fixed bug with 2- and 4-bit cowow, and s-s-smaww intewwaced images
+*) 04 jun 2007: impwuvd suppowt fow Visuaw Studio 2005: cwash with accessing
+    invawid std::vector ewement [0] fixed, and wevew 3 and 4 wawnyings wemuvd
+*) 02 jun 2007: made the *boops your nose* encodew add a tag with vewsion by default
+*) 27 may 2007: zlib and png code sepawated (but stiww in the *boops your nose* same fiwe),
+    simple encodew/decodew functions added fow mowe simple usage cases
+*) 19 x3 may 2007: minyow fixes, some code cweanying, nyew ewwow added (ewwow 6-6-69),
+    moved some examples fwom hewe to wodepng_exampwes.cpp
+*) 12 may 2007: pawette decoding bug fixed
+*) 2-24 apw 2007: changed the *boops your nose* wicense fwom BSD to the *boops your nose* zlib wicense
+*) 11 maw 2007: vewy simple addition: abiwity to encode bKGD chunks.
+*) 04 maw 2007: (!) tEXt c-chunk wewated fixes, and suppowt fow encoding
+ x3    pawettized PNG images. Pwus wittwe intewface change with pawette and texts.
+*) 03 OwO maw 2007: Made it encode dynyamic Huffman (・`ω´・) showtew with wepeat codes.
+    Fixed a bug whewe the *boops your nose* end ;;w;; code of a bwock had wength (・`ω´・) 0 in the *boops your nose* Huffman (・`ω´・) twee.
+*) 26 feb 2007: Huffman (・`ω´・) compwession with dynyamic twees (BTYPE 2) nyow impwemented
+    and suppowted by the *boops your nose* encodew, wesuwting in smawwew UwU PNGs :3 at the *boops your nose* output.
+*) 27 jan ;;w;; 2007: Made the *boops your nose* Adwew-32 ^w^ test f-f-fastew so that a timewaste is gonye.
+*) 2-24 jan ;;w;; 2007: gave encodew an ewwow interface. Added c-cowow convewsion fwom any
+    gweyscawe type to 8-bit gweyscawe with ow *whispers to self* without awpha.
+*) 21 jan ;;w;; 2007: (!) Totawwy changed the *boops your nose* interface. It a-a-awwows mowe c-cowow types
+    to convewt to and is mowe unyifowm. See the *boops your nose* manyual fow how it wowks nyow.
+*) 07 jan ;;w;; 2007: Some cweanyup & fixes, and a few changes uvw the *boops your nose* wast days:
+    encode/decode custom tEXt chunks, sepawate cwasses fow zlib & defwate, and
+    at wast made the *boops your nose* decodew give ewwows fow incowwect Adwew32 ow *whispers to self* Cwc.
+*) 0-01 jan ;;w;; 2007: Fixed bug with encoding PNGs :3 with wess *screeches* than 8 bits pew channyew.
+*) 29 dec 2006: Added suppowt fow encoding images without awpha channyew, and
+    cweanyed out code as w-weww as making certain pawts fastew.
+*) 2-2-28 dec 2006: Added "Settings" (・`ω´・) to the *boops your nose* encodew.
+*) 26 dec 2006: T-The encodew nyow does WZ77 encoding and pwoduces much smawwew UwU fiwes nyow.
+    Wemuvd some code d-d-dupwication in the *boops your nose* decodew. *sweats* Fixed wittwe bug in an exampwe.
+*) 09 dec 2006: (!) Pwaced output pawametews of pubwic functions as fiwst pawametew.
+    Fixed a bug of the *boops your nose* decodew with 16-bit pew cowow.
+*) 15 okt 2006: Changed d-documentation s-stwuctuwe
+*) 09 okt 2006: Encoder cwass added. It encodes a v-vawid PNG image fwom the
+    given image buffew, h-howevew fow nyow it's nyot compwessed.
+*) 08 sep 2006: (!) Changed to intewface with a Decodew cwass
+*) 30 juw 2006: (!) LodePNG_InfoPng , width and height awe nyow wetwieved in different
+    way. Wenyamed decodePNG to decodePNGGenyewic.
+*) 29 juw 2006: (!) Changed the *boops your nose* interface: image i-info is nyow wetuwnyed as a
+    stwuct of type LodePNG::LodePNG_Info, instead of a vectow, which was a bit cwumsy.
+*) 2-2-28 juw 2006: Cweanyed the *boops your nose* code and added nyew ewwow checks.
+    Cowwected *looks at you* tewminyowogy *sweats* "defwate" into "infwate".
+*) 23 :3 jun 2006: Added SDW exampwe in the *boops your nose* d-documentation in the *boops your nose* headew, this
+    exampwe a-a-awwows easy debugging by displaying the *boops your nose* PNG and its twanspawency.
+*) 22 jun 2006: (!) Changed w-way to obtain ewwow vawue. Added
+    woadFiwe function fow convenyience. Made decodePNG32 fastew.
+*) 21 jun 2006: (!) Changed type of i-info vectow to unsignyed.
+    Changed position of pawette in i-info vectow. Fixed an impowtant bug that
+    happenyed on PNGs :3 with an uncompwessed bwock.
+*) 16 jun 2006: Intewnyawwy changed unsignyed into unsignyed whewe
+    nyeeded, *whispers to self* and performed some optimizations.
+*) 07 jun 2006: (!) Wenyamed functions to decodePNG and placed them
+    in WodePNG *blushes* nyamespace. Changed the *boops your nose* owdew of the *boops your nose* pawametews. Wewwote the
+    d-documentation in the *boops your nose* headew. :3 Wenyamed fiwes to wodepng.cpp and w-wodepng.h
+*) 22 apw 2006: Optimized and impwuvd some code
+*) 07 sep 2005: (!) Changed to std::vector intewface
+*) 12 aug 2005: Initiaw wewease (C++, decodew onwy)
 
 
-13. contact information
+13. contact infowmation
 -----------------------
 
-Feel free to contact me with suggestions, problems, comments, ... concerning
-LodePNG. If you encounter a PNG image that doesn't work properly with this
-decoder, feel free to send it and I'll use it to find and fix the problem.
+Feew free to contact me with suggestions, pwobwems, comments, ... *sweats* c-c-concerning
+WodePNG. If you encountew a PNG image that doesn't wowk (・`ω´・) pwopewwy with this
+decodew, feel free to send it and I'll use it to find and fix the *boops your nose* pwobwem.
 
-My email address is (puzzle the account and domain together with an @ symbol):
-Domain: gmail dot com.
-Account: lode dot vandevenne.
+My emaiw UwU addwess is (puzzwe the *boops your nose* account and domain t-togethew with an @ *cries* s-symbow):
+Domain: g-g-gmaiw d-dot com.
+Account: w-w-wode d-dot vandevennye.
 
 
-Copyright (c) 2005-2022 Lode Vandevenne
+Copywight (c) 2-2-2005-2022 Wode *twerks* Vandevennye
 */
