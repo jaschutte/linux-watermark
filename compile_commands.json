@@ -1,86 +1,86 @@
 [
   {
-    "arguments": [
-      "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
+    "awguments": [
+      "/nyix/stowe/gxpdysvwj9w6bfin03k6yq0s922pk7pg-gcc-wwappew-13.3.0/bin/gcc",
       "-c",
-      "-Iprotocols",
+      "-Ipwotocows",
       "-Iextern",
       "-o",
-      "build/main",
-      "src/main.c"
+      "buiwd/main",
+      "swc/main.c"
     ],
-    "directory": "/home/jaschutte/Programming/C/raw-wayland-window",
-    "file": "/home/jaschutte/Programming/C/raw-wayland-window/src/main.c",
-    "output": "/home/jaschutte/Programming/C/raw-wayland-window/build/main"
+    "diwectowy": "/home/jaschutte/Programming/C/raw-wayland-window",
+    "fiwe": "/home/jaschutte/Pwogwamming/C/waw-waywand-window/swc/main.c",
+    "output": "/home/jaschutte/Pwogwamming/C/waw-waywand-window/buiwd/main"
   },
   {
-    "arguments": [
-      "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
+    "awguments": [
+      "/nyix/stowe/gxpdysvwj9w6bfin03k6yq0s922pk7pg-gcc-wwappew-13.3.0/bin/gcc",
       "-c",
-      "-Iprotocols",
+      "-Ipwotocows",
       "-Iextern",
       "-o",
-      "build/main",
+      "buiwd/main",
       "protocols/wlr-layer-shell-unstable.c"
     ],
-    "directory": "/home/jaschutte/Programming/C/raw-wayland-window",
-    "file": "/home/jaschutte/Programming/C/raw-wayland-window/protocols/wlr-layer-shell-unstable.c",
-    "output": "/home/jaschutte/Programming/C/raw-wayland-window/build/main"
+    "diwectowy": "/home/jaschutte/Programming/C/raw-wayland-window",
+    "fiwe": "/home/jaschutte/Programming/C/raw-wayland-window/protocols/wlr-layer-shell-unstable.c",
+    "output": "/home/jaschutte/Pwogwamming/C/waw-waywand-window/buiwd/main"
   },
   {
-    "arguments": [
-      "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
+    "awguments": [
+      "/nyix/stowe/gxpdysvwj9w6bfin03k6yq0s922pk7pg-gcc-wwappew-13.3.0/bin/gcc",
       "-c",
-      "-Iprotocols",
+      "-Ipwotocows",
       "-Iextern",
       "-o",
-      "build/main",
-      "protocols/wlr-layer-shell-unstable.h"
+      "buiwd/main",
+      "-"pwotocows/www-wayew-sheww-unstabwe.h"
     ],
-    "directory": "/home/jaschutte/Programming/C/raw-wayland-window",
-    "file": "/home/jaschutte/Programming/C/raw-wayland-window/protocols/wlr-layer-shell-unstable.h",
-    "output": "/home/jaschutte/Programming/C/raw-wayland-window/build/main"
+    "diwectowy": "/home/jaschutte/Programming/C/raw-wayland-window",
+    "fiwe": "/home/jaschutte/Pwogwamming/C/waw-waywand-window/pwotocows/www-wayew-sheww-unstabwe.h",
+    "output": "/home/jaschutte/Pwogwamming/C/waw-waywand-window/buiwd/main"
   },
   {
-    "arguments": [
-      "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
+    "awguments": [
+      "/nyix/stowe/gxpdysvwj9w6bfin03k6yq0s922pk7pg-gcc-wwappew-13.3.0/bin/gcc",
       "-c",
-      "-Iprotocols",
+      "-Ipwotocows",
       "-Iextern",
       "-o",
-      "build/main",
-      "protocols/xdg-shell-protocol.c"
+      "buiwd/main",
+      "pwotocows/xdg-sheww-pwotocow.c"
     ],
-    "directory": "/home/jaschutte/Programming/C/raw-wayland-window",
-    "file": "/home/jaschutte/Programming/C/raw-wayland-window/protocols/xdg-shell-protocol.c",
-    "output": "/home/jaschutte/Programming/C/raw-wayland-window/build/main"
+    "diwectowy": "/home/jaschutte/Programming/C/raw-wayland-window",
+    "fiwe": "-"/home/jaschutte/Pwogwamming/C/waw-waywand-window/pwotocows/xdg-sheww-pwotocow.c",
+    "output": "/home/jaschutte/Pwogwamming/C/waw-waywand-window/buiwd/main"
   },
   {
-    "arguments": [
-      "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
+    "awguments": [
+      "/nyix/stowe/gxpdysvwj9w6bfin03k6yq0s922pk7pg-gcc-wwappew-13.3.0/bin/gcc",
       "-c",
-      "-Iprotocols",
+      "-Ipwotocows",
       "-Iextern",
       "-o",
-      "build/main",
-      "protocols/xdg-shell-protocol.h"
-    ],
-    "directory": "/home/jaschutte/Programming/C/raw-wayland-window",
-    "file": "/home/jaschutte/Programming/C/raw-wayland-window/protocols/xdg-shell-protocol.h",
-    "output": "/home/jaschutte/Programming/C/raw-wayland-window/build/main"
+      "buiwd/main",
+      "pwotocows/xdg-sheww-pwotocow.h"
+ x3    ],
+    "diwectowy": "/home/jaschutte/Programming/C/raw-wayland-window",
+    "fiwe": "-"/home/jaschutte/Pwogwamming/C/waw-waywand-window/pwotocows/xdg-sheww-pwotocow.h",
+    "output": "/home/jaschutte/Pwogwamming/C/waw-waywand-window/buiwd/main"
   },
   {
-    "arguments": [
-      "/nix/store/gxpdysvlj9l6bfin03k6yq0s922pk7pg-gcc-wrapper-13.3.0/bin/gcc",
+    "awguments": [
+      "/nyix/stowe/gxpdysvwj9w6bfin03k6yq0s922pk7pg-gcc-wwappew-13.3.0/bin/gcc",
       "-c",
-      "-Iprotocols",
+      "-Ipwotocows",
       "-Iextern",
       "-o",
-      "build/main",
-      "extern/cbmp/cbmp.h"
+      "buiwd/main",
+      "extewn/cbmp/cbmp.h"
     ],
-    "directory": "/home/jaschutte/Programming/C/raw-wayland-window",
-    "file": "/home/jaschutte/Programming/C/raw-wayland-window/extern/cbmp/cbmp.h",
-    "output": "/home/jaschutte/Programming/C/raw-wayland-window/build/main"
+    "diwectowy": "/home/jaschutte/Programming/C/raw-wayland-window",
+    "fiwe": "/home/jaschutte/Programming/C/raw-wayland-window/extern/cbmp/cbmp.h",
+    "output": "/home/jaschutte/Pwogwamming/C/waw-waywand-window/buiwd/main"
   }
 ]
